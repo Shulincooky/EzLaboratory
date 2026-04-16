@@ -57,4 +57,7 @@ void LabwareListView::startDrag(Qt::DropActions)
     }
 
     drag->exec(Qt::CopyAction);
+
+    clearSelection();
+    setCurrentIndex(QModelIndex());
 }

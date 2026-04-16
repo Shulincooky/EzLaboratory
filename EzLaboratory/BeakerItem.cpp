@@ -5,7 +5,7 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
         "beaker",
         "Beaker",
         ":/EzLaboratory/resources/image/glassware/beaker.png",
-        QSizeF(100, 140),
+        QSizeF(100*1.8, 140*1.8),
         parent)
 {
 }

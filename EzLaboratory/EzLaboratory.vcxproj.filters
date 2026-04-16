@@ -46,8 +46,10 @@
     <ClCompile Include="LabItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BeakerItem.cpp" />
     <ClCompile Include="LabwareListView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BeakerItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -36,7 +36,6 @@ void EzLaboratory::initLabScene()
 {
     m_scene = new QGraphicsScene(this);
 
-    // 场景边界固定为一个更大的“实验世界”
     m_scene->setSceneRect(m_worldRect);
 
     ui->graphicsViewLab->setScene(m_scene);
@@ -46,13 +45,10 @@ void EzLaboratory::initLabScene()
     ui->graphicsViewLab->setRenderHint(QPainter::Antialiasing, true);
     ui->graphicsViewLab->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
-    // 允许滚动条存在，场景拖动本质上就是在改变视图滚动位置
     ui->graphicsViewLab->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsViewLab->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    // 监听 viewport 尺寸变化
     ui->graphicsViewLab->viewport()->installEventFilter(this);
-
 }
 
 bool EzLaboratory::eventFilter(QObject* watched, QEvent* event)
@@ -69,10 +65,8 @@ void EzLaboratory::updateViewAfterResize()
     if (!ui || !ui->graphicsViewLab || !m_scene)
         return;
 
-    // 场景边界固定，不再随着窗口大小改变
     m_scene->setSceneRect(m_worldRect);
 
-    // 确保当前滚动位置不超界
     QScrollBar* hBar = ui->graphicsViewLab->horizontalScrollBar();
     QScrollBar* vBar = ui->graphicsViewLab->verticalScrollBar();
 
@@ -82,8 +76,8 @@ void EzLaboratory::updateViewAfterResize()
     if (vBar) {
         vBar->setValue(qBound(vBar->minimum(), vBar->value(), vBar->maximum()));
     }
-
 }
+
 void EzLaboratory::initLabwareList()
 {
     m_labwareModel = new QStandardItemModel(this);
@@ -104,8 +98,7 @@ void EzLaboratory::initLabwareList()
     beakerItem->setEditable(false);
     beakerItem->setData("beaker", LabwareTypeRole);
     beakerItem->setData(3, LabwareLimitRole);
-    beakerItem->setData(3, LabwareRemainingRole);  // 这里限制最多 3 个
-
+    beakerItem->setData(3, LabwareRemainingRole);
     m_labwareModel->appendRow(beakerItem);
 
     auto* narrowBottleItem = new QStandardItem(
@@ -115,9 +108,18 @@ void EzLaboratory::initLabwareList()
     narrowBottleItem->setData("narrow_bottle", LabwareTypeRole);
     narrowBottleItem->setData(3, LabwareLimitRole);
     narrowBottleItem->setData(3, LabwareRemainingRole);
-
     m_labwareModel->appendRow(narrowBottleItem);
+
+    auto* wideBottleItem = new QStandardItem(
+        QIcon(":/EzLaboratory/resources/image/glassware/generic/wide-mouth_bottle/bottle.png"),
+        "广口瓶");
+    wideBottleItem->setEditable(false);
+    wideBottleItem->setData("wide_bottle", LabwareTypeRole);
+    wideBottleItem->setData(3, LabwareLimitRole);
+    wideBottleItem->setData(3, LabwareRemainingRole);
+    m_labwareModel->appendRow(wideBottleItem);
 }
+
 void EzLaboratory::decreaseRemainingCount(const QString& type)
 {
     if (!m_labwareModel)
@@ -139,7 +141,6 @@ void EzLaboratory::decreaseRemainingCount(const QString& type)
         remaining = qMax(0, remaining - 1);
         item->setData(remaining, LabwareRemainingRole);
 
-        // 触发视图刷新
         QModelIndex idx = m_labwareModel->indexFromItem(item);
         emit m_labwareModel->dataChanged(idx, idx);
 

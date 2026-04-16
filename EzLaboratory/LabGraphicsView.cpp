@@ -1,9 +1,11 @@
 #include "LabGraphicsView.h"
 #include "BeakerItem.h"
 #include "NarrowBottleItem.h"
+#include "WideBottleItem.h"
 
 #include <QMimeData>
 #include <QGraphicsScene>
+
 namespace
 {
     constexpr const char* kLabwareMimeType = "application/x-ezlaboratory-labware";
@@ -19,7 +21,6 @@ LabGraphicsView::LabGraphicsView(QWidget* parent)
 
 void LabGraphicsView::mousePressEvent(QMouseEvent* event)
 {
-    // 左键按到空白处：拖动画布
     if (event->button() == Qt::LeftButton) {
         QGraphicsItem* item = itemAt(event->pos());
 
@@ -40,7 +41,6 @@ void LabGraphicsView::mousePressEvent(QMouseEvent* event)
         }
     }
 
-    // 左键按到物体上：保持物体拖拽逻辑
     QGraphicsView::mousePressEvent(event);
 }
 
@@ -125,13 +125,16 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     else if (type == "narrow_bottle") {
         newItem = new NarrowBottleItem();
     }
+    else if (type == "wide_bottle") {
+        newItem = new WideBottleItem();
+    }
 
     if (!newItem) {
         event->ignore();
         return;
     }
 
-    QPointF scenePos = mapToScene(event->position().toPoint());
+    const QPointF scenePos = mapToScene(event->position().toPoint());
     newItem->setPos(scenePos);
     scene()->addItem(newItem);
     viewport()->update();

@@ -55,10 +55,22 @@
     <ClCompile Include="LabwareItemDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BottleStopperItem.cpp">
+    <ClCompile Include="NarrowBottleItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NarrowBottleItem.cpp">
+    <ClCompile Include="AbstractBottleItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractPlugItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NarrowBottlePlugItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WideBottleItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WideBottlePlugItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,10 +90,22 @@
     <QtMoc Include="LabwareItemDelegate.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="BottleStopperItem.h">
+    <QtMoc Include="NarrowBottleItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="NarrowBottleItem.h">
+    <QtMoc Include="AbstractBottleItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AbstractPlugItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="NarrowBottlePlugItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WideBottleItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WideBottlePlugItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

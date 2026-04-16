@@ -92,11 +92,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractBottleItem.cpp" />
+    <ClCompile Include="AbstractPlugItem.cpp" />
     <ClCompile Include="NarrowBottleItem.cpp" />
+    <ClCompile Include="NarrowBottlePlugItem.cpp" />
+    <ClCompile Include="WideBottleItem.cpp" />
+    <ClCompile Include="WideBottlePlugItem.cpp" />
     <QtRcc Include="EzLaboratory.qrc" />
     <QtUic Include="EzLaboratory.ui" />
     <QtMoc Include="EzLaboratory.h" />
-    <ClCompile Include="BottleStopperItem.cpp" />
     <ClCompile Include="EzLaboratory.cpp" />
     <ClCompile Include="LabGraphicsView.cpp" />
     <ClCompile Include="LabItem.cpp" />
@@ -121,10 +125,22 @@
     <QtMoc Include="LabwareItemDelegate.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="BottleStopperItem.h" />
+    <QtMoc Include="NarrowBottleItem.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="NarrowBottleItem.h" />
+    <QtMoc Include="AbstractBottleItem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="AbstractPlugItem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="NarrowBottlePlugItem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="WideBottleItem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="WideBottlePlugItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

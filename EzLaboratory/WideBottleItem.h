@@ -2,13 +2,13 @@
 
 #include "AbstractBottleItem.h"
 
-class NarrowBottleItem : public AbstractBottleItem
+class WideBottleItem : public AbstractBottleItem
 {
     Q_OBJECT
 
 public:
-    explicit NarrowBottleItem(QGraphicsItem* parent = nullptr);
-    ~NarrowBottleItem() override;
+    explicit WideBottleItem(QGraphicsItem* parent = nullptr);
+    ~WideBottleItem() override;
 
     QPointF mouthLocalPos() const override;
     qreal snapRadius() const override;

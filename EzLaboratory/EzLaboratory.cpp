@@ -108,25 +108,23 @@ void EzLaboratory::initLabwareList()
     beakerItem->setData(3, LabwareRemainingRole);
     m_labwareModel->appendRow(beakerItem);
 
-    EzLaboratory::appendNarrowBottleInstanceItem(
-        m_labwareModel,
+    appendNarrowBottleInstanceItem(
         QStringLiteral("盐酸细口瓶"),
         QStringLiteral("HCl"),
         QStringLiteral("4 mol/L"));
 
-    EzLaboratory::appendWideBottleInstanceItem(
-        m_labwareModel,
+    appendNarrowBottleInstanceItem(
+        QStringLiteral("蒸馏水细口瓶"),
+        QStringLiteral("蒸馏水"));
+
+    appendWideBottleInstanceItem(
         QStringLiteral("氢氧化钠广口瓶"),
         QStringLiteral("氢氧化钠"));
-    EzLaboratory::appendWideBottleInstanceItem(
-        m_labwareModel,
-        QStringLiteral("dafeiji"),
-        QStringLiteral("sdsdsdsssssssss"));
-    EzLaboratory::appendWideBottleInstanceItem(
-        m_labwareModel,
-        QStringLiteral("打飞机瓶子"),
-        QStringLiteral("盐酸细口瓶"),
-        QStringLiteral("HCl"));
+
+    appendWideBottleInstanceItem(
+        QStringLiteral("打飞机专用"),
+        QStringLiteral("飞机"),
+        QStringLiteral("防空炮"));
 }
 
 
@@ -157,17 +155,37 @@ void EzLaboratory::decreaseRemainingCount(const QString& type)
         return;
     }
 }
+void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
+    const QString& centerText,
+    int limit)
+{
+    if (!m_labwareModel)
+        return;
 
-void EzLaboratory::appendNarrowBottleInstanceItem(
-    QStandardItemModel* model,
-    const QString& displayName,
+    auto* item = new QStandardItem(
+        QIcon(":/EzLaboratory/resources/image/glassware/generic/narrow-mouth_bottle/bottle.png"),
+        displayName);
+
+    item->setEditable(false);
+    item->setData("narrow_bottle", LabwareTypeRole);
+    item->setData(limit, LabwareLimitRole);
+    item->setData(limit, LabwareRemainingRole);
+
+    item->setData(static_cast<int>(BottleLabelLayout::SingleCenter), LabelLayoutRole);
+    item->setData(centerText, LabelCenterTextRole);
+    item->setData(QString(), LabelTopTextRole);
+    item->setData(QString(), LabelBottomTextRole);
+
+    m_labwareModel->appendRow(item);
+}
+
+void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     const QString& topText,
     const QString& bottomText,
     int limit)
 {
-    if (!model) {
+    if (!m_labwareModel)
         return;
-    }
 
     auto* item = new QStandardItem(
         QIcon(":/EzLaboratory/resources/image/glassware/generic/narrow-mouth_bottle/bottle.png"),
@@ -183,18 +201,15 @@ void EzLaboratory::appendNarrowBottleInstanceItem(
     item->setData(topText, LabelTopTextRole);
     item->setData(bottomText, LabelBottomTextRole);
 
-    model->appendRow(item);
+    m_labwareModel->appendRow(item);
 }
 
-void EzLaboratory::appendWideBottleInstanceItem(
-    QStandardItemModel* model,
-    const QString& displayName,
+void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     const QString& centerText,
     int limit)
 {
-    if (!model) {
+    if (!m_labwareModel)
         return;
-    }
 
     auto* item = new QStandardItem(
         QIcon(":/EzLaboratory/resources/image/glassware/generic/wide-mouth_bottle/bottle.png"),
@@ -210,5 +225,30 @@ void EzLaboratory::appendWideBottleInstanceItem(
     item->setData(QString(), LabelTopTextRole);
     item->setData(QString(), LabelBottomTextRole);
 
-    model->appendRow(item);
+    m_labwareModel->appendRow(item);
+}
+
+void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
+    const QString& topText,
+    const QString& bottomText,
+    int limit)
+{
+    if (!m_labwareModel)
+        return;
+
+    auto* item = new QStandardItem(
+        QIcon(":/EzLaboratory/resources/image/glassware/generic/wide-mouth_bottle/bottle.png"),
+        displayName);
+
+    item->setEditable(false);
+    item->setData("wide_bottle", LabwareTypeRole);
+    item->setData(limit, LabwareLimitRole);
+    item->setData(limit, LabwareRemainingRole);
+
+    item->setData(static_cast<int>(BottleLabelLayout::DoubleLine), LabelLayoutRole);
+    item->setData(QString(), LabelCenterTextRole);
+    item->setData(topText, LabelTopTextRole);
+    item->setData(bottomText, LabelBottomTextRole);
+
+    m_labwareModel->appendRow(item);
 }

@@ -34,7 +34,7 @@ WideBottleItem* WideBottleItem::createInstance(const BottleLabelData& data,
 
 QPointF WideBottleItem::mouthLocalPos() const
 {
-    return QPointF(54.0, 20.0);
+    return QPointF(54.0, 15.0);
 }
 
 qreal WideBottleItem::snapRadius() const

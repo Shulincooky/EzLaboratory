@@ -72,6 +72,9 @@ void LabItem::setItemPixmap(const QString& imagePath)
 {
     m_imagePath = imagePath;
     m_pixmap.load(m_imagePath);
+    if (m_pixmap.isNull()) {
+		qWarning() << "Failed to load pixmap for item:" << m_itemName;
+    }
     update();
 }
 

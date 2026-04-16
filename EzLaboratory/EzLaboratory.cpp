@@ -1,10 +1,6 @@
 #include "EzLaboratory.h"
 #include "BeakerItem.h"
 
-#include <QBrush>
-#include <QColor>
-#include <QPainter>
-#include <QPen>
 #include <QScrollBar>
 #include <QTimer>
 
@@ -47,8 +43,6 @@ void EzLaboratory::initLabScene()
     m_testItem = new BeakerItem();
     m_testItem->setPos(200, 200);
     m_scene->addItem(m_testItem);
-
-    clampItemIntoScene();
 }
 
 bool EzLaboratory::eventFilter(QObject* watched, QEvent* event)
@@ -79,28 +73,4 @@ void EzLaboratory::updateViewAfterResize()
         vBar->setValue(qBound(vBar->minimum(), vBar->value(), vBar->maximum()));
     }
 
-    clampItemIntoScene();
-}
-
-void EzLaboratory::clampItemIntoScene()
-{
-    if (!m_scene || !m_testItem)
-        return;
-
-    QRectF sceneRect = m_scene->sceneRect();
-    QRectF itemRect = m_testItem->sceneBoundingRect();
-
-    qreal newX = m_testItem->pos().x();
-    qreal newY = m_testItem->pos().y();
-
-    if (itemRect.left() < sceneRect.left())
-        newX += sceneRect.left() - itemRect.left();
-    if (itemRect.top() < sceneRect.top())
-        newY += sceneRect.top() - itemRect.top();
-    if (itemRect.right() > sceneRect.right())
-        newX -= itemRect.right() - sceneRect.right();
-    if (itemRect.bottom() > sceneRect.bottom())
-        newY -= itemRect.bottom() - sceneRect.bottom();
-
-    m_testItem->setPos(newX, newY);
 }

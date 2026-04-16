@@ -32,5 +32,4 @@ private:
 
     void initLabScene();
     void updateViewAfterResize();
-    void clampItemIntoScene();
 };

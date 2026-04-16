@@ -8,7 +8,7 @@ LabGraphicsView::LabGraphicsView(QWidget* parent)
 
 void LabGraphicsView::mousePressEvent(QMouseEvent* event)
 {
-    // 2. 左键按到空白处：拖动画布
+    // 左键按到空白处：拖动画布
     if (event->button() == Qt::LeftButton) {
         QGraphicsItem* item = itemAt(event->pos());
 
@@ -29,7 +29,7 @@ void LabGraphicsView::mousePressEvent(QMouseEvent* event)
         }
     }
 
-    // 3. 左键按到物体上：保持物体拖拽逻辑
+    // 左键按到物体上：保持物体拖拽逻辑
     QGraphicsView::mousePressEvent(event);
 }
 
@@ -55,6 +55,5 @@ void LabGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 
 void LabGraphicsView::drawBackground(QPainter* painter, const QRectF& rect)
 {
-    Q_UNUSED(rect);
     painter->fillRect(rect, QColor(241, 241, 241));
 }

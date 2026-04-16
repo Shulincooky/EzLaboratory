@@ -20,6 +20,8 @@ public:
 
     void setStopperReference(BottleStopperItem* stopper);
     void clearStopperReference(BottleStopperItem* stopper);
+    bool hasStopper() const;
+    BottleStopperItem* stopper() const;
 
 private:
     BottleStopperItem* m_stopper = nullptr;

@@ -34,6 +34,10 @@ void BottleStopperItem::attachToBottle(NarrowBottleItem* bottle)
     if (m_attachedBottle == bottle && parentItem() == bottle) {
         return;
     }
+    // 安全保护：已经有别的塞子占用时，不允许挂上去
+    if (bottle->hasStopper() && bottle->stopper() != this) {
+        return;
+    }
 
     if (m_attachedBottle) {
         m_attachedBottle->clearStopperReference(this);
@@ -123,6 +127,11 @@ NarrowBottleItem* BottleStopperItem::findBestSnapBottle() const
     for (QGraphicsItem* item : allItems) {
         auto* bottle = dynamic_cast<NarrowBottleItem*>(item);
         if (!bottle) {
+            continue;
+        }
+
+        // 只允许吸附到空瓶口，或者吸回自己原本所在的那个瓶子
+        if (bottle->hasStopper() && bottle->stopper() != this) {
             continue;
         }
 

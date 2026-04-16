@@ -67,3 +67,13 @@ void NarrowBottleItem::clearStopperReference(BottleStopperItem* stopper)
         m_stopper = nullptr;
     }
 }
+
+bool NarrowBottleItem::hasStopper() const
+{
+    return m_stopper != nullptr;
+}
+
+BottleStopperItem* NarrowBottleItem::stopper() const
+{
+    return m_stopper;
+}

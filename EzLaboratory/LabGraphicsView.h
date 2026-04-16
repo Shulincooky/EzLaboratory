@@ -16,4 +16,5 @@ protected:
 
 private:
     bool m_isPanning = false;
+    Qt::MouseButton m_panButton = Qt::NoButton;
 };

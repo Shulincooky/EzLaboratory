@@ -63,8 +63,6 @@ void LabwareItemDelegate::paint(QPainter* painter,
     QRect subRect(iconRect.right() + 10, rect.top() + 34, rect.width() - 80, 20);
 
     QString title = index.data(Qt::DisplayRole).toString();
-    int limit = index.data(LabwareLimitRole).toInt();
-    int remaining = index.data(LabwareRemainingRole).toInt();
 
     QFont titleFont = QApplication::font();
     titleFont.setPointSize(10);

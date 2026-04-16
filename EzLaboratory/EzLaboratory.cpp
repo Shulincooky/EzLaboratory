@@ -1,5 +1,6 @@
 #include "EzLaboratory.h"
 #include "BeakerItem.h"
+#include "LabwareItemDelegate.h"
 
 #include <QScrollBar>
 #include <QTimer>
@@ -88,6 +89,14 @@ void EzLaboratory::initLabwareList()
 {
     m_labwareModel = new QStandardItemModel(this);
     ui->labwareList->setModel(m_labwareModel);
+    ui->labwareList->setItemDelegate(new LabwareItemDelegate(ui->labwareList));
+    ui->labwareList->setMouseTracking(true);
+    ui->labwareList->setSpacing(6);
+
+    ui->labwareList->setUniformItemSizes(true);
+    ui->labwareList->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->labwareList->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    ui->labwareList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     auto* beakerItem = new QStandardItem(QIcon(":/EzLaboratory/resources/image/glassware/beaker.png"), "烧杯");
     beakerItem->setEditable(false);

@@ -8,11 +8,29 @@ namespace
     constexpr int LabwareTypeRole = Qt::UserRole + 1;
     constexpr int LabwareLimitRole = Qt::UserRole + 2;
     constexpr int LabwareRemainingRole = Qt::UserRole + 3;
+
+    constexpr int kBaseItemWidth = 200;
+    constexpr int kBaseItemHeight = 72;
+
+    constexpr int kBaseOuterMarginX = 6;
+    constexpr int kBaseOuterMarginY = 4;
+    constexpr int kBaseInnerPadding = 10;
+    constexpr int kBaseIconSize = 48;
+    constexpr int kBaseSpacing = 10;
+    constexpr int kBaseTitleHeight = 24;
+    constexpr int kBaseSubHeight = 20;
+    constexpr int kBaseRadius = 10;
+    constexpr int kBaseTitlePointSize = 10;
+    constexpr int kBaseSubPointSize = 8;
 }
 
 LabwareItemDelegate::LabwareItemDelegate(QObject* parent)
     : QStyledItemDelegate(parent)
 {
+}
+void LabwareItemDelegate::setViewWidth(int width)
+{
+    m_viewWidth = qMax(1, width);
 }
 
 void LabwareItemDelegate::paint(QPainter* painter,
@@ -22,7 +40,19 @@ void LabwareItemDelegate::paint(QPainter* painter,
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
 
-    QRect rect = option.rect.adjusted(6, 4, -6, -4);
+    const int viewWidth = m_viewWidth;
+    const qreal scale = qMax<qreal>(0.6, qreal(viewWidth) / qreal(kBaseItemWidth));
+
+    const int outerMarginX = qRound(kBaseOuterMarginX * scale);
+    const int outerMarginY = qRound(kBaseOuterMarginY * scale);
+    const int innerPadding = qRound(kBaseInnerPadding * scale);
+    const int iconSize = qRound(kBaseIconSize * scale);
+    const int spacing = qRound(kBaseSpacing * scale);
+    const int titleHeight = qRound(kBaseTitleHeight * scale);
+    const int subHeight = qRound(kBaseSubHeight * scale);
+    const int radius = qRound(kBaseRadius * scale);
+
+    QRect rect = option.rect.adjusted(outerMarginX, outerMarginY, -outerMarginX, -outerMarginY);
 
     // 背景色
     QColor bgColor = Qt::white;
@@ -47,10 +77,13 @@ void LabwareItemDelegate::paint(QPainter* painter,
 
     painter->setPen(QPen(borderColor, 1));
     painter->setBrush(bgColor);
-    painter->drawRoundedRect(rect, 10, 10);
+    painter->drawRoundedRect(rect, radius, radius);
 
     // 图标区域
-    QRect iconRect(rect.left() + 10, rect.top() + 10, 48, 48);
+    QRect iconRect(rect.left() + innerPadding,
+        rect.top() + innerPadding,
+        iconSize,
+        iconSize);
 
     QVariant iconData = index.data(Qt::DecorationRole);
     if (iconData.canConvert<QIcon>()) {
@@ -59,17 +92,27 @@ void LabwareItemDelegate::paint(QPainter* painter,
     }
 
     // 文字区域
-    QRect titleRect(iconRect.right() + 10, rect.top() + 10, rect.width() - 80, 24);
-    QRect subRect(iconRect.right() + 10, rect.top() + 34, rect.width() - 80, 20);
+    const int textLeft = iconRect.right() + spacing;
+    const int textWidth = rect.right() - innerPadding - textLeft;
+
+    QRect titleRect(textLeft,
+        rect.top() + innerPadding,
+        textWidth,
+        titleHeight);
+
+    QRect subRect(textLeft,
+        titleRect.bottom(),
+        textWidth,
+        subHeight);
 
     QString title = index.data(Qt::DisplayRole).toString();
 
     QFont titleFont = QApplication::font();
-    titleFont.setPointSize(10);
+    titleFont.setPointSize(qMax(8, qRound(kBaseTitlePointSize * scale)));
     titleFont.setBold(true);
 
     QFont subFont = QApplication::font();
-    subFont.setPointSize(8);
+    subFont.setPointSize(qMax(7, qRound(kBaseSubPointSize * scale)));
 
     painter->setFont(titleFont);
     painter->setPen(QColor(40, 40, 40));
@@ -94,5 +137,7 @@ void LabwareItemDelegate::paint(QPainter* painter,
 
 QSize LabwareItemDelegate::sizeHint(const QStyleOptionViewItem&, const QModelIndex&) const
 {
-    return QSize(200, 72);
+    qreal scale = qMax<qreal>(0.6, qreal(m_viewWidth) / qreal(kBaseItemWidth));
+    int itemHeight = qRound(kBaseItemHeight * scale);
+    return QSize(m_viewWidth, itemHeight);
 }

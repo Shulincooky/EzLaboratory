@@ -1,8 +1,10 @@
 #include "LabwareListView.h"
+#include "LabwareItemDelegate.h"
 
 #include <QDrag>
 #include <QMimeData>
 #include <QModelIndex>
+
 
 namespace
 {
@@ -60,4 +62,16 @@ void LabwareListView::startDrag(Qt::DropActions)
 
     clearSelection();
     setCurrentIndex(QModelIndex());
+}
+void LabwareListView::resizeEvent(QResizeEvent* event)
+{
+    QListView::resizeEvent(event);
+
+    auto* delegate = qobject_cast<LabwareItemDelegate*>(itemDelegate());
+    if (delegate) {
+        delegate->setViewWidth(viewport()->width());
+    }
+
+    doItemsLayout();
+    viewport()->update();
 }

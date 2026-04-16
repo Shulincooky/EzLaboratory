@@ -93,11 +93,14 @@ void EzLaboratory::initLabwareList()
 {
     m_labwareModel = new QStandardItemModel(this);
     ui->labwareList->setModel(m_labwareModel);
-    ui->labwareList->setItemDelegate(new LabwareItemDelegate(ui->labwareList));
+    auto* delegate = new LabwareItemDelegate(ui->labwareList);
+    delegate->setViewWidth(ui->labwareList->viewport()->width());
+    ui->labwareList->setItemDelegate(delegate);
+
     ui->labwareList->setMouseTracking(true);
     ui->labwareList->setSpacing(6);
 
-    ui->labwareList->setUniformItemSizes(true);
+    ui->labwareList->setResizeMode(QListView::Adjust);
     ui->labwareList->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->labwareList->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->labwareList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

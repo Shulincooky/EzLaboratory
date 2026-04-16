@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QListView>
-
+#include <QResizeEvent>
 class LabwareListView : public QListView
 {
     Q_OBJECT
@@ -11,4 +11,5 @@ public:
 
 protected:
     void startDrag(Qt::DropActions supportedActions) override;
+    void resizeEvent(QResizeEvent* event) override;
 };

@@ -8,6 +8,7 @@ class LabwareItemDelegate : public QStyledItemDelegate
 
 public:
     explicit LabwareItemDelegate(QObject* parent = nullptr);
+    void setViewWidth(int width);
 
     void paint(QPainter* painter,
         const QStyleOptionViewItem& option,
@@ -15,4 +16,6 @@ public:
 
     QSize sizeHint(const QStyleOptionViewItem& option,
         const QModelIndex& index) const override;
+private:
+    int m_viewWidth = 200;
 };

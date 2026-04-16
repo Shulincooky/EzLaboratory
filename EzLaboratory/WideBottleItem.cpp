@@ -24,6 +24,14 @@ WideBottleItem::~WideBottleItem()
 {
 }
 
+WideBottleItem* WideBottleItem::createInstance(const BottleLabelData& data,
+    QGraphicsItem* parent)
+{
+    auto* bottle = new WideBottleItem(parent);
+    bottle->finalizeInstance(data);
+    return bottle;
+}
+
 QPointF WideBottleItem::mouthLocalPos() const
 {
     return QPointF(54.0, 20.0);

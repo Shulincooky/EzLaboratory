@@ -104,7 +104,7 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     const QByteArray data = event->mimeData()->data(kLabwareMimeType);
     const QList<QByteArray> parts = data.split('|');
-    if (parts.size() != 3) {
+    if (parts.size() != 7) {
         event->ignore();
         return;
     }
@@ -112,6 +112,16 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     const QString type = QString::fromUtf8(parts[0]);
     const int limit = parts[1].toInt();
     const int remaining = parts[2].toInt();
+
+    const BottleLabelLayout layout =
+        static_cast<BottleLabelLayout>(parts[3].toInt());
+
+    const QString centerText =
+        QString::fromUtf8(QByteArray::fromBase64(parts[4]));
+    const QString topText =
+        QString::fromUtf8(QByteArray::fromBase64(parts[5]));
+    const QString bottomText =
+        QString::fromUtf8(QByteArray::fromBase64(parts[6]));
 
     if (limit > 0 && remaining <= 0) {
         event->ignore();
@@ -124,25 +134,22 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         newItem = new BeakerItem();
     }
     else if (type == "narrow_bottle") {
-        auto* bottle = new NarrowBottleItem();
-
         BottleLabelData label;
-        label.layout = BottleLabelLayout::DoubleLine;
-        label.topText = QStringLiteral("HCl");
-        label.bottomText = QStringLiteral("4 mol/L");
+        label.layout = layout;
+        label.centerText = centerText;
+        label.topText = topText;
+        label.bottomText = bottomText;
 
-        bottle->setLabelData(label);
-        newItem = bottle;
+        newItem = NarrowBottleItem::createInstance(label);
     }
     else if (type == "wide_bottle") {
-        auto* bottle = new WideBottleItem();
-
         BottleLabelData label;
-        label.layout = BottleLabelLayout::SingleCenter;
-        label.centerText = QStringLiteral("氢氧化钠");
+        label.layout = layout;
+        label.centerText = centerText;
+        label.topText = topText;
+        label.bottomText = bottomText;
 
-        bottle->setLabelData(label);
-        newItem = bottle;
+        newItem = WideBottleItem::createInstance(label);
     }
 
     if (!newItem) {

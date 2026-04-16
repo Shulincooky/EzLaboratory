@@ -36,6 +36,7 @@ public:
 protected:
     void initializePlug(AbstractPlugItem* plug);
     void initializeLabel(BottleLabelItem* label);
+    void finalizeInstance(const BottleLabelData& data);
 
     virtual qreal plugInsertOffsetY() const = 0;
     virtual qreal plugOffsetX() const;

@@ -103,3 +103,8 @@ QString AbstractBottleItem::labelTemplatePath() const
 {
     return QStringLiteral(":/EzLaboratory/resources/label.svg");
 }
+
+void AbstractBottleItem::finalizeInstance(const BottleLabelData& data)
+{
+    setLabelData(data);
+}

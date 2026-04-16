@@ -12,6 +12,10 @@ namespace
     constexpr int LabwareTypeRole = Qt::UserRole + 1;
     constexpr int LabwareLimitRole = Qt::UserRole + 2;
 	constexpr int LabwareRemainingRole = Qt::UserRole + 3;
+    constexpr int LabelLayoutRole = Qt::UserRole + 4;
+    constexpr int LabelCenterTextRole = Qt::UserRole + 5;
+    constexpr int LabelTopTextRole = Qt::UserRole + 6;
+    constexpr int LabelBottomTextRole = Qt::UserRole + 7;
 }
 
 LabwareListView::LabwareListView(QWidget* parent)
@@ -34,6 +38,11 @@ void LabwareListView::startDrag(Qt::DropActions)
     const int limit = index.data(LabwareLimitRole).toInt();
     const int remaining = index.data(LabwareRemainingRole).toInt();
 
+    const int layout = index.data(LabelLayoutRole).toInt();
+    const QString centerText = index.data(LabelCenterTextRole).toString();
+    const QString topText = index.data(LabelTopTextRole).toString();
+    const QString bottomText = index.data(LabelBottomTextRole).toString();
+
     if (type.isEmpty())
         return;
     if (limit > 0 && remaining <= 0)
@@ -45,6 +54,14 @@ void LabwareListView::startDrag(Qt::DropActions)
     payload.append(QByteArray::number(limit));
     payload.append('|');
     payload.append(QByteArray::number(remaining));
+    payload.append('|');
+    payload.append(QByteArray::number(layout));
+    payload.append('|');
+    payload.append(centerText.toUtf8().toBase64());
+    payload.append('|');
+    payload.append(topText.toUtf8().toBase64());
+    payload.append('|');
+    payload.append(bottomText.toUtf8().toBase64());
 
     auto* mimeData = new QMimeData();
     mimeData->setData(kLabwareMimeType, payload);

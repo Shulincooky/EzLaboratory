@@ -24,6 +24,14 @@ NarrowBottleItem::~NarrowBottleItem()
 {
 }
 
+NarrowBottleItem* NarrowBottleItem::createInstance(const BottleLabelData& data,
+    QGraphicsItem* parent)
+{
+    auto* bottle = new NarrowBottleItem(parent);
+    bottle->finalizeInstance(data);
+    return bottle;
+}
+
 QPointF NarrowBottleItem::mouthLocalPos() const
 {
     return QPointF(48.0, 18.0);

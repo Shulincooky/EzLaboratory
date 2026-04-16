@@ -35,4 +35,17 @@ private:
     void initLabScene();
     void updateViewAfterResize();
     void decreaseRemainingCount(const QString& type);
+
+    static void appendNarrowBottleInstanceItem(
+        QStandardItemModel* model,
+        const QString& displayName,
+        const QString& topText,
+        const QString& bottomText,
+        int limit = 3);
+    static void appendWideBottleInstanceItem(
+        QStandardItemModel* model,
+        const QString& displayName,
+        const QString& centerText,
+        int limit = 3);
+
 };

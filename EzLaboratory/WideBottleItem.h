@@ -9,6 +9,8 @@ class WideBottleItem : public AbstractBottleItem
 public:
     explicit WideBottleItem(QGraphicsItem* parent = nullptr);
     ~WideBottleItem() override;
+    static WideBottleItem* createInstance(const BottleLabelData& data,
+        QGraphicsItem* parent = nullptr);
 
     QPointF mouthLocalPos() const override;
     qreal snapRadius() const override;

@@ -7,6 +7,7 @@ namespace
 {
     constexpr int LabwareTypeRole = Qt::UserRole + 1;
     constexpr int LabwareLimitRole = Qt::UserRole + 2;
+    constexpr int LabwareRemainingRole = Qt::UserRole + 3;
 }
 
 LabwareItemDelegate::LabwareItemDelegate(QObject* parent)
@@ -26,6 +27,13 @@ void LabwareItemDelegate::paint(QPainter* painter,
     // 背景色
     QColor bgColor = Qt::white;
     QColor borderColor = QColor(220, 220, 220);
+    int remaining = index.data(LabwareRemainingRole).toInt();
+    int limit = index.data(LabwareLimitRole).toInt();
+
+    if (limit > 0 && remaining <= 0) {
+        bgColor = QColor(245, 245, 245);
+        borderColor = QColor(225, 225, 225);
+    }
 
     if (option.state & QStyle::State_MouseOver) {
         bgColor = QColor(245, 249, 255);
@@ -56,6 +64,7 @@ void LabwareItemDelegate::paint(QPainter* painter,
 
     QString title = index.data(Qt::DisplayRole).toString();
     int limit = index.data(LabwareLimitRole).toInt();
+    int remaining = index.data(LabwareRemainingRole).toInt();
 
     QFont titleFont = QApplication::font();
     titleFont.setPointSize(10);
@@ -69,11 +78,14 @@ void LabwareItemDelegate::paint(QPainter* painter,
     painter->drawText(titleRect, Qt::AlignLeft | Qt::AlignVCenter, title);
 
     painter->setFont(subFont);
-    painter->setPen(QColor(130, 130, 130));
+    if (limit > 0 && remaining <= 0)
+        painter->setPen(QColor(170, 170, 170));
+    else
+        painter->setPen(QColor(130, 130, 130));
 
     QString subText;
     if (limit > 0)
-        subText = QStringLiteral("最多 %1 个").arg(limit);
+        subText = QStringLiteral("剩余 %1 / %2").arg(remaining).arg(limit);
     else
         subText = QStringLiteral("数量不限");
 

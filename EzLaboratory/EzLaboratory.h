@@ -36,4 +36,5 @@ private:
     void initLabwareList();
     void initLabScene();
     void updateViewAfterResize();
+    void decreaseRemainingCount(const QString& type);
 };

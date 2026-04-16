@@ -13,6 +13,8 @@ class LabGraphicsView : public QGraphicsView
 public:
     explicit LabGraphicsView(QWidget* parent = nullptr);
 
+signals:
+    void labwareDropped(const QString& type);
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;

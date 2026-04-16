@@ -103,30 +103,36 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     const QByteArray data = event->mimeData()->data(kLabwareMimeType);
     const QList<QByteArray> parts = data.split('|');
-    if (parts.size() != 2) {
+    if (parts.size() != 3) {
         event->ignore();
         return;
     }
 
     const QString type = QString::fromUtf8(parts[0]);
     const int limit = parts[1].toInt();
+    const int remaining = parts[2].toInt();
 
-    int currentCount = 0;
-    const auto itemsInScene = scene()->items();
-    for (QGraphicsItem* item : itemsInScene) {
-        auto* labItem = dynamic_cast<LabItem*>(item);
-        if (!labItem)
-            continue;
-
-        if (labItem->itemType() == type) {
-            ++currentCount;
-        }
-    }
-
-    if (limit > 0 && currentCount >= limit) {
+    if (limit > 0 && remaining <= 0) {
         event->ignore();
         return;
     }
+
+    //int currentCount = 0;
+    //const auto itemsInScene = scene()->items();
+    //for (QGraphicsItem* item : itemsInScene) {
+    //    auto* labItem = dynamic_cast<LabItem*>(item);
+    //    if (!labItem)
+    //        continue;
+
+    //    if (labItem->itemType() == type) {
+    //        ++currentCount;
+    //    }
+    //}
+
+    //if (limit > 0 && currentCount >= limit) {
+    //    event->ignore();
+    //    return;
+    //}
 
     LabItem* newItem = nullptr;
 
@@ -142,8 +148,9 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     QPointF scenePos = mapToScene(event->position().toPoint());
     newItem->setPos(scenePos);
     scene()->addItem(newItem);
-
     viewport()->update();
+
+    emit labwareDropped(type);
 
     event->acceptProposedAction();
 }

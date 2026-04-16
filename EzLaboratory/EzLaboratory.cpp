@@ -12,6 +12,7 @@ namespace
 {
     constexpr int LabwareTypeRole = Qt::UserRole + 1;
     constexpr int LabwareLimitRole = Qt::UserRole + 2;
+    constexpr int LabwareRemainingRole = Qt::UserRole + 3;
 }
 
 EzLaboratory::EzLaboratory(QWidget* parent)
@@ -40,6 +41,9 @@ void EzLaboratory::initLabScene()
     m_scene->setSceneRect(m_worldRect);
 
     ui->graphicsViewLab->setScene(m_scene);
+    connect(ui->graphicsViewLab, &LabGraphicsView::labwareDropped,
+        this, &EzLaboratory::decreaseRemainingCount);
+
     ui->graphicsViewLab->setRenderHint(QPainter::Antialiasing, true);
     ui->graphicsViewLab->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
@@ -101,7 +105,8 @@ void EzLaboratory::initLabwareList()
     auto* beakerItem = new QStandardItem(QIcon(":/EzLaboratory/resources/image/glassware/beaker.png"), "烧杯");
     beakerItem->setEditable(false);
     beakerItem->setData("beaker", LabwareTypeRole);
-    beakerItem->setData(3, LabwareLimitRole);   // 这里限制最多 3 个
+    beakerItem->setData(3, LabwareLimitRole);
+    beakerItem->setData(3, LabwareRemainingRole);  // 这里限制最多 3 个
 
     m_labwareModel->appendRow(beakerItem);
 
@@ -111,4 +116,32 @@ void EzLaboratory::initLabwareList()
     // beakerItem2->setData("beaker", LabwareTypeRole);
     // beakerItem2->setData(3, LabwareLimitRole);
     // m_labwareModel->appendRow(beakerItem2);
+}
+void EzLaboratory::decreaseRemainingCount(const QString& type)
+{
+    if (!m_labwareModel)
+        return;
+
+    for (int row = 0; row < m_labwareModel->rowCount(); ++row) {
+        QStandardItem* item = m_labwareModel->item(row);
+        if (!item)
+            continue;
+
+        if (item->data(LabwareTypeRole).toString() != type)
+            continue;
+
+        const int limit = item->data(LabwareLimitRole).toInt();
+        if (limit <= 0)
+            return;
+
+        int remaining = item->data(LabwareRemainingRole).toInt();
+        remaining = qMax(0, remaining - 1);
+        item->setData(remaining, LabwareRemainingRole);
+
+        // 触发视图刷新
+        QModelIndex idx = m_labwareModel->indexFromItem(item);
+        emit m_labwareModel->dataChanged(idx, idx);
+
+        return;
+    }
 }

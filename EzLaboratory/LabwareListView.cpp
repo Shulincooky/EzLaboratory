@@ -9,6 +9,7 @@ namespace
     constexpr const char* kLabwareMimeType = "application/x-ezlaboratory-labware";
     constexpr int LabwareTypeRole = Qt::UserRole + 1;
     constexpr int LabwareLimitRole = Qt::UserRole + 2;
+	constexpr int LabwareRemainingRole = Qt::UserRole + 3;
 }
 
 LabwareListView::LabwareListView(QWidget* parent)
@@ -29,14 +30,19 @@ void LabwareListView::startDrag(Qt::DropActions)
 
     const QString type = index.data(LabwareTypeRole).toString();
     const int limit = index.data(LabwareLimitRole).toInt();
+    const int remaining = index.data(LabwareRemainingRole).toInt();
 
     if (type.isEmpty())
+        return;
+    if (limit > 0 && remaining <= 0)
         return;
 
     QByteArray payload;
     payload.append(type.toUtf8());
     payload.append('|');
     payload.append(QByteArray::number(limit));
+    payload.append('|');
+    payload.append(QByteArray::number(remaining));
 
     auto* mimeData = new QMimeData();
     mimeData->setData(kLabwareMimeType, payload);

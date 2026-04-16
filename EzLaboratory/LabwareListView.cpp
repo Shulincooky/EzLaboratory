@@ -4,6 +4,8 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QModelIndex>
+#include <QTimer>
+#include <QItemSelectionModel>
 
 
 namespace
@@ -60,8 +62,16 @@ void LabwareListView::startDrag(Qt::DropActions)
 
     drag->exec(Qt::CopyAction);
 
-    clearSelection();
-    setCurrentIndex(QModelIndex());
+    QTimer::singleShot(0, this, [this]() {
+        clearSelection();
+        setCurrentIndex(QModelIndex());
+
+        if (selectionModel()) {
+            selectionModel()->clear();
+        }
+
+        viewport()->update();
+        });
 }
 void LabwareListView::resizeEvent(QResizeEvent* event)
 {
@@ -74,4 +84,19 @@ void LabwareListView::resizeEvent(QResizeEvent* event)
 
     doItemsLayout();
     viewport()->update();
+}
+void LabwareListView::mouseReleaseEvent(QMouseEvent* event)
+{
+    QListView::mouseReleaseEvent(event);
+
+    QTimer::singleShot(0, this, [this]() {
+        clearSelection();
+        setCurrentIndex(QModelIndex());
+
+        if (selectionModel()) {
+            selectionModel()->clear();
+        }
+
+        viewport()->update();
+        });
 }

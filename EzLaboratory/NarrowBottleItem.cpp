@@ -47,7 +47,7 @@ QPointF NarrowBottleItem::stopperLocalTopLeft(const BottleStopperItem* stopper) 
 
     return QPointF(
         mouth.x() - stopperRect.width() * 0.5,
-        mouth.y() - stopperRect.height() + 8.0
+        mouth.y() - stopperRect.height() + 27.0
     );
 }
 

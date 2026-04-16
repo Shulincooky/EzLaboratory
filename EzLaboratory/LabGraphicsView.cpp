@@ -14,6 +14,7 @@ LabGraphicsView::LabGraphicsView(QWidget* parent)
 {
     setDragMode(QGraphicsView::NoDrag);
     setAcceptDrops(true);
+    viewport()->setAcceptDrops(true);
 }
 
 void LabGraphicsView::mousePressEvent(QMouseEvent* event)
@@ -117,8 +118,7 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         if (!labItem)
             continue;
 
-        if (labItem->itemName().compare(type, Qt::CaseInsensitive) == 0 ||
-            (type == "beaker" && labItem->itemName() == "Beaker")) {
+        if (labItem->itemType() == type) {
             ++currentCount;
         }
     }
@@ -142,6 +142,8 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     QPointF scenePos = mapToScene(event->position().toPoint());
     newItem->setPos(scenePos);
     scene()->addItem(newItem);
+
+    viewport()->update();
 
     event->acceptProposedAction();
 }

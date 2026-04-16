@@ -2,6 +2,9 @@
 
 #include <QGraphicsView>
 #include <QMouseEvent>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QPainter>
 
 class LabGraphicsView : public QGraphicsView
 {

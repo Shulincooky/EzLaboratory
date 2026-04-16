@@ -25,7 +25,7 @@ private:
     Ui::EzLaboratoryClass* ui;
 
     QGraphicsScene* m_scene = nullptr;
-    QGraphicsRectItem* m_testItem = nullptr;
+    LabItem* m_testItem = nullptr;
 
     // 固定的最大场景边界
     QRectF m_worldRect = QRectF(0, 0, 2400, 1600);

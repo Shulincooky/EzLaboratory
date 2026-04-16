@@ -97,10 +97,18 @@
     <QtMoc Include="EzLaboratory.h" />
     <ClCompile Include="EzLaboratory.cpp" />
     <ClCompile Include="LabGraphicsView.cpp" />
+    <ClCompile Include="LabItem.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="BeakerItem.h" />
+    <QtMoc Include="LabItem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BeakerItem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

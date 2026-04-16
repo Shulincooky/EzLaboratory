@@ -1,4 +1,5 @@
 #include "EzLaboratory.h"
+#include "BeakerItem.h"
 
 #include <QBrush>
 #include <QColor>
@@ -43,15 +44,8 @@ void EzLaboratory::initLabScene()
     ui->graphicsViewLab->viewport()->installEventFilter(this);
 
     // 放一个基础可拖拽物体
-    m_testItem = new QGraphicsRectItem(0, 0, 100, 140);
-    m_testItem->setPen(QPen(QColor(50, 90, 180), 2));
-    m_testItem->setBrush(QBrush(QColor(180, 220, 255)));
+    m_testItem = new BeakerItem();
     m_testItem->setPos(200, 200);
-
-    m_testItem->setFlag(QGraphicsItem::ItemIsMovable, true);
-    m_testItem->setFlag(QGraphicsItem::ItemIsSelectable, true);
-    m_testItem->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-
     m_scene->addItem(m_testItem);
 
     clampItemIntoScene();

@@ -43,10 +43,22 @@
     <ClCompile Include="LabGraphicsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LabItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="LabItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BeakerItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BeakerItem.cpp" />
   </ItemGroup>
 </Project>

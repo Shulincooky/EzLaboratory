@@ -1,5 +1,6 @@
 #include "LabGraphicsView.h"
 #include "BeakerItem.h"
+#include "NarrowBottleItem.h"
 
 #include <QMimeData>
 #include <QGraphicsScene>
@@ -120,6 +121,9 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     if (type == "beaker") {
         newItem = new BeakerItem();
+    }
+    else if (type == "narrow_bottle") {
+        newItem = new NarrowBottleItem();
     }
 
     if (!newItem) {

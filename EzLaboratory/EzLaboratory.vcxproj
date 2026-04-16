@@ -92,9 +92,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NarrowBottleItem.cpp" />
     <QtRcc Include="EzLaboratory.qrc" />
     <QtUic Include="EzLaboratory.ui" />
     <QtMoc Include="EzLaboratory.h" />
+    <ClCompile Include="BottleStopperItem.cpp" />
     <ClCompile Include="EzLaboratory.cpp" />
     <ClCompile Include="LabGraphicsView.cpp" />
     <ClCompile Include="LabItem.cpp" />
@@ -117,6 +119,12 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabwareItemDelegate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="BottleStopperItem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="NarrowBottleItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

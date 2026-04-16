@@ -55,6 +55,12 @@
     <ClCompile Include="LabwareItemDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BottleStopperItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NarrowBottleItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h">
@@ -70,6 +76,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="LabwareItemDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BottleStopperItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="NarrowBottleItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

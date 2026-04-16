@@ -107,6 +107,16 @@ void EzLaboratory::initLabwareList()
     beakerItem->setData(3, LabwareRemainingRole);  // 这里限制最多 3 个
 
     m_labwareModel->appendRow(beakerItem);
+
+    auto* narrowBottleItem = new QStandardItem(
+        QIcon(":/EzLaboratory/resources/image/glassware/generic/narrow-mouth_bottle/bottle.png"),
+        "细口瓶");
+    narrowBottleItem->setEditable(false);
+    narrowBottleItem->setData("narrow_bottle", LabwareTypeRole);
+    narrowBottleItem->setData(3, LabwareLimitRole);
+    narrowBottleItem->setData(3, LabwareRemainingRole);
+
+    m_labwareModel->appendRow(narrowBottleItem);
 }
 void EzLaboratory::decreaseRemainingCount(const QString& type)
 {

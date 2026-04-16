@@ -28,7 +28,7 @@ QPointF NarrowBottleItem::mouthLocalPos() const
 {
     // 这里按当前 96x180 的瓶子图先给一个合理口部锚点
     // 以后你只要看贴图微调这两个数值即可
-    return QPointF(48.0, 18.0);
+    return QPointF(48.0, 20.0);
 }
 
 QPointF NarrowBottleItem::mouthScenePos() const

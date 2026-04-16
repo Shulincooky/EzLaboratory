@@ -99,7 +99,7 @@ QSizeF LabItem::itemSize() const
 
 QVariant LabItem::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if (change == QGraphicsItem::ItemPositionChange && scene()) {
+    if (change == QGraphicsItem::ItemPositionChange && scene() && parentItem() == nullptr) {
         QPointF newPos = value.toPointF();
         QRectF sceneRect = scene()->sceneRect();
         QRectF itemRect = boundingRect();

@@ -67,7 +67,7 @@ void BottleStopperItem::detachFromBottle()
     setPos(scenePosBefore);
     setRotation(180.0);
     setFlag(QGraphicsItem::ItemIsMovable, true);
-    setZValue(100.0);
+    setZValue(10.0);
 }
 
 bool BottleStopperItem::isAttached() const

@@ -34,7 +34,8 @@ void EzLaboratory::initLabScene()
     ui->graphicsViewLab->setScene(m_scene);
     ui->graphicsViewLab->setRenderHint(QPainter::Antialiasing, true);
     ui->graphicsViewLab->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    //ui->graphicsViewLab->setBackgroundBrush(QColor(245, 245, 245));
+
+    ui->graphicsViewLab->setFrameShape(QFrame::NoFrame);
 
     // 允许滚动条存在，场景拖动本质上就是在改变视图滚动位置
     ui->graphicsViewLab->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -42,13 +43,6 @@ void EzLaboratory::initLabScene()
 
     // 监听 viewport 尺寸变化
     ui->graphicsViewLab->viewport()->installEventFilter(this);
-
-    // 画一个大实验台背景，方便看边界
-    //m_scene->addRect(
-    //    m_worldRect,
-    //    QPen(QColor(160, 160, 160), 2),
-    //    QBrush(QColor(235, 235, 235))
-    //);
 
     // 放一个基础可拖拽物体
     m_testItem = new QGraphicsRectItem(0, 0, 100, 140);

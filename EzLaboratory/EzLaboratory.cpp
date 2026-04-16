@@ -1,5 +1,4 @@
 #include "EzLaboratory.h"
-#include "BeakerItem.h"
 #include "LabwareItemDelegate.h"
 
 #include <QScrollBar>

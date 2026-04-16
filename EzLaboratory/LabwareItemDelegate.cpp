@@ -5,7 +5,6 @@
 
 namespace
 {
-    constexpr int LabwareTypeRole = Qt::UserRole + 1;
     constexpr int LabwareLimitRole = Qt::UserRole + 2;
     constexpr int LabwareRemainingRole = Qt::UserRole + 3;
 

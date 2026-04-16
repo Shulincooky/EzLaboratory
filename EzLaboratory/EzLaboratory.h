@@ -8,7 +8,6 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class EzLaboratoryClass; };
 QT_END_NAMESPACE
-class LabItem;
 class QStandardItemModel;
 
 class EzLaboratory : public QMainWindow
@@ -28,7 +27,6 @@ private:
     QStandardItemModel* m_labwareModel = nullptr;
 
     QGraphicsScene* m_scene = nullptr;
-    LabItem* m_initialItem = nullptr;
 
     // 固定的最大场景边界
     QRectF m_worldRect = QRectF(0, 0, 2400, 1600);

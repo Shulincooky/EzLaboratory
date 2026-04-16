@@ -55,9 +55,6 @@
     <ClCompile Include="LabwareItemDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NarrowBottleItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AbstractBottleItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,6 +68,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WideBottlePlugItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BottleLabelRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BottleLabelItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NarrowBottleItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,5 +114,16 @@
     <QtMoc Include="WideBottlePlugItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BottleLabelData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BottleLabelRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BottleLabelItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

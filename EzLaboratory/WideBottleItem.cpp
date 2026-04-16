@@ -1,5 +1,6 @@
 #include "WideBottleItem.h"
 #include "WideBottlePlugItem.h"
+#include "BottleLabelItem.h"
 
 namespace
 {
@@ -16,6 +17,7 @@ WideBottleItem::WideBottleItem(QGraphicsItem* parent)
         parent)
 {
     initializePlug(new WideBottlePlugItem(this));
+    initializeLabel(new BottleLabelItem(this));
 }
 
 WideBottleItem::~WideBottleItem()
@@ -35,4 +37,14 @@ qreal WideBottleItem::snapRadius() const
 qreal WideBottleItem::plugInsertOffsetY() const
 {
     return 24.0;
+}
+
+QPointF WideBottleItem::labelLocalPos() const
+{
+    return QPointF(20.0, 76.0);
+}
+
+QSizeF WideBottleItem::labelLogicalSize() const
+{
+    return QSizeF(60.0, 38.0);
 }

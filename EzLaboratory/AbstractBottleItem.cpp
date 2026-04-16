@@ -1,5 +1,6 @@
 #include "AbstractBottleItem.h"
 #include "AbstractPlugItem.h"
+#include "BottleLabelItem.h"
 
 AbstractBottleItem::AbstractBottleItem(const QString& itemType,
     const QString& itemName,
@@ -65,7 +66,40 @@ void AbstractBottleItem::initializePlug(AbstractPlugItem* plug)
     plug->attachToBottle(this);
 }
 
+void AbstractBottleItem::initializeLabel(BottleLabelItem* label)
+{
+    if (!label) {
+        return;
+    }
+
+    m_labelItem = label;
+    m_labelItem->setParentItem(this);
+    m_labelItem->setPos(labelLocalPos());
+}
+
+void AbstractBottleItem::setLabelData(const BottleLabelData& data)
+{
+    m_labelData = data;
+
+    if (!m_labelItem) {
+        return;
+    }
+
+    m_labelItem->updateLabel(data, labelLogicalSize(), labelTemplatePath());
+    m_labelItem->setPos(labelLocalPos());
+}
+
+BottleLabelData AbstractBottleItem::labelData() const
+{
+    return m_labelData;
+}
+
 qreal AbstractBottleItem::plugOffsetX() const
 {
     return 0.0;
+}
+
+QString AbstractBottleItem::labelTemplatePath() const
+{
+    return QStringLiteral(":/EzLaboratory/resources/label.svg");
 }

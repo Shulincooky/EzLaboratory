@@ -2,6 +2,7 @@
 #include "BeakerItem.h"
 #include "NarrowBottleItem.h"
 #include "WideBottleItem.h"
+#include "BottleLabelData.h"
 
 #include <QMimeData>
 #include <QGraphicsScene>
@@ -123,10 +124,25 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         newItem = new BeakerItem();
     }
     else if (type == "narrow_bottle") {
-        newItem = new NarrowBottleItem();
+        auto* bottle = new NarrowBottleItem();
+
+        BottleLabelData label;
+        label.layout = BottleLabelLayout::DoubleLine;
+        label.topText = QStringLiteral("HCl");
+        label.bottomText = QStringLiteral("4 mol/L");
+
+        bottle->setLabelData(label);
+        newItem = bottle;
     }
     else if (type == "wide_bottle") {
-        newItem = new WideBottleItem();
+        auto* bottle = new WideBottleItem();
+
+        BottleLabelData label;
+        label.layout = BottleLabelLayout::SingleCenter;
+        label.centerText = QStringLiteral("氢氧化钠");
+
+        bottle->setLabelData(label);
+        newItem = bottle;
     }
 
     if (!newItem) {

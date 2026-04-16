@@ -15,4 +15,6 @@ public:
 
 protected:
     qreal plugInsertOffsetY() const override;
+    QPointF labelLocalPos() const override;
+    QSizeF labelLogicalSize() const override;
 };

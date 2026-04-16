@@ -7,5 +7,7 @@
 
 		<file>resources/image/glassware/generic/wide-mouth_bottle/bottle.png</file>
 		<file>resources/image/glassware/generic/wide-mouth_bottle/plug.png</file>
+
+		<file>resources/label.svg</file>
 	</qresource>
 </RCC>

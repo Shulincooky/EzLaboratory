@@ -1,5 +1,6 @@
 #include "NarrowBottleItem.h"
 #include "NarrowBottlePlugItem.h"
+#include "BottleLabelItem.h"
 
 namespace
 {
@@ -16,6 +17,7 @@ NarrowBottleItem::NarrowBottleItem(QGraphicsItem* parent)
         parent)
 {
     initializePlug(new NarrowBottlePlugItem(this));
+    initializeLabel(new BottleLabelItem(this));
 }
 
 NarrowBottleItem::~NarrowBottleItem()
@@ -35,4 +37,14 @@ qreal NarrowBottleItem::snapRadius() const
 qreal NarrowBottleItem::plugInsertOffsetY() const
 {
     return 27.0;
+}
+
+QPointF NarrowBottleItem::labelLocalPos() const
+{
+    return QPointF(25.0, 78.0);
+}
+
+QSizeF NarrowBottleItem::labelLogicalSize() const
+{
+    return QSizeF(46.0, 34.0);
 }

@@ -34,11 +34,11 @@ void EzLaboratory::initLabScene()
     ui->graphicsViewLab->setScene(m_scene);
     ui->graphicsViewLab->setRenderHint(QPainter::Antialiasing, true);
     ui->graphicsViewLab->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    ui->graphicsViewLab->setBackgroundBrush(QColor(245, 245, 245));
+    //ui->graphicsViewLab->setBackgroundBrush(QColor(245, 245, 245));
 
     // 允许滚动条存在，场景拖动本质上就是在改变视图滚动位置
-    ui->graphicsViewLab->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    ui->graphicsViewLab->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->graphicsViewLab->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsViewLab->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // 监听 viewport 尺寸变化
     ui->graphicsViewLab->viewport()->installEventFilter(this);
@@ -63,9 +63,6 @@ void EzLaboratory::initLabScene()
     m_scene->addItem(m_testItem);
 
     clampItemIntoScene();
-
-    // 初始时把视图中心放到世界中心附近
-    ui->graphicsViewLab->centerOn(m_worldRect.center());
 }
 
 bool EzLaboratory::eventFilter(QObject* watched, QEvent* event)

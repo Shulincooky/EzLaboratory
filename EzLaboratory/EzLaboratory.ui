@@ -70,7 +70,7 @@ border-radius:10px
   <customwidget>
    <class>LabGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>labgraphicsview.h</header>
+   <header>LabGraphicsView.h</header>
   </customwidget>
  </customwidgets>
  <resources>

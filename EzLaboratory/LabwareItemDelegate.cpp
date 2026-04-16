@@ -65,16 +65,6 @@ void LabwareItemDelegate::paint(QPainter* painter,
         borderColor = QColor(225, 225, 225);
     }
 
-    if (option.state & QStyle::State_MouseOver) {
-        bgColor = QColor(245, 249, 255);
-        borderColor = QColor(180, 210, 255);
-    }
-
-    if (option.state & QStyle::State_Selected) {
-        bgColor = QColor(235, 244, 255);
-        borderColor = QColor(100, 160, 255);
-    }
-
     painter->setPen(QPen(borderColor, 1));
     painter->setBrush(bgColor);
     painter->drawRoundedRect(rect, radius, radius);

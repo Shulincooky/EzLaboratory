@@ -3,7 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
-#include <QResizeEvent>
+#include <QEvent>
 #include "ui_EzLaboratory.h"
 
 QT_BEGIN_NAMESPACE
@@ -19,7 +19,7 @@ public:
     ~EzLaboratory();
 
 protected:
-    void resizeEvent(QResizeEvent* event) override;
+    bool eventFilter(QObject* watched, QEvent* event) override;
 
 private:
     Ui::EzLaboratoryClass* ui;
@@ -27,6 +27,10 @@ private:
     QGraphicsScene* m_scene = nullptr;
     QGraphicsRectItem* m_testItem = nullptr;
 
+    // 固定的最大场景边界
+    QRectF m_worldRect = QRectF(0, 0, 2400, 1600);
+
     void initLabScene();
-    void updateSceneSize();
+    void updateViewAfterResize();
+    void clampItemIntoScene();
 };

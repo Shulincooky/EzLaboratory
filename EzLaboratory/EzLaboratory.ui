@@ -19,10 +19,25 @@
   <property name="windowTitle">
    <string>EzLaboratory</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+border: none;
+}
+QWidget#centralWidget{
+background-color:#F1F1F1
+}
+QGraphicsView#graphicsViewLab{
+background-color:#F1F1F1;
+}
+QListView#labwareList{
+background-color:#FFFFFF;
+border-radius:10px
+}</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QListView" name="listView">
+     <widget class="QListView" name="labwareList">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -38,7 +53,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QGraphicsView" name="graphicsViewLab">
+     <widget class="LabGraphicsView" name="graphicsViewLab">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -51,6 +66,13 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LabGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>labgraphicsview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="EzLaboratory.qrc"/>
  </resources>

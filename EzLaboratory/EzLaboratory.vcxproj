@@ -98,6 +98,7 @@
     <ClCompile Include="EzLaboratory.cpp" />
     <ClCompile Include="LabGraphicsView.cpp" />
     <ClCompile Include="LabItem.cpp" />
+    <ClCompile Include="LabwareListView.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BeakerItem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="LabwareListView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

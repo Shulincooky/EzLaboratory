@@ -4,7 +4,8 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
-LabItem::LabItem(const QString& itemName,
+LabItem::LabItem(const QString& itemType,
+    const QString& itemName,
     const QString& imagePath,
     const QSizeF& itemSize,
     QGraphicsItem* parent)
@@ -12,6 +13,7 @@ LabItem::LabItem(const QString& itemName,
     , m_itemName(itemName)
     , m_imagePath(imagePath)
     , m_itemSize(itemSize)
+    , m_itemType(itemType)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -61,6 +63,11 @@ void LabItem::paint(QPainter* painter,
 QString LabItem::itemName() const
 {
     return m_itemName;
+}
+
+QString LabItem::itemType() const
+{
+    return m_itemType;
 }
 
 QString LabItem::imagePath() const

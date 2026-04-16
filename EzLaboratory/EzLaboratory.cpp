@@ -3,12 +3,22 @@
 
 #include <QScrollBar>
 #include <QTimer>
+#include <QStandardItemModel>
+#include <QStandardItem>
+#include <QIcon>
+
+namespace
+{
+    constexpr int LabwareTypeRole = Qt::UserRole + 1;
+    constexpr int LabwareLimitRole = Qt::UserRole + 2;
+}
 
 EzLaboratory::EzLaboratory(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::EzLaboratoryClass())
 {
     ui->setupUi(this);
+    initLabwareList();
     initLabScene();
 
     QTimer::singleShot(0, this, [this]() {
@@ -73,4 +83,23 @@ void EzLaboratory::updateViewAfterResize()
         vBar->setValue(qBound(vBar->minimum(), vBar->value(), vBar->maximum()));
     }
 
+}
+void EzLaboratory::initLabwareList()
+{
+    m_labwareModel = new QStandardItemModel(this);
+    ui->labwareList->setModel(m_labwareModel);
+
+    auto* beakerItem = new QStandardItem(QIcon(":/EzLaboratory/resources/image/glassware/beaker.png"), "烧杯");
+    beakerItem->setEditable(false);
+    beakerItem->setData("beaker", LabwareTypeRole);
+    beakerItem->setData(3, LabwareLimitRole);   // 这里限制最多 3 个
+
+    m_labwareModel->appendRow(beakerItem);
+
+    // 如果你想“列表里视觉上出现两个相同器具”，再加一份：
+    // auto* beakerItem2 = new QStandardItem(QIcon(":/EzLaboratory/resources/image/glassware/beaker.png"), "烧杯");
+    // beakerItem2->setEditable(false);
+    // beakerItem2->setData("beaker", LabwareTypeRole);
+    // beakerItem2->setData(3, LabwareLimitRole);
+    // m_labwareModel->appendRow(beakerItem2);
 }

@@ -47,6 +47,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BeakerItem.cpp" />
+    <ClCompile Include="LabwareListView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h">
@@ -56,6 +59,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="BeakerItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="LabwareListView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

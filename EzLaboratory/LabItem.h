@@ -9,10 +9,13 @@ class LabItem : public QGraphicsObject
     Q_OBJECT
 
 public:
-    explicit LabItem(const QString& itemName,
+    explicit LabItem(const QString& itemType,
+        const QString& itemName,
         const QString& imagePath,
         const QSizeF& itemSize,
         QGraphicsItem* parent = nullptr);
+    QString itemType() const;
+    QString m_itemType;
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter,

@@ -14,7 +14,7 @@ public:
     explicit LabGraphicsView(QWidget* parent = nullptr);
 
 signals:
-    void labwareDropped(const QString& type);
+    void labwareDropped(const QString& templateId);
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;

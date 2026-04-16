@@ -34,7 +34,7 @@ private:
     void initLabwareList();
     void initLabScene();
     void updateViewAfterResize();
-    void decreaseRemainingCount(const QString& type);
+    void decreaseRemainingCount(const QString& templateId);
 
     void appendNarrowBottleInstanceItem(const QString& displayName,
         const QString& centerText,

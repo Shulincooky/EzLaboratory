@@ -19,6 +19,7 @@ namespace
     constexpr int LabelCenterTextRole = Qt::UserRole + 5;
     constexpr int LabelTopTextRole = Qt::UserRole + 6;
     constexpr int LabelBottomTextRole = Qt::UserRole + 7;
+    constexpr int LabwareTemplateIdRole = Qt::UserRole + 8;
 }
 
 EzLaboratory::EzLaboratory(QWidget* parent)
@@ -128,7 +129,7 @@ void EzLaboratory::initLabwareList()
 }
 
 
-void EzLaboratory::decreaseRemainingCount(const QString& type)
+void EzLaboratory::decreaseRemainingCount(const QString& templateId)
 {
     if (!m_labwareModel)
         return;
@@ -138,7 +139,7 @@ void EzLaboratory::decreaseRemainingCount(const QString& type)
         if (!item)
             continue;
 
-        if (item->data(LabwareTypeRole).toString() != type)
+        if (item->data(LabwareTemplateIdRole).toString() != templateId)
             continue;
 
         const int limit = item->data(LabwareLimitRole).toInt();
@@ -170,6 +171,7 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     item->setData("narrow_bottle", LabwareTypeRole);
     item->setData(limit, LabwareLimitRole);
     item->setData(limit, LabwareRemainingRole);
+    item->setData(QStringLiteral("narrow_bottle::") + displayName, LabwareTemplateIdRole);
 
     item->setData(static_cast<int>(BottleLabelLayout::SingleCenter), LabelLayoutRole);
     item->setData(centerText, LabelCenterTextRole);
@@ -195,6 +197,7 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     item->setData("narrow_bottle", LabwareTypeRole);
     item->setData(limit, LabwareLimitRole);
     item->setData(limit, LabwareRemainingRole);
+    item->setData(QStringLiteral("narrow_bottle::") + displayName, LabwareTemplateIdRole);
 
     item->setData(static_cast<int>(BottleLabelLayout::DoubleLine), LabelLayoutRole);
     item->setData(QString(), LabelCenterTextRole);
@@ -219,6 +222,7 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     item->setData("wide_bottle", LabwareTypeRole);
     item->setData(limit, LabwareLimitRole);
     item->setData(limit, LabwareRemainingRole);
+    item->setData(QStringLiteral("wide_bottle::") + displayName, LabwareTemplateIdRole);
 
     item->setData(static_cast<int>(BottleLabelLayout::SingleCenter), LabelLayoutRole);
     item->setData(centerText, LabelCenterTextRole);
@@ -244,6 +248,7 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     item->setData("wide_bottle", LabwareTypeRole);
     item->setData(limit, LabwareLimitRole);
     item->setData(limit, LabwareRemainingRole);
+    item->setData(QStringLiteral("wide_bottle::") + displayName, LabwareTemplateIdRole);
 
     item->setData(static_cast<int>(BottleLabelLayout::DoubleLine), LabelLayoutRole);
     item->setData(QString(), LabelCenterTextRole);

@@ -16,6 +16,7 @@ namespace
     constexpr int LabelCenterTextRole = Qt::UserRole + 5;
     constexpr int LabelTopTextRole = Qt::UserRole + 6;
     constexpr int LabelBottomTextRole = Qt::UserRole + 7;
+    constexpr int LabwareTemplateIdRole = Qt::UserRole + 8;
 }
 
 LabwareListView::LabwareListView(QWidget* parent)
@@ -37,6 +38,7 @@ void LabwareListView::startDrag(Qt::DropActions)
     const QString type = index.data(LabwareTypeRole).toString();
     const int limit = index.data(LabwareLimitRole).toInt();
     const int remaining = index.data(LabwareRemainingRole).toInt();
+    const QString templateId = index.data(LabwareTemplateIdRole).toString();
 
     const int layout = index.data(LabelLayoutRole).toInt();
     const QString centerText = index.data(LabelCenterTextRole).toString();
@@ -62,6 +64,8 @@ void LabwareListView::startDrag(Qt::DropActions)
     payload.append(topText.toUtf8().toBase64());
     payload.append('|');
     payload.append(bottomText.toUtf8().toBase64());
+    payload.append('|');
+    payload.append(templateId.toUtf8().toBase64());
 
     auto* mimeData = new QMimeData();
     mimeData->setData(kLabwareMimeType, payload);

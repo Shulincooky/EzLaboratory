@@ -2,13 +2,13 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QGraphicsScene>
-#include <QGraphicsRectItem>
 #include <QEvent>
 #include "ui_EzLaboratory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class EzLaboratoryClass; };
 QT_END_NAMESPACE
+class LabItem;
 
 class EzLaboratory : public QMainWindow
 {

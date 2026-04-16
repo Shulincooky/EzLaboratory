@@ -54,10 +54,6 @@ void EzLaboratory::initLabScene()
     // 监听 viewport 尺寸变化
     ui->graphicsViewLab->viewport()->installEventFilter(this);
 
-    // 放一个基础可拖拽物体
-    m_testItem = new BeakerItem();
-    m_testItem->setPos(200, 200);
-    m_scene->addItem(m_testItem);
 }
 
 bool EzLaboratory::eventFilter(QObject* watched, QEvent* event)
@@ -112,13 +108,6 @@ void EzLaboratory::initLabwareList()
     beakerItem->setData(3, LabwareRemainingRole);  // 这里限制最多 3 个
 
     m_labwareModel->appendRow(beakerItem);
-
-    // 如果你想“列表里视觉上出现两个相同器具”，再加一份：
-    // auto* beakerItem2 = new QStandardItem(QIcon(":/EzLaboratory/resources/image/glassware/beaker.png"), "烧杯");
-    // beakerItem2->setEditable(false);
-    // beakerItem2->setData("beaker", LabwareTypeRole);
-    // beakerItem2->setData(3, LabwareLimitRole);
-    // m_labwareModel->appendRow(beakerItem2);
 }
 void EzLaboratory::decreaseRemainingCount(const QString& type)
 {

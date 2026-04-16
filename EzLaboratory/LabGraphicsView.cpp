@@ -1,6 +1,5 @@
 #include "LabGraphicsView.h"
 #include "BeakerItem.h"
-#include "LabItem.h"
 
 #include <QMimeData>
 #include <QGraphicsScene>
@@ -116,23 +115,6 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         event->ignore();
         return;
     }
-
-    //int currentCount = 0;
-    //const auto itemsInScene = scene()->items();
-    //for (QGraphicsItem* item : itemsInScene) {
-    //    auto* labItem = dynamic_cast<LabItem*>(item);
-    //    if (!labItem)
-    //        continue;
-
-    //    if (labItem->itemType() == type) {
-    //        ++currentCount;
-    //    }
-    //}
-
-    //if (limit > 0 && currentCount >= limit) {
-    //    event->ignore();
-    //    return;
-    //}
 
     LabItem* newItem = nullptr;
 

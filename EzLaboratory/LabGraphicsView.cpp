@@ -56,5 +56,5 @@ void LabGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 void LabGraphicsView::drawBackground(QPainter* painter, const QRectF& rect)
 {
     Q_UNUSED(rect);
-    painter->fillRect(sceneRect(), QColor(241, 241, 241));
+    painter->fillRect(rect, QColor(241, 241, 241));
 }

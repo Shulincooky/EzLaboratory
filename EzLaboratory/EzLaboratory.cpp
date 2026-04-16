@@ -35,8 +35,6 @@ void EzLaboratory::initLabScene()
     ui->graphicsViewLab->setRenderHint(QPainter::Antialiasing, true);
     ui->graphicsViewLab->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
-    ui->graphicsViewLab->setFrameShape(QFrame::NoFrame);
-
     // 允许滚动条存在，场景拖动本质上就是在改变视图滚动位置
     ui->graphicsViewLab->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsViewLab->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

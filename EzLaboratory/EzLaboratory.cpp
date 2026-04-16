@@ -44,11 +44,11 @@ void EzLaboratory::initLabScene()
     ui->graphicsViewLab->viewport()->installEventFilter(this);
 
     // 画一个大实验台背景，方便看边界
-    m_scene->addRect(
-        m_worldRect,
-        QPen(QColor(160, 160, 160), 2),
-        QBrush(QColor(235, 235, 235))
-    );
+    //m_scene->addRect(
+    //    m_worldRect,
+    //    QPen(QColor(160, 160, 160), 2),
+    //    QBrush(QColor(235, 235, 235))
+    //);
 
     // 放一个基础可拖拽物体
     m_testItem = new QGraphicsRectItem(0, 0, 100, 140);

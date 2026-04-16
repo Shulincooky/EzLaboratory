@@ -8,23 +8,23 @@ LabGraphicsView::LabGraphicsView(QWidget* parent)
 
 void LabGraphicsView::mousePressEvent(QMouseEvent* event)
 {
-    // 1. 中键始终允许拖动画布
-    if (event->button() == Qt::MiddleButton) {
-        m_isPanning = true;
-        m_panButton = Qt::MiddleButton;
-        setDragMode(QGraphicsView::ScrollHandDrag);
+    //// 1. 中键始终允许拖动画布
+    //if (event->button() == Qt::MiddleButton) {
+    //    m_isPanning = true;
+    //    m_panButton = Qt::MiddleButton;
+    //    setDragMode(QGraphicsView::ScrollHandDrag);
 
-        QMouseEvent fakeEvent(
-            QEvent::MouseButtonPress,
-            event->position(),
-            event->globalPosition(),
-            Qt::LeftButton,
-            Qt::LeftButton,
-            event->modifiers()
-        );
-        QGraphicsView::mousePressEvent(&fakeEvent);
-        return;
-    }
+    //    QMouseEvent fakeEvent(
+    //        QEvent::MouseButtonPress,
+    //        event->position(),
+    //        event->globalPosition(),
+    //        Qt::LeftButton,
+    //        Qt::LeftButton,
+    //        event->modifiers()
+    //    );
+    //    QGraphicsView::mousePressEvent(&fakeEvent);
+    //    return;
+    //}
 
     // 2. 左键按到空白处：拖动画布
     if (event->button() == Qt::LeftButton) {

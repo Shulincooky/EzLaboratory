@@ -3,7 +3,6 @@
 #include "LabItem.h"
 
 class WideBottleItem;
-class BeakerItem;
 class QGraphicsPixmapItem;
 
 class TweezersItem : public LabItem
@@ -18,8 +17,9 @@ protected:
 
 private:
     void tryPickSolid();
-    void tryDropSolid();
     void refreshCarriedPreview();
+    QPointF tipLocalPos() const;
+    QPointF tipScenePos() const;
 
 private:
     QGraphicsPixmapItem* m_carriedPreview = nullptr;

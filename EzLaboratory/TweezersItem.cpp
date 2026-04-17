@@ -1,6 +1,5 @@
 #include "TweezersItem.h"
 #include "WideBottleItem.h"
-#include "BeakerItem.h"
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
@@ -17,11 +16,14 @@ TweezersItem::TweezersItem(QGraphicsItem* parent)
         "tweezers",
         "Tweezers",
         kTweezersImagePath,
-        QSizeF(128, 48),
+        QSizeF(220, 72),
         parent)
 {
+    setZValue(5000.0);
+
     m_carriedPreview = new QGraphicsPixmapItem(this);
-    m_carriedPreview->setZValue(10.0);
+    m_carriedPreview->setFlag(QGraphicsItem::ItemStacksBehindParent, true);
+    m_carriedPreview->setZValue(-1.0);
     m_carriedPreview->hide();
 }
 
@@ -33,22 +35,29 @@ QVariant TweezersItem::itemChange(GraphicsItemChange change, const QVariant& val
         if (m_carriedChemicalId.isEmpty()) {
             tryPickSolid();
         }
-        else {
-            tryDropSolid();
-        }
         refreshCarriedPreview();
     }
 
     return result;
 }
 
+QPointF TweezersItem::tipLocalPos() const
+{
+    return QPointF(10.0, itemSize().height() - 8.0);
+}
+
+QPointF TweezersItem::tipScenePos() const
+{
+    return mapToScene(tipLocalPos());
+}
+
 void TweezersItem::tryPickSolid()
 {
-    if (!scene()) {
+    if (!scene() || !m_carriedChemicalId.isEmpty()) {
         return;
     }
 
-    const QPointF myCenter = mapToScene(boundingRect().center());
+    const QPointF tipScene = tipScenePos();
 
     for (QGraphicsItem* item : scene()->items()) {
         auto* bottle = dynamic_cast<WideBottleItem*>(item);
@@ -60,9 +69,19 @@ void TweezersItem::tryPickSolid()
             continue;
         }
 
-        const qreal d = QLineF(myCenter, bottle->sceneBoundingRect().center()).length();
-        if (d > 80.0) {
-            continue;
+        const QRectF bottleRect = bottle->sceneBoundingRect();
+
+        const QRectF solidZone(
+            bottleRect.left() + 8.0,
+            bottleRect.top() + 80.0,
+            bottleRect.width() - 16.0,
+            bottleRect.height() - 94.0);
+
+        if (!solidZone.contains(tipScene)) {
+            const qreal d = QLineF(tipScene, solidZone.center()).length();
+            if (d > 26.0) {
+                continue;
+            }
         }
 
         QString chemicalId;
@@ -70,34 +89,9 @@ void TweezersItem::tryPickSolid()
         if (bottle->takeSolidForTweezers(&chemicalId, &texturePath)) {
             m_carriedChemicalId = chemicalId;
             m_carriedTexturePath = texturePath;
+            refreshCarriedPreview();
             break;
         }
-    }
-}
-
-void TweezersItem::tryDropSolid()
-{
-    if (!scene() || m_carriedChemicalId.isEmpty() || m_carriedTexturePath.isEmpty()) {
-        return;
-    }
-
-    const QPointF myCenter = mapToScene(boundingRect().center());
-
-    for (QGraphicsItem* item : scene()->items()) {
-        auto* beaker = dynamic_cast<BeakerItem*>(item);
-        if (!beaker) {
-            continue;
-        }
-
-        const qreal d = QLineF(myCenter, beaker->sceneBoundingRect().center()).length();
-        if (d > 90.0) {
-            continue;
-        }
-
-        beaker->acceptSolidFromTweezers(m_carriedChemicalId, m_carriedTexturePath);
-        m_carriedChemicalId.clear();
-        m_carriedTexturePath.clear();
-        break;
     }
 }
 
@@ -118,7 +112,7 @@ void TweezersItem::refreshCarriedPreview()
         return;
     }
 
-    m_carriedPreview->setPixmap(px.scaled(26, 26, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    m_carriedPreview->setPos(92.0, 8.0);
+    m_carriedPreview->setPixmap(px.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    m_carriedPreview->setPos(tipLocalPos() - QPointF(8.0, 10.0));
     m_carriedPreview->show();
 }

@@ -93,9 +93,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AbstractBottleItem.cpp" />
+    <ClCompile Include="AbstractLiquidContainerItem.cpp" />
     <ClCompile Include="AbstractPlugItem.cpp" />
     <ClCompile Include="BottleLabelItem.cpp" />
     <ClCompile Include="BottleLabelRenderer.cpp" />
+    <ClCompile Include="LiquidItem.cpp" />
     <ClCompile Include="NarrowBottleItem.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
@@ -150,9 +152,11 @@
     <QtMoc Include="WideBottlePlugItem.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="AbstractLiquidContainerItem.h" />
     <ClInclude Include="BottleLabelData.h" />
     <ClInclude Include="BottleLabelItem.h" />
     <ClInclude Include="BottleLabelRenderer.h" />
+    <QtMoc Include="LiquidItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -24,6 +24,7 @@ public:
 
     QString itemName() const;
     QString imagePath() const;
+    const QPixmap& itemPixmap() const;
 
     void setItemPixmap(const QString& imagePath);
     void setItemSize(const QSizeF& size);

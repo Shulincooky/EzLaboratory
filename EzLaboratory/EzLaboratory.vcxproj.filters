@@ -79,6 +79,12 @@
     <ClCompile Include="NarrowBottleItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LiquidItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractLiquidContainerItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h">
@@ -112,6 +118,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="WideBottlePlugItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="LiquidItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="AbstractLiquidContainerItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

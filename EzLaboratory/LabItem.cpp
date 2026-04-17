@@ -117,3 +117,7 @@ QVariant LabItem::itemChange(GraphicsItemChange change, const QVariant& value)
 
     return QGraphicsObject::itemChange(change, value);
 }
+const QPixmap& LabItem::itemPixmap() const
+{
+    return m_pixmap;
+}

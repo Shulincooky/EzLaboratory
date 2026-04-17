@@ -1,13 +1,11 @@
 <RCC>
-	<qresource prefix="/EzLaboratory">
-		<file>resources/image/glassware/beaker.png</file>
-
-		<file>resources/image/glassware/generic/narrow-mouth_bottle/bottle.png</file>
-		<file>resources/image/glassware/generic/narrow-mouth_bottle/plug.png</file>
-
-		<file>resources/image/glassware/generic/wide-mouth_bottle/bottle.png</file>
-		<file>resources/image/glassware/generic/wide-mouth_bottle/plug.png</file>
-
-		<file>resources/label.svg</file>
-	</qresource>
+    <qresource prefix="/EzLaboratory">
+        <file>resources/image/glassware/beaker.png</file>
+        <file>resources/image/glassware/generic/narrow-mouth_bottle/bottle.png</file>
+        <file>resources/image/glassware/generic/narrow-mouth_bottle/plug.png</file>
+        <file>resources/image/glassware/generic/wide-mouth_bottle/bottle.png</file>
+        <file>resources/image/glassware/generic/wide-mouth_bottle/plug.png</file>
+        <file>resources/label.svg</file>
+        <file>resources/image/solid/naoh_chunk.png</file>
+    </qresource>
 </RCC>

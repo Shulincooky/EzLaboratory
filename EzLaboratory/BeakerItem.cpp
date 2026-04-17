@@ -14,6 +14,8 @@
 namespace
 {
     constexpr int kBottleAttachedToBeakerRole = 1001;
+    constexpr int kBottleLastMouthScenePosRole = 1002;
+    constexpr int kBottleRecentMoveTicksRole = 1003;
 }
 
 BeakerItem::BeakerItem(QGraphicsItem* parent)
@@ -32,11 +34,13 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
 
     connect(m_pourHandle, &BeakerPourHandleItem::dragStarted, this, [this]() {
         m_trackVisible = true;
+        m_pourHandle->setTrackVisible(true);
         update();
         });
 
     connect(m_pourHandle, &BeakerPourHandleItem::dragFinished, this, [this]() {
         m_trackVisible = false;
+        m_pourHandle->setTrackVisible(false);
         update();
         });
 
@@ -94,8 +98,13 @@ QVariant BeakerItem::itemChange(GraphicsItemChange change, const QVariant& value
 {
     const QVariant result = AbstractLiquidContainerItem::itemChange(change, value);
 
-    if (change == QGraphicsItem::ItemPositionHasChanged ||
-        change == QGraphicsItem::ItemRotationHasChanged) {
+    if (change == QGraphicsItem::ItemPositionHasChanged) {
+        if (m_attachedBottle) {
+            detachBottle();
+        }
+        refreshHandleGeometry();
+    }
+    else if (change == QGraphicsItem::ItemRotationHasChanged) {
         refreshAttachedBottleTransform();
         refreshHandleGeometry();
     }
@@ -115,9 +124,6 @@ void BeakerItem::paint(QPainter* painter,
     if (m_trackVisible && m_attachedBottle && m_pourHandle) {
         const QPointF a = QPointF(m_pourHandle->pos().x(), beakerAttachPivotLocalPos().y() + 10.0);
         const QPointF b = QPointF(m_pourHandle->pos().x(), itemSize().height() - 12.0);
-
-        painter->setPen(QPen(QColor(120, 120, 120), 1.5, Qt::DashLine));
-        painter->drawLine(a, b);
 
         const QRectF lr = liquidRectLocal();
         const qreal fill = qBound(0.0, defaultLiquidFillRatio() + previewPourRatio(), 1.0);
@@ -207,17 +213,39 @@ void BeakerItem::updateAttachmentScan()
             continue;
         }
 
-        // 盖着塞子的细口瓶不能进入倒液状态
         if (bottle->hasPlug()) {
             continue;
         }
 
-        // 刚刚解除绑定的同一只瓶子，在冷却期内不允许马上重新吸附
         if (bottle == m_detachSuppressedBottle) {
             continue;
         }
 
-        const qreal d = QLineF(bottle->mouthScenePos(), pivotScene).length();
+        const QPointF bottleMouthScene = bottle->mouthScenePos();
+
+        bool movedRecently = false;
+        const QVariant lastPosVar = bottle->data(kBottleLastMouthScenePosRole);
+        int recentMoveTicks = bottle->data(kBottleRecentMoveTicksRole).toInt();
+
+        if (lastPosVar.isValid()) {
+            const qreal moveDist = QLineF(lastPosVar.toPointF(), bottleMouthScene).length();
+            if (moveDist > 1.0) {
+                recentMoveTicks = 4;
+            }
+            else if (recentMoveTicks > 0) {
+                --recentMoveTicks;
+            }
+        }
+
+        bottle->setData(kBottleLastMouthScenePosRole, bottleMouthScene);
+        bottle->setData(kBottleRecentMoveTicksRole, recentMoveTicks);
+
+        movedRecently = recentMoveTicks > 0;
+        if (!movedRecently) {
+            continue;
+        }
+
+        const qreal d = QLineF(bottleMouthScene, pivotScene).length();
         if (d < 70.0 && d < bestDistance) {
             bestDistance = d;
             bestBottle = bottle;
@@ -243,7 +271,7 @@ void BeakerItem::attachBottle(NarrowBottleItem* bottle)
     m_attachedBottle = bottle;
     m_detachSuppressedBottle = nullptr;
     m_attachedBottle->setData(kBottleAttachedToBeakerRole, true);
-    m_attachedBottle->setLabelOffset(QPointF(10.0, 0.0));
+    m_attachedBottle->setLabelOffset(QPointF(50.0, 0.0));
     m_attachedBottle->setTransformOriginPoint(m_attachedBottle->pourPivotLocalPos());
     m_attachedBottle->setZValue(this->zValue() + 10.0);
 
@@ -277,6 +305,7 @@ void BeakerItem::detachBottle()
     if (m_pourHandle) {
         m_pourHandle->setRatio(0.0);
         m_trackVisible = false;
+        m_pourHandle->setTrackVisible(false);
         m_pourHandle->hide();
     }
 

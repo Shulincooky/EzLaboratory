@@ -46,3 +46,23 @@ void BottleLabelItem::updateLabel(const BottleLabelData& data,
 
     setPixmap(composed);
 }
+
+void BottleLabelItem::setParentClipRect(const QRectF& rectInParent)
+{
+    m_parentClipRect = rectInParent;
+    update();
+}
+
+void BottleLabelItem::paint(QPainter* painter,
+    const QStyleOptionGraphicsItem* option,
+    QWidget* widget)
+{
+    painter->save();
+
+    if (!m_parentClipRect.isEmpty()) {
+        painter->setClipRect(mapRectFromParent(m_parentClipRect));
+    }
+
+    QGraphicsPixmapItem::paint(painter, option, widget);
+    painter->restore();
+}

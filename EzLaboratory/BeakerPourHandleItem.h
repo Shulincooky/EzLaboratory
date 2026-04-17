@@ -21,6 +21,7 @@ public:
     qreal ratio() const;
 
     void setIconPath(const QString& iconPath);
+    void setTrackVisible(bool visible);
 
 signals:
     void dragStarted();
@@ -43,4 +44,5 @@ private:
 
     qreal m_size = 18.0;
     QPixmap m_icon;
+    bool m_trackVisible = false;
 };

@@ -74,6 +74,7 @@ void AbstractBottleItem::initializeLabel(BottleLabelItem* label)
 
     m_labelItem = label;
     m_labelItem->setParentItem(this);
+    m_labelItem->setParentClipRect(boundingRect());
     m_labelItem->setPos(labelLocalPos() + m_labelOffset);
 }
 

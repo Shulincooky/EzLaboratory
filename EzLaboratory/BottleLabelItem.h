@@ -14,4 +14,11 @@ public:
     void updateLabel(const BottleLabelData& data,
         const QSizeF& logicalSize,
         const QString& templatePath);
+    void setParentClipRect(const QRectF& rectInParent);
+
+    void paint(QPainter* painter,
+        const QStyleOptionGraphicsItem* option,
+        QWidget* widget = nullptr) override;
+private:
+    QRectF m_parentClipRect;
 };

@@ -13,7 +13,13 @@ BeakerPourHandleItem::BeakerPourHandleItem(QGraphicsItem* parent)
 
 QRectF BeakerPourHandleItem::boundingRect() const
 {
-    return QRectF(-m_size * 0.5, -m_size * 0.5, m_size, m_size);
+    const qreal topLocal = m_trackTopY - pos().y();
+    const qreal bottomLocal = m_trackBottomY - pos().y();
+
+    const QRectF handleRect(-m_size * 0.5, -m_size * 0.5, m_size, m_size);
+    const QRectF trackRect(-2.0, topLocal, 4.0, bottomLocal - topLocal);
+
+    return handleRect.united(trackRect).adjusted(-2.0, -2.0, 2.0, 2.0);
 }
 
 void BeakerPourHandleItem::paint(QPainter* painter,
@@ -22,6 +28,14 @@ void BeakerPourHandleItem::paint(QPainter* painter,
 {
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
+
+    if (m_trackVisible) {
+        const qreal topLocal = m_trackTopY - pos().y();
+        const qreal bottomLocal = m_trackBottomY - pos().y();
+
+        painter->setPen(QPen(QColor(120, 120, 120), 1.5, Qt::DashLine));
+        painter->drawLine(QPointF(0.0, topLocal), QPointF(0.0, bottomLocal));
+    }
 
     if (!m_icon.isNull()) {
         painter->drawPixmap(boundingRect().toRect(), m_icon);
@@ -99,4 +113,15 @@ void BeakerPourHandleItem::updatePosFromRatio()
 {
     const qreal y = m_trackBottomY - (m_trackBottomY - m_trackTopY) * m_ratio;
     setPos(m_trackX, y);
+}
+
+void BeakerPourHandleItem::setTrackVisible(bool visible)
+{
+    if (m_trackVisible == visible) {
+        return;
+    }
+
+    prepareGeometryChange();
+    m_trackVisible = visible;
+    update();
 }

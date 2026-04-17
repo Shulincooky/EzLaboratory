@@ -29,6 +29,8 @@ void BeakerPourHandleItem::paint(QPainter* painter,
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
 
+    const QRectF handleRect(-m_size * 0.5, -m_size * 0.5, m_size, m_size);
+
     if (m_trackVisible) {
         const qreal topLocal = m_trackTopY - pos().y();
         const qreal bottomLocal = m_trackBottomY - pos().y();
@@ -38,12 +40,12 @@ void BeakerPourHandleItem::paint(QPainter* painter,
     }
 
     if (!m_icon.isNull()) {
-        painter->drawPixmap(boundingRect().toRect(), m_icon);
+        painter->drawPixmap(handleRect.toAlignedRect(), m_icon);
     }
     else {
         painter->setPen(QPen(QColor(70, 70, 70), 1.5));
         painter->setBrush(QBrush(QColor(250, 250, 250)));
-        painter->drawEllipse(boundingRect());
+        painter->drawEllipse(handleRect);
 
         QPainterPath mark;
         mark.moveTo(-3.0, -4.0);

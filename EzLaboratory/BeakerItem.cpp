@@ -25,6 +25,9 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
 {
     setLiquidRenderingEnabled(true);
 
+    m_currentLiquidLevel = defaultLiquidFillRatio();
+    setLiquidLevel(m_currentLiquidLevel);
+
     // 按钮做成顶层图元，不挂在烧杯下面，保证永远在最上方
     m_pourHandle = new BeakerPourHandleItem();
     m_pourHandle->hide();
@@ -38,8 +41,21 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
         });
 
     connect(m_pourHandle, &BeakerPourHandleItem::dragFinished, this, [this]() {
+        // 把本次倾倒预览量真正加到烧杯液位里
+        m_currentLiquidLevel = qBound(0.0, m_currentLiquidLevel + previewPourRatio(), 1.0);
+        setLiquidLevel(m_currentLiquidLevel);
+
+        // 结束预览状态
         m_trackVisible = false;
         m_pourHandle->setTrackVisible(false);
+
+        // 按钮回到底部
+        m_pourHandle->setRatio(0.0);
+
+        // 瓶子回正
+        m_pourRatio = 0.0;
+        refreshAttachedBottleTransform();
+
         update();
         });
 
@@ -130,7 +146,7 @@ void BeakerItem::paint(QPainter* painter,
     // 这里只保留烧杯内部水位虚线
     if (m_trackVisible && m_attachedBottle) {
         const QRectF lr = liquidRectLocal();
-        const qreal fill = qBound(0.0, defaultLiquidFillRatio() + previewPourRatio(), 1.0);
+        const qreal fill = qBound(0.0, m_currentLiquidLevel + previewPourRatio(), 1.0);
         const qreal waterY = lr.bottom() - lr.height() * fill;
 
         painter->setPen(QPen(QColor(70, 110, 220), 1.5, Qt::DashLine));

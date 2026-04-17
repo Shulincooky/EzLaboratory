@@ -44,6 +44,7 @@ private:
 
     bool m_trackVisible = false;
     qreal m_pourRatio = 0.0;
+    qreal m_currentLiquidLevel = 0.0;
 
     int m_scanTimerId = -1;
 };

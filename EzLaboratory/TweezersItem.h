@@ -1,0 +1,28 @@
+#pragma once
+
+#include "LabItem.h"
+
+class WideBottleItem;
+class BeakerItem;
+class QGraphicsPixmapItem;
+
+class TweezersItem : public LabItem
+{
+    Q_OBJECT
+
+public:
+    explicit TweezersItem(QGraphicsItem* parent = nullptr);
+
+protected:
+    QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
+
+private:
+    void tryPickSolid();
+    void tryDropSolid();
+    void refreshCarriedPreview();
+
+private:
+    QGraphicsPixmapItem* m_carriedPreview = nullptr;
+    QString m_carriedChemicalId;
+    QString m_carriedTexturePath;
+};

@@ -4,6 +4,7 @@
 #include "WideBottleItem.h"
 #include "BottleLabelData.h"
 #include "AbstractLiquidContainerItem.h"
+#include "TweezersItem.h"
 
 #include <QMimeData>
 #include <QGraphicsScene>
@@ -146,6 +147,9 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     if (type == "beaker") {
         newItem = BeakerItem::createInstance(liquidEnabled, liquidColor);
+    }
+    else if (type == "tweezers") {
+        newItem = new TweezersItem();
     }
     else if (type == "narrow_bottle") {
         BottleLabelData label;

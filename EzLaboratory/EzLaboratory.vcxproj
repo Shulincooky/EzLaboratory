@@ -107,6 +107,7 @@
     </ClCompile>
     <ClCompile Include="NarrowBottlePlugItem.cpp" />
     <ClCompile Include="SolidScatterItem.cpp" />
+    <ClCompile Include="TweezersItem.cpp" />
     <ClCompile Include="WideBottleItem.cpp" />
     <ClCompile Include="WideBottlePlugItem.cpp" />
     <QtRcc Include="EzLaboratory.qrc" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="LabwareTemplateRoles.h" />
     <ClInclude Include="SolidScatterItem.h" />
+    <QtMoc Include="TweezersItem.h" />
     <QtMoc Include="AbstractLiquidContainerItem.h" />
     <QtMoc Include="BeakerPourHandleItem.h" />
     <ClInclude Include="BottleLabelData.h" />

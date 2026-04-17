@@ -88,6 +88,12 @@
     <ClCompile Include="BeakerPourHandleItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SolidScatterItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TweezersItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h">
@@ -132,6 +138,9 @@
     <QtMoc Include="BeakerPourHandleItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="TweezersItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BottleLabelData.h">
@@ -144,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LabwareTemplateRoles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidScatterItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

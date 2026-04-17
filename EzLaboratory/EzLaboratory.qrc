@@ -7,5 +7,6 @@
         <file>resources/image/glassware/generic/wide-mouth_bottle/plug.png</file>
         <file>resources/label.svg</file>
         <file>resources/image/solid/naoh_chunk.png</file>
+        <file>resources/image/lab_tools/tweezers.png</file>
     </qresource>
 </RCC>

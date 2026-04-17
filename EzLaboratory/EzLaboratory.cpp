@@ -98,12 +98,13 @@ void EzLaboratory::initLabwareList()
         QColor(),
         QStringList{});
     appendCommonContainerItem(
-        QStringLiteral("beaker"),
-        QStringLiteral("烧杯"),
-        QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png"),
+        QStringLiteral("tweezers"),
+        QStringLiteral("镊子"),
+        QStringLiteral(":/EzLaboratory/resources/image/lab_tools/tweezers.png"),
         false,
         QColor(),
         QStringList{});
+
     appendNarrowBottleInstanceItem(
         QStringLiteral("蒸馏水细口瓶"),
         QStringLiteral("蒸馏水"),

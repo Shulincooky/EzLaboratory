@@ -24,14 +24,32 @@
   ],
   "sidebar": [
     {
-      "chemicalId": "$H2O@"
+      "type": "beaker",
+      "displayName": "烧杯",
+      "limit": 3
     },
     {
+      "type": "tweezers",
+      "displayName": "镊子",
+      "limit": 1
+    },
+    {
+      "type": "chemical_container",
+      "chemicalId": "$H2O@",
+      "container": "auto",
+      "limit": 1
+    },
+    {
+      "type": "chemical_container",
       "chemicalId": "$NaOH@",
-      "solidFillRatio": 0.65
+      "container": "auto",
+      "solidFillRatio": 0.65,
+      "limit": 1
     },
     {
+      "type": "chemical_container",
       "chemicalId": "$HCl@",
+      "container": "narrow_bottle",
       "label": {
         "top": "HCl",
         "bottom": "4 mol/L"

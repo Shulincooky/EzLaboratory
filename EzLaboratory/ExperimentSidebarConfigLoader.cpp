@@ -9,7 +9,7 @@ bool ExperimentSidebarConfigLoader::loadFromFile(const QString& filePath)
 {
     m_errorString.clear();
     m_chemicals.clear();
-    m_bottleTemplates.clear();
+    m_sidebarTemplates.clear();
 
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -25,9 +25,9 @@ QString ExperimentSidebarConfigLoader::errorString() const
     return m_errorString;
 }
 
-QList<SidebarBottleTemplate> ExperimentSidebarConfigLoader::bottleTemplates() const
+QList<SidebarTemplate> ExperimentSidebarConfigLoader::sidebarTemplates() const
 {
-    return m_bottleTemplates;
+    return m_sidebarTemplates;
 }
 
 bool ExperimentSidebarConfigLoader::parseRoot(const QByteArray& jsonData)
@@ -107,9 +107,45 @@ bool ExperimentSidebarConfigLoader::parseSidebar(const QJsonArray& array)
 
         const QJsonObject obj = value.toObject();
 
+        QString entryType = obj.value("type").toString().trimmed().toLower();
+        if (entryType.isEmpty()) {
+            entryType = QStringLiteral("chemical_container");
+        }
+
+        SidebarTemplate item;
+        item.type = entryType;
+
+        const int limit = obj.contains("limit") ? obj.value("limit").toInt(1) : 1;
+        item.limit = qMax(1, limit);
+
+        if (entryType == "beaker") {
+            item.displayName = obj.value("displayName").toString().trimmed();
+            if (item.displayName.isEmpty()) {
+                item.displayName = QStringLiteral("烧杯");
+            }
+            item.iconPath = QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png");
+            m_sidebarTemplates.push_back(item);
+            continue;
+        }
+
+        if (entryType == "tweezers") {
+            item.displayName = obj.value("displayName").toString().trimmed();
+            if (item.displayName.isEmpty()) {
+                item.displayName = QStringLiteral("镊子");
+            }
+            item.iconPath = QStringLiteral(":/EzLaboratory/resources/image/lab_tools/tweezers.png");
+            m_sidebarTemplates.push_back(item);
+            continue;
+        }
+
+        if (entryType != "chemical_container") {
+            m_errorString = QStringLiteral("不支持的 sidebar.type: %1").arg(entryType);
+            return false;
+        }
+
         const QString chemicalId = obj.value("chemicalId").toString().trimmed();
         if (chemicalId.isEmpty()) {
-            m_errorString = QStringLiteral("sidebar 项缺少 chemicalId");
+            m_errorString = QStringLiteral("chemical_container 缺少 chemicalId");
             return false;
         }
 
@@ -128,12 +164,8 @@ bool ExperimentSidebarConfigLoader::parseSidebar(const QJsonArray& array)
             return false;
         }
 
-        SidebarBottleTemplate item;
         item.containerType = containerType;
         item.chemicalIds = QStringList{ chemicalId };
-
-        const int limit = obj.contains("limit") ? obj.value("limit").toInt(1) : 1;
-        item.limit = qMax(1, limit);
 
         const QString displayName =
             obj.value("displayName").toString().trimmed();
@@ -169,7 +201,7 @@ bool ExperimentSidebarConfigLoader::parseSidebar(const QJsonArray& array)
             }
         }
 
-        m_bottleTemplates.push_back(item);
+        m_sidebarTemplates.push_back(item);
     }
 
     return true;

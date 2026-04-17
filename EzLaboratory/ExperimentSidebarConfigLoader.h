@@ -20,10 +20,12 @@ struct ChemicalDefinition
     QString solidTexturePath;
 };
 
-struct SidebarBottleTemplate
+struct SidebarTemplate
 {
-    QString containerType;       // "narrow_bottle" / "wide_bottle"
+    QString type;                // "beaker" / "tweezers" / "chemical_container"
+    QString containerType;       // "narrow_bottle" / "wide_bottle"，仅 chemical_container 使用
     QString displayName;
+    QString iconPath;
 
     QString centerText;
     QString topText;
@@ -46,7 +48,7 @@ public:
     bool loadFromFile(const QString& filePath);
     QString errorString() const;
 
-    QList<SidebarBottleTemplate> bottleTemplates() const;
+    QList<SidebarTemplate> sidebarTemplates() const;
 
 private:
     bool parseRoot(const QByteArray& jsonData);
@@ -60,5 +62,5 @@ private:
 private:
     QString m_errorString;
     QHash<QString, ChemicalDefinition> m_chemicals;
-    QList<SidebarBottleTemplate> m_bottleTemplates;
+    QList<SidebarTemplate> m_sidebarTemplates;
 };

@@ -314,8 +314,24 @@ bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
         return false;
     }
 
-    const QList<SidebarBottleTemplate> templates = loader.bottleTemplates();
-    for (const SidebarBottleTemplate& item : templates) {
+    const QList<SidebarTemplate> templates = loader.sidebarTemplates();
+    for (const SidebarTemplate& item : templates) {
+        if (item.type == "beaker" || item.type == "tweezers") {
+            appendCommonContainerItem(
+                item.type,
+                item.displayName,
+                item.iconPath,
+                false,
+                QColor(),
+                QStringList{},
+                item.limit);
+            continue;
+        }
+
+        if (item.type != "chemical_container") {
+            continue;
+        }
+
         const bool useDoubleLine = !item.topText.isEmpty() || !item.bottomText.isEmpty();
 
         if (item.containerType == "narrow_bottle") {
@@ -367,6 +383,5 @@ bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
             }
         }
     }
-
     return true;
 }

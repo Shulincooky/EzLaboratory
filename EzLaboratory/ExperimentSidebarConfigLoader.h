@@ -1,7 +1,11 @@
 #pragma once
 
+#pragma once
+
+#include <QByteArray>
 #include <QColor>
 #include <QHash>
+#include <QJsonArray>
 #include <QList>
 #include <QString>
 #include <QStringList>

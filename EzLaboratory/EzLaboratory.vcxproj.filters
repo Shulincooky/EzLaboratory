@@ -85,6 +85,9 @@
     <ClCompile Include="AbstractLiquidContainerItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BeakerPourHandleItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h">
@@ -124,6 +127,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="AbstractLiquidContainerItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BeakerPourHandleItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -18,6 +18,7 @@ public:
 
     QPointF mouthLocalPos() const override;
     qreal snapRadius() const override;
+    QPointF pourPivotLocalPos() const override;
 
 protected:
     qreal plugInsertOffsetY() const override;

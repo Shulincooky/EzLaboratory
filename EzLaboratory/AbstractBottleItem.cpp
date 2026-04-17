@@ -74,7 +74,7 @@ void AbstractBottleItem::initializeLabel(BottleLabelItem* label)
 
     m_labelItem = label;
     m_labelItem->setParentItem(this);
-    m_labelItem->setPos(labelLocalPos());
+    m_labelItem->setPos(labelLocalPos() + m_labelOffset);
 }
 
 void AbstractBottleItem::setLabelData(const BottleLabelData& data)
@@ -86,7 +86,25 @@ void AbstractBottleItem::setLabelData(const BottleLabelData& data)
     }
 
     m_labelItem->updateLabel(data, labelLogicalSize(), labelTemplatePath());
-    m_labelItem->setPos(labelLocalPos());
+    m_labelItem->setPos(labelLocalPos() + m_labelOffset);
+}
+void AbstractBottleItem::setLabelOffset(const QPointF& offset)
+{
+    m_labelOffset = offset;
+
+    if (m_labelItem) {
+        m_labelItem->setPos(labelLocalPos() + m_labelOffset);
+    }
+}
+
+QPointF AbstractBottleItem::labelOffset() const
+{
+    return m_labelOffset;
+}
+
+QPointF AbstractBottleItem::pourPivotLocalPos() const
+{
+    return mouthLocalPos();
 }
 
 BottleLabelData AbstractBottleItem::labelData() const

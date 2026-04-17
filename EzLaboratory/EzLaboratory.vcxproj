@@ -95,6 +95,7 @@
     <ClCompile Include="AbstractBottleItem.cpp" />
     <ClCompile Include="AbstractLiquidContainerItem.cpp" />
     <ClCompile Include="AbstractPlugItem.cpp" />
+    <ClCompile Include="BeakerPourHandleItem.cpp" />
     <ClCompile Include="BottleLabelItem.cpp" />
     <ClCompile Include="BottleLabelRenderer.cpp" />
     <ClCompile Include="LiquidItem.cpp" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="AbstractLiquidContainerItem.h" />
+    <QtMoc Include="BeakerPourHandleItem.h" />
     <ClInclude Include="BottleLabelData.h" />
     <ClInclude Include="BottleLabelItem.h" />
     <ClInclude Include="BottleLabelRenderer.h" />

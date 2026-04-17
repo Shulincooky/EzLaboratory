@@ -90,3 +90,8 @@ qreal NarrowBottleItem::defaultLiquidFillRatio() const
 {
     return 1.0;
 }
+QPointF NarrowBottleItem::pourPivotLocalPos() const
+{
+    // 近似取“最上方最左侧瓶口接触点”
+    return QPointF(mouthLocalPos().x() - 8.0, mouthLocalPos().y());
+}

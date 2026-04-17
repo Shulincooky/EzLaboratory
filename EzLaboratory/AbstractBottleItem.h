@@ -32,6 +32,9 @@ public:
 
     void setLabelData(const BottleLabelData& data);
     BottleLabelData labelData() const;
+    void setLabelOffset(const QPointF& offset);
+    QPointF labelOffset() const;
+    virtual QPointF pourPivotLocalPos() const;
 
 protected:
     void initializePlug(AbstractPlugItem* plug);
@@ -54,4 +57,5 @@ private:
     AbstractPlugItem* m_plug = nullptr;
     BottleLabelItem* m_labelItem = nullptr;
     BottleLabelData m_labelData;
+    QPointF m_labelOffset;
 };

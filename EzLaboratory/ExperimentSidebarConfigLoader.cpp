@@ -1,0 +1,217 @@
+#include "ExperimentSidebarConfigLoader.h"
+
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
+bool ExperimentSidebarConfigLoader::loadFromFile(const QString& filePath)
+{
+    m_errorString.clear();
+    m_chemicals.clear();
+    m_bottleTemplates.clear();
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        m_errorString = QStringLiteral("无法打开配置文件: %1").arg(filePath);
+        return false;
+    }
+
+    return parseRoot(file.readAll());
+}
+
+QString ExperimentSidebarConfigLoader::errorString() const
+{
+    return m_errorString;
+}
+
+QList<SidebarBottleTemplate> ExperimentSidebarConfigLoader::bottleTemplates() const
+{
+    return m_bottleTemplates;
+}
+
+bool ExperimentSidebarConfigLoader::parseRoot(const QByteArray& jsonData)
+{
+    QJsonParseError parseError;
+    const QJsonDocument doc = QJsonDocument::fromJson(jsonData, &parseError);
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        m_errorString = QStringLiteral("JSON 解析失败: %1").arg(parseError.errorString());
+        return false;
+    }
+
+    const QJsonObject root = doc.object();
+
+    if (!root.contains("chemicals") || !root.value("chemicals").isArray()) {
+        m_errorString = QStringLiteral("配置文件缺少 chemicals 数组");
+        return false;
+    }
+
+    if (!root.contains("sidebar") || !root.value("sidebar").isArray()) {
+        m_errorString = QStringLiteral("配置文件缺少 sidebar 数组");
+        return false;
+    }
+
+    if (!parseChemicals(root.value("chemicals").toArray())) {
+        return false;
+    }
+
+    if (!parseSidebar(root.value("sidebar").toArray())) {
+        return false;
+    }
+
+    return true;
+}
+
+bool ExperimentSidebarConfigLoader::parseChemicals(const QJsonArray& array)
+{
+    for (const QJsonValue& value : array) {
+        if (!value.isObject()) {
+            m_errorString = QStringLiteral("chemicals 数组中存在非对象项");
+            return false;
+        }
+
+        const QJsonObject obj = value.toObject();
+
+        const QString id = obj.value("id").toString().trimmed();
+        if (id.isEmpty()) {
+            m_errorString = QStringLiteral("chemical 缺少 id");
+            return false;
+        }
+
+        ChemicalDefinition chemical;
+        chemical.id = id;
+        chemical.alias = obj.value("alias").toString().trimmed();
+        chemical.displayName = obj.value("displayName").toString().trimmed();
+        chemical.phase = obj.value("phase").toString().trimmed().toLower();
+        chemical.liquidColor = QColor(obj.value("liquidColor").toString().trimmed());
+        chemical.solidTexturePath = obj.value("solidTexturePath").toString().trimmed();
+
+        if (chemical.phase != "liquid" && chemical.phase != "solid") {
+            m_errorString = QStringLiteral("chemical[%1] 的 phase 只能是 liquid 或 solid").arg(id);
+            return false;
+        }
+
+        m_chemicals.insert(id, chemical);
+    }
+
+    return true;
+}
+
+bool ExperimentSidebarConfigLoader::parseSidebar(const QJsonArray& array)
+{
+    for (const QJsonValue& value : array) {
+        if (!value.isObject()) {
+            m_errorString = QStringLiteral("sidebar 数组中存在非对象项");
+            return false;
+        }
+
+        const QJsonObject obj = value.toObject();
+
+        const QString chemicalId = obj.value("chemicalId").toString().trimmed();
+        if (chemicalId.isEmpty()) {
+            m_errorString = QStringLiteral("sidebar 项缺少 chemicalId");
+            return false;
+        }
+
+        if (!m_chemicals.contains(chemicalId)) {
+            m_errorString = QStringLiteral("sidebar 引用了未定义 chemicalId: %1").arg(chemicalId);
+            return false;
+        }
+
+        const ChemicalDefinition chemical = m_chemicals.value(chemicalId);
+
+        const QString requestedContainer =
+            obj.value("container").toString("auto").trimmed().toLower();
+        const QString containerType = resolvedContainerType(requestedContainer, chemical);
+        if (containerType.isEmpty()) {
+            m_errorString = QStringLiteral("chemical[%1] 的 container 无法解析").arg(chemicalId);
+            return false;
+        }
+
+        SidebarBottleTemplate item;
+        item.containerType = containerType;
+        item.chemicalIds = QStringList{ chemicalId };
+
+        const int limit = obj.contains("limit") ? obj.value("limit").toInt(1) : 1;
+        item.limit = qMax(1, limit);
+
+        const QString displayName =
+            obj.value("displayName").toString().trimmed();
+        item.displayName = displayName.isEmpty()
+            ? resolvedBottleDisplayName(chemical, containerType)
+            : displayName;
+
+        const QJsonObject labelObj = obj.value("label").toObject();
+        item.centerText = labelObj.value("center").toString().trimmed();
+        item.topText = labelObj.value("top").toString().trimmed();
+        item.bottomText = labelObj.value("bottom").toString().trimmed();
+
+        if (item.centerText.isEmpty() && item.topText.isEmpty() && item.bottomText.isEmpty()) {
+            item.centerText = resolvedChemicalDisplayName(chemical);
+        }
+
+        if (chemical.phase == "liquid") {
+            item.enableLiquid = true;
+            item.liquidColor = chemical.liquidColor.isValid()
+                ? chemical.liquidColor
+                : QColor(90, 150, 255, 80);
+        }
+        else if (chemical.phase == "solid") {
+            item.enableSolid = true;
+            item.solidTexturePath = chemical.solidTexturePath;
+            item.solidFillRatio = obj.contains("solidFillRatio")
+                ? qBound(0.05, obj.value("solidFillRatio").toDouble(0.65), 1.0)
+                : 0.65;
+
+            if (item.solidTexturePath.isEmpty()) {
+                m_errorString = QStringLiteral("solid chemical[%1] 缺少 solidTexturePath").arg(chemicalId);
+                return false;
+            }
+        }
+
+        m_bottleTemplates.push_back(item);
+    }
+
+    return true;
+}
+
+QString ExperimentSidebarConfigLoader::resolvedChemicalDisplayName(const ChemicalDefinition& chemical) const
+{
+    if (!chemical.displayName.isEmpty()) {
+        return chemical.displayName;
+    }
+    if (!chemical.alias.isEmpty()) {
+        return chemical.alias;
+    }
+    return chemical.id;
+}
+
+QString ExperimentSidebarConfigLoader::resolvedBottleDisplayName(const ChemicalDefinition& chemical, const QString& containerType) const
+{
+    const QString base = resolvedChemicalDisplayName(chemical);
+    if (containerType == "wide_bottle") {
+        return base + QStringLiteral("广口瓶");
+    }
+    if (containerType == "narrow_bottle") {
+        return base + QStringLiteral("细口瓶");
+    }
+    return base;
+}
+
+QString ExperimentSidebarConfigLoader::resolvedContainerType(const QString& requested, const ChemicalDefinition& chemical) const
+{
+    if (requested == "wide_bottle" || requested == "narrow_bottle") {
+        return requested;
+    }
+
+    if (requested == "auto" || requested.isEmpty()) {
+        if (chemical.phase == "solid") {
+            return "wide_bottle";
+        }
+        if (chemical.phase == "liquid") {
+            return "narrow_bottle";
+        }
+    }
+
+    return QString();
+}

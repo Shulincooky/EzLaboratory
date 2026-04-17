@@ -5,6 +5,7 @@
 #include "LabwareTemplateRoles.h"
 #include "NarrowBottleItem.h"
 #include "WideBottleItem.h"
+#include "ExperimentSidebarConfigLoader.h"
 
 #include <QEvent>
 #include <QGraphicsScene>
@@ -90,45 +91,7 @@ void EzLaboratory::initLabwareList()
     ui->labwareList->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->labwareList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    appendCommonContainerItem(
-        QStringLiteral("beaker"),
-        QStringLiteral("烧杯"),
-        QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png"),
-        false,
-        QColor(),
-        QStringList{});
-    appendCommonContainerItem(
-        QStringLiteral("tweezers"),
-        QStringLiteral("镊子"),
-        QStringLiteral(":/EzLaboratory/resources/image/lab_tools/tweezers.png"),
-        false,
-        QColor(),
-        QStringList{});
-
-    appendNarrowBottleInstanceItem(
-        QStringLiteral("蒸馏水细口瓶"),
-        QStringLiteral("蒸馏水"),
-        true,
-        QColor(90, 150, 255, 80),
-        QStringList{ QStringLiteral("$H2O@") });
-    appendWideBottleInstanceItem(
-        QStringLiteral("氢氧化钠广口瓶"),
-        QStringLiteral("氢氧化钠"),
-        false,
-        QColor(),
-        true,
-        QStringLiteral(":/EzLaboratory/resources/image/solid/naoh_chunk.png"),
-        0.65,
-        QStringList{ QStringLiteral("$NaOH@") });
-    appendWideBottleInstanceItem(
-        QStringLiteral("空广口瓶"),
-        QStringLiteral("空瓶"),
-        false,
-        QColor(),
-        false,
-        QString(),
-        0.0,
-        QStringList{});
+    loadSidebarFromConfig(QStringLiteral(":/EzLaboratory/resources/config/demo_experiment_sidebar.json"));
 }
 
 void EzLaboratory::decreaseRemainingCount(const QString& templateId)
@@ -341,4 +304,69 @@ void EzLaboratory::appendCommonContainerItem(const QString& type,
     item->setData(chemicalIds, LabwareRoles::ChemicalIds);
 
     m_labwareModel->appendRow(item);
+}
+
+bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
+{
+    ExperimentSidebarConfigLoader loader;
+    if (!loader.loadFromFile(filePath)) {
+        qWarning() << "[SidebarConfig] load failed:" << loader.errorString();
+        return false;
+    }
+
+    const QList<SidebarBottleTemplate> templates = loader.bottleTemplates();
+    for (const SidebarBottleTemplate& item : templates) {
+        const bool useDoubleLine = !item.topText.isEmpty() || !item.bottomText.isEmpty();
+
+        if (item.containerType == "narrow_bottle") {
+            if (useDoubleLine) {
+                appendNarrowBottleInstanceItem(
+                    item.displayName,
+                    item.topText,
+                    item.bottomText,
+                    item.enableLiquid,
+                    item.liquidColor,
+                    item.chemicalIds,
+                    item.limit);
+            }
+            else {
+                appendNarrowBottleInstanceItem(
+                    item.displayName,
+                    item.centerText,
+                    item.enableLiquid,
+                    item.liquidColor,
+                    item.chemicalIds,
+                    item.limit);
+            }
+        }
+        else if (item.containerType == "wide_bottle") {
+            if (useDoubleLine) {
+                appendWideBottleInstanceItem(
+                    item.displayName,
+                    item.topText,
+                    item.bottomText,
+                    item.enableLiquid,
+                    item.liquidColor,
+                    item.enableSolid,
+                    item.solidTexturePath,
+                    item.solidFillRatio,
+                    item.chemicalIds,
+                    item.limit);
+            }
+            else {
+                appendWideBottleInstanceItem(
+                    item.displayName,
+                    item.centerText,
+                    item.enableLiquid,
+                    item.liquidColor,
+                    item.enableSolid,
+                    item.solidTexturePath,
+                    item.solidFillRatio,
+                    item.chemicalIds,
+                    item.limit);
+            }
+        }
+    }
+
+    return true;
 }

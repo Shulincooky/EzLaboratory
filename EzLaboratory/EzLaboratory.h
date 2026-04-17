@@ -5,6 +5,7 @@
 #include <QEvent>
 #include <QColor>
 #include "ui_EzLaboratory.h"
+#include "ExperimentSidebarConfigLoader.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class EzLaboratoryClass; };
@@ -35,6 +36,7 @@ private:
     void initLabScene();
     void updateViewAfterResize();
     void decreaseRemainingCount(const QString& templateId);
+    bool loadSidebarFromConfig(const QString& filePath);
 
     void appendNarrowBottleInstanceItem(const QString& displayName,
         const QString& centerText,

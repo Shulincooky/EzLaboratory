@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.8.3_msvc2022_64</QtInstall>
-    <QtModules>core;gui;widgets;svg</QtModules>
+    <QtModules>core;gui;widgets;svg;</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -98,6 +98,7 @@
     <ClCompile Include="BeakerPourHandleItem.cpp" />
     <ClCompile Include="BottleLabelItem.cpp" />
     <ClCompile Include="BottleLabelRenderer.cpp" />
+    <ClCompile Include="ExperimentSidebarConfigLoader.cpp" />
     <ClCompile Include="LiquidItem.cpp" />
     <ClCompile Include="NarrowBottleItem.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
@@ -155,6 +156,7 @@
     <QtMoc Include="WideBottlePlugItem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ExperimentSidebarConfigLoader.h" />
     <ClInclude Include="LabwareTemplateRoles.h" />
     <ClInclude Include="SolidScatterItem.h" />
     <QtMoc Include="TweezersItem.h" />

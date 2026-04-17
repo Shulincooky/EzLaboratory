@@ -1,0 +1,42 @@
+{
+  "chemicals": [
+    {
+      "id": "$H2O@",
+      "alias": "水",
+      "displayName": "蒸馏水",
+      "phase": "liquid",
+      "liquidColor": "#505A96FF"
+    },
+    {
+      "id": "$NaOH@",
+      "alias": "氢氧化钠",
+      "displayName": "氢氧化钠",
+      "phase": "solid",
+      "solidTexturePath": ":/EzLaboratory/resources/image/solid/naoh_chunk.png"
+    },
+    {
+      "id": "$HCl@",
+      "alias": "盐酸",
+      "displayName": "盐酸",
+      "phase": "liquid",
+      "liquidColor": "#7D190FFF"
+    }
+  ],
+  "sidebar": [
+    {
+      "chemicalId": "$H2O@"
+    },
+    {
+      "chemicalId": "$NaOH@",
+      "solidFillRatio": 0.65
+    },
+    {
+      "chemicalId": "$HCl@",
+      "label": {
+        "top": "HCl",
+        "bottom": "4 mol/L"
+      },
+      "limit": 2
+    }
+  ]
+}

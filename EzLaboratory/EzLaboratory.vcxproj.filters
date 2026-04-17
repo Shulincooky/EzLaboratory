@@ -143,5 +143,8 @@
     <ClInclude Include="BottleLabelItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LabwareTemplateRoles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

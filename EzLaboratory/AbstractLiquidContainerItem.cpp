@@ -6,36 +6,6 @@
 #include <QVariantAnimation>
 #include <QRegion>
 
-namespace
-{
-    QPainterPath buildPathFromAlphaImage(const QImage& image)
-    {
-        QPainterPath path;
-
-        for (int y = 0; y < image.height(); ++y) {
-            int runStart = -1;
-
-            for (int x = 0; x < image.width(); ++x) {
-                const int alpha = qAlpha(image.pixel(x, y));
-                const bool solid = alpha > 8;
-
-                if (solid && runStart < 0) {
-                    runStart = x;
-                }
-                else if (!solid && runStart >= 0) {
-                    path.addRect(QRectF(runStart, y, x - runStart, 1));
-                    runStart = -1;
-                }
-            }
-
-            if (runStart >= 0) {
-                path.addRect(QRectF(runStart, y, image.width() - runStart, 1));
-            }
-        }
-
-        return path.simplified();
-    }
-}
 
 AbstractLiquidContainerItem::AbstractLiquidContainerItem(const QString& itemType,
     const QString& itemName,
@@ -198,24 +168,6 @@ bool AbstractLiquidContainerItem::liquidRenderingEnabled() const
 bool AbstractLiquidContainerItem::hasLiquidItem() const
 {
     return m_liquidItem != nullptr;
-}
-
-QPainterPath AbstractLiquidContainerItem::buildAlphaClipPath() const
-{
-    const QPixmap& pix = itemPixmap();
-    if (pix.isNull()) {
-        QPainterPath fallback;
-        fallback.addRect(liquidRectLocal());
-        return fallback;
-    }
-
-    const QSize targetSize(qMax(1, qRound(itemSize().width())), qMax(1, qRound(itemSize().height())));
-    QImage scaled = pix.toImage().scaled(
-        targetSize,
-        Qt::IgnoreAspectRatio,
-        Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32);
-
-    return buildPathFromAlphaImage(scaled);
 }
 
 QPainterPath AbstractLiquidContainerItem::liquidClipPathLocal() const

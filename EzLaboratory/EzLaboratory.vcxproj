@@ -153,6 +153,7 @@
     <QtMoc Include="WideBottlePlugItem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LabwareTemplateRoles.h" />
     <QtMoc Include="AbstractLiquidContainerItem.h" />
     <QtMoc Include="BeakerPourHandleItem.h" />
     <ClInclude Include="BottleLabelData.h" />

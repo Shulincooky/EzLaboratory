@@ -1,5 +1,4 @@
 #include "BeakerItem.h"
-#include "LiquidItem.h"
 #include "NarrowBottleItem.h"
 #include "BeakerPourHandleItem.h"
 #include <QColor>
@@ -26,7 +25,7 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
 {
     m_currentLiquidLevel = 0.0;
     setLiquidLevel(0.0);
-    setLiquidRenderingEnabled(false);;
+    setLiquidRenderingEnabled(false);
 
     // 按钮做成顶层图元，不挂在烧杯下面，保证永远在最上方
     m_pourHandle = new BeakerPourHandleItem();

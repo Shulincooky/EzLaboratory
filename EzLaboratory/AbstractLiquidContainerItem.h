@@ -47,9 +47,6 @@ protected:
     virtual QPainterPath liquidClipPathLocal() const;
 
 private:
-    QPainterPath buildAlphaClipPath() const;
-
-private:
     LiquidItem* m_liquidItem = nullptr;
     QVariantAnimation* m_swayAnimation = nullptr;
 

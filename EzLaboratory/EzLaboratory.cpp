@@ -3,26 +3,13 @@
 #include "BottleLabelData.h"
 #include "NarrowBottleItem.h"
 #include"WideBottleItem.h"
+#include "LabwareTemplateRoles.h"
 
 #include <QScrollBar>
 #include <QTimer>
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QIcon>
-
-namespace
-{
-    constexpr int LabwareTypeRole = Qt::UserRole + 1;
-    constexpr int LabwareLimitRole = Qt::UserRole + 2;
-    constexpr int LabwareRemainingRole = Qt::UserRole + 3;
-    constexpr int LabelLayoutRole = Qt::UserRole + 4;
-    constexpr int LabelCenterTextRole = Qt::UserRole + 5;
-    constexpr int LabelTopTextRole = Qt::UserRole + 6;
-    constexpr int LabelBottomTextRole = Qt::UserRole + 7;
-    constexpr int LabwareTemplateIdRole = Qt::UserRole + 8;
-    constexpr int LiquidEnabledRole = Qt::UserRole + 9;
-    constexpr int LiquidColorRole = Qt::UserRole + 10;
-}
 
 EzLaboratory::EzLaboratory(QWidget* parent)
     : QMainWindow(parent)

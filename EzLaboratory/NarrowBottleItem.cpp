@@ -1,7 +1,6 @@
 #include "NarrowBottleItem.h"
 #include "NarrowBottlePlugItem.h"
 #include "BottleLabelItem.h"
-#include "LiquidItem.h"
 
 namespace
 {

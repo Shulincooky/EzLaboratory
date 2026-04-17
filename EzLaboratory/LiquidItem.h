@@ -53,6 +53,8 @@ private:
     qreal m_waveAmplitude = 0.0;
     qreal m_surfaceTilt = 0.0;
     qreal m_lastParentRotation = 0.0;
+    QPointF m_lastParentScenePos;
+    bool m_hasLastParentScenePos = false;
 
     QTimer* m_timer = nullptr;
     QVariantAnimation* m_colorAnimation = nullptr;

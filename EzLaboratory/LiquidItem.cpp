@@ -106,23 +106,49 @@ void LiquidItem::setWaveEnabled(bool enabled)
 void LiquidItem::tick()
 {
     const QGraphicsItem* p = parentItem();
-    const qreal parentRotation = p ? p->rotation() : 0.0;
+    if (!p) {
+        update();
+        return;
+    }
+
+    const qreal parentRotation = p->rotation();
     const qreal rotationDelta = parentRotation - m_lastParentRotation;
     m_lastParentRotation = parentRotation;
+
+    const QPointF parentScenePos = p->mapToScene(QPointF(0.0, 0.0));
+    QPointF sceneDelta(0.0, 0.0);
+
+    if (m_hasLastParentScenePos) {
+        sceneDelta = parentScenePos - m_lastParentScenePos;
+    }
+    else {
+        m_hasLastParentScenePos = true;
+    }
+    m_lastParentScenePos = parentScenePos;
 
     if (!m_waveEnabled) {
         update();
         return;
     }
 
-    const qreal targetTilt = -parentRotation * 0.18;
-    m_surfaceTilt += (targetTilt - m_surfaceTilt) * 0.10;
+    // 旋转驱动：保留你原来的“水平面趋向世界水平”的效果
+    const qreal rotationTiltTarget = -parentRotation * 0.18;
 
+    // 平移驱动：左右移动时给液面一个瞬时倾斜目标
+    const qreal translationTiltTarget = qBound(-10.0, -sceneDelta.x() * 1.2, 10.0);
+
+    const qreal targetTilt = rotationTiltTarget + translationTiltTarget;
+    m_surfaceTilt += (targetTilt - m_surfaceTilt) * 0.16;
+
+    // 两种激励共同驱动液面波相位
     m_waveVelocity += rotationDelta * 0.05;
+    m_waveVelocity += sceneDelta.x() * 0.003;
     m_waveVelocity *= 0.94;
     m_wavePhase += m_waveVelocity;
 
+    // 两种激励共同驱动波幅
     m_waveAmplitude += qAbs(rotationDelta) * 0.20;
+    m_waveAmplitude += qAbs(sceneDelta.x()) * 0.11;
     m_waveAmplitude *= 0.93;
 
     const qreal maxAmplitude = m_containerRect.height() * 0.08;

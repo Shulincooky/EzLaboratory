@@ -43,7 +43,7 @@ QListView#labwareList::item{
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="LabwareListView" name="labwareList">
+     <widget class="QWidget" name="sidebarWidght" native="true">
       <property name="minimumSize">
        <size>
         <width>250</width>
@@ -56,6 +56,34 @@ QListView#labwareList::item{
         <height>16777215</height>
        </size>
       </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="sidebarTitle">
+         <property name="text">
+          <string>实验器具与药品</string>
+         </property>
+         <property name="margin">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="LabwareListView" name="labwareList">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>500</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>

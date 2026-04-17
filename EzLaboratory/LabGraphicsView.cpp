@@ -187,6 +187,12 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         container->setContainedChemicalIds(chemicalIds);
     }
 
+    if (auto* wideBottle = dynamic_cast<WideBottleItem*>(newItem)) {
+        if (solidEnabled && !chemicalIds.isEmpty()) {
+            wideBottle->setSolidChemicalId(chemicalIds.front());
+        }
+    }
+
     const QPointF scenePos = mapToScene(event->position().toPoint());
     newItem->setPos(scenePos);
     scene()->addItem(newItem);

@@ -43,7 +43,7 @@ QVariant TweezersItem::itemChange(GraphicsItemChange change, const QVariant& val
 
 QPointF TweezersItem::tipLocalPos() const
 {
-    return QPointF(10.0, itemSize().height() - 8.0);
+    return QPointF(14.0, 138.0);
 }
 
 QPointF TweezersItem::tipScenePos() const
@@ -79,7 +79,7 @@ void TweezersItem::tryPickSolid()
 
         if (!solidZone.contains(tipScene)) {
             const qreal d = QLineF(tipScene, solidZone.center()).length();
-            if (d > 26.0) {
+            if (d > 42.0) {
                 continue;
             }
         }

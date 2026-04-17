@@ -50,9 +50,6 @@ WideBottleItem* WideBottleItem::createInstance(const BottleLabelData& data,
     if (enableSolid) {
         bottle->setSolidTexturePath(solidTexturePath);
         bottle->setSolidFillRatio(solidFillRatio);
-        if (!bottle->containedChemicalIds().isEmpty()) {
-            bottle->setSolidChemicalId(bottle->containedChemicalIds().front());
-        }
         bottle->setSolidRenderingEnabled(true);
     }
     return bottle;

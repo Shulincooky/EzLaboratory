@@ -1,7 +1,10 @@
 #pragma once
 
 #include "AbstractBottleItem.h"
+#include "SolidScatterItem.h"
 #include <QColor>
+
+class SolidScatterItem;
 
 class WideBottleItem : public AbstractBottleItem
 {
@@ -46,7 +49,7 @@ private:
     void refreshSolidGeometry();
 
 private:
-    class SolidScatterItem* m_solidItem = nullptr;
+    SolidScatterItem* m_solidItem = nullptr;
     QString m_solidTexturePath;
     qreal m_solidFillRatio = 0.0;
 };

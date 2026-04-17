@@ -145,6 +145,13 @@ void BeakerItem::updateAttachmentScan()
 
     const QPointF pivotScene = mapToScene(beakerAttachPivotLocalPos());
 
+    bool beakerMovedRecently = false;
+    if (m_hasLastSceneAnchorPos) {
+        beakerMovedRecently = QLineF(m_lastSceneAnchorPos, pivotScene).length() > 1.0;
+    }
+    m_lastSceneAnchorPos = pivotScene;
+    m_hasLastSceneAnchorPos = true;
+
     // 1. 已处于倒液弱绑定状态时，持续检查是否需要自动解除
     if (m_attachedBottle) {
         if (m_attachedBottle->hasPlug()) {
@@ -177,6 +184,10 @@ void BeakerItem::updateAttachmentScan()
             }
             m_detachSuppressedBottle = nullptr;
         }
+    }
+
+    if (beakerMovedRecently) {
+        return;
     }
 
     // 3. 空闲状态下再去扫描可吸附细口瓶
@@ -234,6 +245,7 @@ void BeakerItem::attachBottle(NarrowBottleItem* bottle)
     m_attachedBottle->setData(kBottleAttachedToBeakerRole, true);
     m_attachedBottle->setLabelOffset(QPointF(10.0, 0.0));
     m_attachedBottle->setTransformOriginPoint(m_attachedBottle->pourPivotLocalPos());
+    m_attachedBottle->setZValue(this->zValue() + 10.0);
 
     m_pourRatio = 0.0;
     if (m_pourHandle) {
@@ -255,6 +267,7 @@ void BeakerItem::detachBottle()
     m_attachedBottle->setData(kBottleAttachedToBeakerRole, false);
     m_attachedBottle->setLabelOffset(QPointF(0.0, 0.0));
     m_attachedBottle->setRotation(0.0);
+    m_attachedBottle->setZValue(0.0);
 
     m_detachSuppressedBottle = m_attachedBottle;
     m_attachedBottle = nullptr;
@@ -292,7 +305,7 @@ void BeakerItem::refreshHandleGeometry()
         return;
     }
 
-    const qreal x = itemSize().width() + 22.0;
+    const qreal x = itemSize().width() + 50.0;
     const qreal topY = beakerAttachPivotLocalPos().y() + 6.0;
     const qreal bottomY = itemSize().height() - 12.0;
     m_pourHandle->setTrackGeometry(x, topY, bottomY);

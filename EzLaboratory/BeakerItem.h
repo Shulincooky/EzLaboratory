@@ -48,4 +48,7 @@ private:
 
     NarrowBottleItem* m_detachSuppressedBottle = nullptr;
     qreal m_reacquireDistance = 90.0;
+
+    QPointF m_lastSceneAnchorPos;
+    bool m_hasLastSceneAnchorPos = false;
 };

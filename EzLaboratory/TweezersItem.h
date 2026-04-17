@@ -21,6 +21,7 @@ protected:
 
 private:
     void tryPickSolid();
+    void tryDropSolid();
     void refreshCarriedPreview();
     QPointF tipLocalPos() const;
     QPointF tipScenePos() const;

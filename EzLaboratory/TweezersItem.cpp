@@ -1,5 +1,6 @@
 #include "TweezersItem.h"
 #include "WideBottleItem.h"
+#include "BeakerItem.h"
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
@@ -34,6 +35,9 @@ QVariant TweezersItem::itemChange(GraphicsItemChange change, const QVariant& val
     if (change == QGraphicsItem::ItemPositionHasChanged) {
         if (m_carriedChemicalId.isEmpty()) {
             tryPickSolid();
+        }
+        else {
+            tryDropSolid();
         }
         refreshCarriedPreview();
     }
@@ -96,6 +100,41 @@ void TweezersItem::tryPickSolid()
             refreshCarriedPreview();
             break;
         }
+    }
+}
+void TweezersItem::tryDropSolid()
+{
+    if (!scene() || m_carriedChemicalId.isEmpty() || m_carriedTexturePath.isEmpty()) {
+        return;
+    }
+
+    const QPointF tipScene = tipScenePos();
+
+    for (QGraphicsItem* item : scene()->items()) {
+        auto* beaker = dynamic_cast<BeakerItem*>(item);
+        if (!beaker) {
+            continue;
+        }
+
+        const QRectF beakerRect = beaker->sceneBoundingRect();
+        const QRectF acceptZone(
+            beakerRect.left() + 20.0,
+            beakerRect.top() + 30.0,
+            beakerRect.width() - 40.0,
+            beakerRect.height() - 40.0);
+
+        if (!acceptZone.contains(tipScene)) {
+            const qreal d = QLineF(tipScene, acceptZone.center()).length();
+            if (d > 36.0) {
+                continue;
+            }
+        }
+
+        beaker->acceptSolidFromTweezers(m_carriedChemicalId, m_carriedTexturePath);
+        m_carriedChemicalId.clear();
+        m_carriedTexturePath.clear();
+        refreshCarriedPreview();
+        break;
     }
 }
 

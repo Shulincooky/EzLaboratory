@@ -51,6 +51,14 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
         m_currentLiquidLevel = qBound(0.0, m_currentLiquidLevel + previewPourRatio(), 1.0);
         setLiquidLevel(m_currentLiquidLevel);
 
+        // 把附着瓶中的 chemical ids 合并进烧杯
+        if (m_attachedBottle) {
+            const QStringList ids = m_attachedBottle->containedChemicalIds();
+            for (const QString& id : ids) {
+                addContainedChemicalId(id);
+            }
+        }
+
         // 结束预览状态
         m_trackVisible = false;
         m_pourHandle->setTrackVisible(false);

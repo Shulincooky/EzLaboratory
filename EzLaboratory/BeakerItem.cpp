@@ -1,6 +1,8 @@
 #include "BeakerItem.h"
 #include "LiquidItem.h"
 
+#include <QPainterPath>
+
 BeakerItem::BeakerItem(QGraphicsItem* parent)
     : AbstractLiquidContainerItem(
         "beaker",
@@ -25,4 +27,22 @@ QColor BeakerItem::defaultLiquidColor() const
 qreal BeakerItem::defaultLiquidFillRatio() const
 {
     return 0.50;
+}
+QPainterPath BeakerItem::liquidClipPathLocal() const
+{
+    const QRectF r = liquidRectLocal();
+
+    QPainterPath path;
+
+    // 上口略宽、下部略窄一点，模拟烧杯内腔
+    const qreal insetTop = 4.0;
+    const qreal insetBottom = 4.0;
+
+    path.moveTo(r.left() + insetTop, r.top());
+    path.lineTo(r.right() - insetTop, r.top());
+    path.lineTo(r.right() - insetBottom, r.bottom());
+    path.lineTo(r.left() + insetBottom, r.bottom());
+    path.closeSubpath();
+
+    return path;
 }

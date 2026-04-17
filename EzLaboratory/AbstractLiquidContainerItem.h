@@ -30,6 +30,7 @@ protected:
     virtual QRectF liquidRectLocal() const = 0;
     virtual QColor defaultLiquidColor() const;
     virtual qreal defaultLiquidFillRatio() const;
+    virtual QPainterPath liquidClipPathLocal() const;
 
 private:
     QPainterPath buildAlphaClipPath() const;

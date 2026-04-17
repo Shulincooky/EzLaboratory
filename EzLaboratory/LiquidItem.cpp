@@ -9,8 +9,8 @@ LiquidItem::LiquidItem(QGraphicsItem* parent)
     : QGraphicsObject(parent)
 {
     setAcceptedMouseButtons(Qt::NoButton);
-    setFlag(QGraphicsItem::ItemStacksBehindParent, true);
-    setZValue(-1.0);
+    setFlag(QGraphicsItem::ItemStacksBehindParent, false);
+    setZValue(0.5);
 
     m_timer = new QTimer(this);
     m_timer->setInterval(16);

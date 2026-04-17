@@ -117,7 +117,7 @@ void AbstractLiquidContainerItem::refreshLiquidGeometry()
     }
 
     m_liquidItem->setContainerRect(liquidRectLocal());
-    m_liquidItem->setClipPath(buildAlphaClipPath());
+    m_liquidItem->setClipPath(liquidClipPathLocal());
 }
 
 QColor AbstractLiquidContainerItem::defaultLiquidColor() const
@@ -146,4 +146,11 @@ QPainterPath AbstractLiquidContainerItem::buildAlphaClipPath() const
         Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32);
 
     return buildPathFromAlphaImage(scaled);
+}
+
+QPainterPath AbstractLiquidContainerItem::liquidClipPathLocal() const
+{
+    QPainterPath path;
+    path.addRect(liquidRectLocal());
+    return path;
 }

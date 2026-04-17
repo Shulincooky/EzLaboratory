@@ -11,7 +11,7 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
         QSizeF(100 * 1.5, 140 * 1.5),
         parent)
 {
-    initializeLiquid(new LiquidItem(this));
+    setLiquidRenderingEnabled(true);
 }
 
 QRectF BeakerItem::liquidRectLocal() const

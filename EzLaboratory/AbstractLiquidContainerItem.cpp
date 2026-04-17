@@ -79,6 +79,8 @@ void AbstractLiquidContainerItem::setLiquidFillRatio(qreal ratio)
 
 void AbstractLiquidContainerItem::startContainerSway(qreal maxAngleDeg, int durationMs)
 {
+    if (!m_liquidRenderingEnabled)
+        return;
     if (!m_swayAnimation) {
         m_swayAnimation = new QVariantAnimation(this);
         connect(m_swayAnimation, &QVariantAnimation::valueChanged, this, [this](const QVariant& value) {
@@ -96,6 +98,36 @@ void AbstractLiquidContainerItem::startContainerSway(qreal maxAngleDeg, int dura
     m_swayAnimation->start();
 }
 
+void AbstractLiquidContainerItem::ensureLiquidCreated()
+{
+    if (m_liquidItem) {
+        refreshLiquidGeometry();
+        return;
+    }
+
+    LiquidItem* liquid = createLiquidItem();
+    if (!liquid) {
+        return;
+    }
+
+    initializeLiquid(liquid);
+}
+
+void AbstractLiquidContainerItem::destroyLiquid()
+{
+    if (!m_liquidItem) {
+        return;
+    }
+
+    delete m_liquidItem;
+    m_liquidItem = nullptr;
+}
+
+LiquidItem* AbstractLiquidContainerItem::createLiquidItem()
+{
+    return new LiquidItem(this);
+}
+
 void AbstractLiquidContainerItem::initializeLiquid(LiquidItem* liquid)
 {
     if (!liquid) {
@@ -103,6 +135,7 @@ void AbstractLiquidContainerItem::initializeLiquid(LiquidItem* liquid)
     }
 
     m_liquidItem = liquid;
+    m_liquidRenderingEnabled = true;
     m_liquidItem->setParentItem(this);
     m_liquidItem->setColor(defaultLiquidColor());
     m_liquidItem->setFillRatio(defaultLiquidFillRatio());
@@ -128,6 +161,37 @@ QColor AbstractLiquidContainerItem::defaultLiquidColor() const
 qreal AbstractLiquidContainerItem::defaultLiquidFillRatio() const
 {
     return 0.55;
+}
+
+void AbstractLiquidContainerItem::setLiquidLevel(qreal level)
+{
+    setLiquidFillRatio(level);
+}
+
+void AbstractLiquidContainerItem::setLiquidRenderingEnabled(bool enabled)
+{
+    if (m_liquidRenderingEnabled == enabled) {
+        return;
+    }
+
+    m_liquidRenderingEnabled = enabled;
+
+    if (m_liquidRenderingEnabled) {
+        ensureLiquidCreated();
+    }
+    else {
+        destroyLiquid();
+    }
+}
+
+bool AbstractLiquidContainerItem::liquidRenderingEnabled() const
+{
+    return m_liquidRenderingEnabled;
+}
+
+bool AbstractLiquidContainerItem::hasLiquidItem() const
+{
+    return m_liquidItem != nullptr;
 }
 
 QPainterPath AbstractLiquidContainerItem::buildAlphaClipPath() const

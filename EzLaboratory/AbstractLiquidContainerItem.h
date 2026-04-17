@@ -21,11 +21,22 @@ public:
     void startLiquidColorTransition(const QColor& targetColor, int durationMs = 2000);
     void setLiquidFillRatio(qreal ratio);
 
+    void setLiquidLevel(qreal level);
+
+    void setLiquidRenderingEnabled(bool enabled);
+    bool liquidRenderingEnabled() const;
+    bool hasLiquidItem() const;
+
     void startContainerSway(qreal maxAngleDeg = 10.0, int durationMs = 1600);
 
 protected:
     void initializeLiquid(LiquidItem* liquid);
     void refreshLiquidGeometry();
+
+    void ensureLiquidCreated();
+    void destroyLiquid();
+
+    virtual LiquidItem* createLiquidItem();
 
     virtual QRectF liquidRectLocal() const = 0;
     virtual QColor defaultLiquidColor() const;
@@ -38,4 +49,6 @@ private:
 private:
     LiquidItem* m_liquidItem = nullptr;
     QVariantAnimation* m_swayAnimation = nullptr;
+
+    bool m_liquidRenderingEnabled = false;
 };

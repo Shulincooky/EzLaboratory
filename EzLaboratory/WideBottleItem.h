@@ -33,6 +33,10 @@ public:
     bool solidRenderingEnabled() const;
     bool hasSolidItem() const;
 
+    void setSolidChemicalId(const QString& chemicalId);
+    QString solidChemicalId() const;
+    bool takeSolidForTweezers(QString* chemicalId, QString* texturePath);
+
 protected:
     qreal plugInsertOffsetY() const override;
     QPointF labelLocalPos() const override;
@@ -50,4 +54,5 @@ private:
     SolidScatterItem* m_solidItem = nullptr;
     QString m_solidTexturePath;
     qreal m_solidFillRatio = 0.0;
+    QString m_solidChemicalId;
 };

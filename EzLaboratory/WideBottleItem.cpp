@@ -50,9 +50,11 @@ WideBottleItem* WideBottleItem::createInstance(const BottleLabelData& data,
     if (enableSolid) {
         bottle->setSolidTexturePath(solidTexturePath);
         bottle->setSolidFillRatio(solidFillRatio);
+        if (!bottle->containedChemicalIds().isEmpty()) {
+            bottle->setSolidChemicalId(bottle->containedChemicalIds().front());
+        }
         bottle->setSolidRenderingEnabled(true);
     }
-
     return bottle;
 }
 
@@ -228,4 +230,38 @@ void WideBottleItem::refreshSolidGeometry()
 
     m_solidItem->setContainerRect(liquidRectLocal());
     m_solidItem->setClipPath(liquidClipPathLocal());
+}
+
+void WideBottleItem::setSolidChemicalId(const QString& chemicalId)
+{
+    m_solidChemicalId = chemicalId;
+    clearContainedChemicalIds();
+    if (!chemicalId.isEmpty()) {
+        addContainedChemicalId(chemicalId);
+    }
+}
+
+QString WideBottleItem::solidChemicalId() const
+{
+    return m_solidChemicalId;
+}
+
+bool WideBottleItem::takeSolidForTweezers(QString* chemicalId, QString* texturePath)
+{
+    if (!m_solidItem || m_solidChemicalId.isEmpty() || m_solidTexturePath.isEmpty()) {
+        return false;
+    }
+
+    if (chemicalId) {
+        *chemicalId = m_solidChemicalId;
+    }
+    if (texturePath) {
+        *texturePath = m_solidTexturePath;
+    }
+
+    destroySolid();
+    m_solidFillRatio = 0.0;
+    clearContainedChemicalIds();
+    m_solidChemicalId.clear();
+    return true;
 }

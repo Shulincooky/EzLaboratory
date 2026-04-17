@@ -3,6 +3,7 @@
 #include "NarrowBottleItem.h"
 #include "WideBottleItem.h"
 #include "BottleLabelData.h"
+#include "AbstractLiquidContainerItem.h"
 
 #include <QMimeData>
 #include <QGraphicsScene>

@@ -3,6 +3,7 @@
 #include "BeakerPourHandleItem.h"
 #include "SolidScatterItem.h"
 #include <QColor>
+#include <QDebug>
 
 #include <QPainterPath>
 #include <QPainter>
@@ -58,7 +59,9 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
                 addContainedChemicalId(id);
             }
         }
-
+        qDebug() << "[Beaker][dragFinished] attached bottle ids ="
+            << (m_attachedBottle ? m_attachedBottle->containedChemicalIds() : QStringList{});
+        qDebug() << "[Beaker][dragFinished] beaker ids =" << containedChemicalIds();
         // 结束预览状态
         m_trackVisible = false;
         m_pourHandle->setTrackVisible(false);
@@ -420,6 +423,9 @@ void BeakerItem::acceptSolidFromTweezers(const QString& chemicalId, const QStrin
     m_solidFillRatio = 0.35;
 
     addContainedChemicalId(chemicalId);
+
+    qDebug() << "[Beaker][acceptSolidFromTweezers] added =" << chemicalId;
+    qDebug() << "[Beaker][acceptSolidFromTweezers] beaker ids =" << containedChemicalIds();
 
     ensureSolidCreated();
     if (m_solidItem) {

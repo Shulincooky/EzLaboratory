@@ -3,8 +3,6 @@
 #include "AbstractBottleItem.h"
 #include <QColor>
 
-class SolidScatterItem;
-
 class WideBottleItem : public AbstractBottleItem
 {
     Q_OBJECT
@@ -16,6 +14,9 @@ public:
     static WideBottleItem* createInstance(const BottleLabelData& data,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
+        bool enableSolid = false,
+        const QString& solidTexturePath = QString(),
+        qreal solidFillRatio = 0.0,
         QGraphicsItem* parent = nullptr);
 
     QPointF mouthLocalPos() const override;
@@ -45,7 +46,7 @@ private:
     void refreshSolidGeometry();
 
 private:
-    SolidScatterItem* m_solidItem = nullptr;
+    class SolidScatterItem* m_solidItem = nullptr;
     QString m_solidTexturePath;
     qreal m_solidFillRatio = 0.0;
 };

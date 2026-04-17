@@ -40,6 +40,10 @@ void LabwareListView::startDrag(Qt::DropActions)
     const bool liquidEnabled = index.data(LabwareRoles::LiquidEnabled).toBool();
     const QColor liquidColor = index.data(LabwareRoles::LiquidColor).value<QColor>();
 
+    const bool solidEnabled = index.data(LabwareRoles::SolidEnabled).toBool();
+    const QString solidTexturePath = index.data(LabwareRoles::SolidTexturePath).toString();
+    const qreal solidFillRatio = index.data(LabwareRoles::SolidFillRatio).toDouble();
+
     if (type.isEmpty())
         return;
 
@@ -66,6 +70,12 @@ void LabwareListView::startDrag(Qt::DropActions)
     payload.append(liquidEnabled ? '1' : '0');
     payload.append('|');
     payload.append(liquidColor.name(QColor::HexArgb).toUtf8().toBase64());
+    payload.append('|');
+    payload.append(solidEnabled ? '1' : '0');
+    payload.append('|');
+    payload.append(solidTexturePath.toUtf8().toBase64());
+    payload.append('|');
+    payload.append(QByteArray::number(solidFillRatio, 'f', 4));
 
     auto* mimeData = new QMimeData();
     mimeData->setData(kLabwareMimeType, payload);

@@ -29,7 +29,6 @@ private:
 
     QGraphicsScene* m_scene = nullptr;
 
-    // 固定的最大场景边界
     QRectF m_worldRect = QRectF(0, 0, 2400, 1600);
 
     void initLabwareList();
@@ -54,6 +53,9 @@ private:
         const QString& centerText,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
+        bool enableSolid = false,
+        const QString& solidTexturePath = QString(),
+        qreal solidFillRatio = 0.0,
         int limit = 3);
 
     void appendWideBottleInstanceItem(const QString& displayName,
@@ -61,12 +63,15 @@ private:
         const QString& bottomText,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
+        bool enableSolid = false,
+        const QString& solidTexturePath = QString(),
+        qreal solidFillRatio = 0.0,
         int limit = 3);
+
     void appendCommonContainerItem(const QString& type,
         const QString& displayName,
         const QString& iconPath,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
         int limit = 3);
-
 };

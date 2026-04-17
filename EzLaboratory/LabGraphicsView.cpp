@@ -104,7 +104,7 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     const QByteArray data = event->mimeData()->data(kLabwareMimeType);
     const QList<QByteArray> parts = data.split('|');
-    if (parts.size() != 10) {
+    if (parts.size() != 13) {
         event->ignore();
         return;
     }
@@ -128,6 +128,11 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     const QString liquidColorText =
         QString::fromUtf8(QByteArray::fromBase64(parts[9]));
     const QColor liquidColor(liquidColorText);
+
+    const bool solidEnabled = (parts[10] == "1");
+    const QString solidTexturePath =
+        QString::fromUtf8(QByteArray::fromBase64(parts[11]));
+    const qreal solidFillRatio = parts[12].toDouble();
 
     if (limit > 0 && remaining <= 0) {
         event->ignore();
@@ -161,7 +166,10 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         newItem = WideBottleItem::createInstance(
             label,
             liquidEnabled,
-            liquidColor);
+            liquidColor,
+            solidEnabled,
+            solidTexturePath,
+            solidFillRatio);
     }
 
     if (!newItem) {

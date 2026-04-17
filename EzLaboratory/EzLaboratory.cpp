@@ -104,12 +104,11 @@ void EzLaboratory::initLabwareList()
     ui->labwareList->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->labwareList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    auto* beakerItem = new QStandardItem(QIcon(":/EzLaboratory/resources/image/glassware/beaker.png"), "烧杯");
-    beakerItem->setEditable(false);
-    beakerItem->setData("beaker", LabwareTypeRole);
-    beakerItem->setData(3, LabwareLimitRole);
-    beakerItem->setData(3, LabwareRemainingRole);
-    m_labwareModel->appendRow(beakerItem);
+    appendCommonContainerItem(
+        QStringLiteral("beaker"),
+        QStringLiteral("烧杯"),
+        QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png")
+    );
 
     appendNarrowBottleInstanceItem(
         QStringLiteral("盐酸细口瓶"),
@@ -274,6 +273,36 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     item->setData(QString(), LabelCenterTextRole);
     item->setData(topText, LabelTopTextRole);
     item->setData(bottomText, LabelBottomTextRole);
+    item->setData(enableLiquid, LiquidEnabledRole);
+    item->setData(liquidColor, LiquidColorRole);
+
+    m_labwareModel->appendRow(item);
+}
+
+void EzLaboratory::appendCommonContainerItem(const QString& type,
+    const QString& displayName,
+    const QString& iconPath,
+    bool enableLiquid,
+    const QColor& liquidColor,
+    int limit)
+{
+    if (!m_labwareModel)
+        return;
+
+    auto* item = new QStandardItem(QIcon(iconPath), displayName);
+
+    item->setEditable(false);
+    item->setData(type, LabwareTypeRole);
+    item->setData(limit, LabwareLimitRole);
+    item->setData(limit, LabwareRemainingRole);
+    item->setData(type + QStringLiteral("::") + displayName, LabwareTemplateIdRole);
+
+    // 通用容器没有标签
+    item->setData(-1, LabelLayoutRole);
+    item->setData(QString(), LabelCenterTextRole);
+    item->setData(QString(), LabelTopTextRole);
+    item->setData(QString(), LabelBottomTextRole);
+
     item->setData(enableLiquid, LiquidEnabledRole);
     item->setData(liquidColor, LiquidColorRole);
 

@@ -62,5 +62,11 @@ private:
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
         int limit = 3);
+    void appendCommonContainerItem(const QString& type,
+        const QString& displayName,
+        const QString& iconPath,
+        bool enableLiquid = false,
+        const QColor& liquidColor = QColor(),
+        int limit = 3);
 
 };

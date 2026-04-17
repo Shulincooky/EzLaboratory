@@ -24,10 +24,9 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
         QSizeF(100 * 1.5, 140 * 1.5),
         parent)
 {
-    setLiquidRenderingEnabled(true);
-
-    m_currentLiquidLevel = defaultLiquidFillRatio();
-    setLiquidLevel(m_currentLiquidLevel);
+    m_currentLiquidLevel = 0.0;
+    setLiquidLevel(0.0);
+    setLiquidRenderingEnabled(false);;
 
     // 按钮做成顶层图元，不挂在烧杯下面，保证永远在最上方
     m_pourHandle = new BeakerPourHandleItem();
@@ -91,9 +90,19 @@ BeakerItem* BeakerItem::createInstance(bool enableLiquid,
 {
     auto* beaker = new BeakerItem(parent);
 
-    beaker->setLiquidRenderingEnabled(enableLiquid);
-    if (enableLiquid && liquidColor.isValid()) {
-        beaker->setLiquidColor(liquidColor);
+    if (enableLiquid) {
+        beaker->m_currentLiquidLevel = beaker->defaultLiquidFillRatio();
+        beaker->setLiquidLevel(beaker->m_currentLiquidLevel);
+        beaker->setLiquidRenderingEnabled(true);
+
+        if (liquidColor.isValid()) {
+            beaker->setLiquidColor(liquidColor);
+        }
+    }
+    else {
+        beaker->m_currentLiquidLevel = 0.0;
+        beaker->setLiquidLevel(0.0);
+        beaker->setLiquidRenderingEnabled(false);
     }
 
     return beaker;

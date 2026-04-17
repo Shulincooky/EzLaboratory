@@ -17,6 +17,8 @@ namespace
     constexpr int LabelTopTextRole = Qt::UserRole + 6;
     constexpr int LabelBottomTextRole = Qt::UserRole + 7;
     constexpr int LabwareTemplateIdRole = Qt::UserRole + 8;
+    constexpr int LiquidEnabledRole = Qt::UserRole + 9;
+    constexpr int LiquidColorRole = Qt::UserRole + 10;
 }
 
 LabwareListView::LabwareListView(QWidget* parent)

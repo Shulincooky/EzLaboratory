@@ -68,8 +68,17 @@ QSizeF WideBottleItem::labelLogicalSize() const
 }
 QRectF WideBottleItem::liquidRectLocal() const
 {
-    // 广口瓶瓶腹更宽，默认 fillRatio=1.0 时同样是“满到瓶颈”
-    return QRectF(18.0, 42.0, itemSize().width() - 36.0, itemSize().height() - 56.0);
+    const qreal leftInset = 10.0;
+    const qreal rightInset = 10.0;
+    const qreal topInset = 80.0;
+    const qreal bottomInset = 14.0;
+
+    return QRectF(
+        leftInset,
+        topInset,
+        itemSize().width() - leftInset - rightInset,
+        itemSize().height() - topInset - bottomInset
+    );
 }
 
 QColor WideBottleItem::defaultLiquidColor() const

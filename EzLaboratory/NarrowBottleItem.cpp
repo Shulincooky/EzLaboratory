@@ -68,8 +68,17 @@ QSizeF NarrowBottleItem::labelLogicalSize() const
 }
 QRectF NarrowBottleItem::liquidRectLocal() const
 {
-    // 只覆盖瓶腹到瓶颈以下，默认 fillRatio=1.0 时就是“满到瓶颈”
-    return QRectF(24.0, 48.0, itemSize().width() - 48.0, itemSize().height() - 62.0);
+    const qreal leftInset = 10.0;
+    const qreal rightInset = 10.0;
+    const qreal topInset = 80.0;
+    const qreal bottomInset = 14.0;
+
+    return QRectF(
+        leftInset,
+        topInset,
+        itemSize().width() - leftInset - rightInset,
+        itemSize().height() - topInset - bottomInset
+    );
 }
 
 QColor NarrowBottleItem::defaultLiquidColor() const

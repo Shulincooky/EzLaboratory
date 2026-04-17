@@ -20,6 +20,8 @@ namespace
     constexpr int LabelTopTextRole = Qt::UserRole + 6;
     constexpr int LabelBottomTextRole = Qt::UserRole + 7;
     constexpr int LabwareTemplateIdRole = Qt::UserRole + 8;
+    constexpr int LiquidEnabledRole = Qt::UserRole + 9;
+    constexpr int LiquidColorRole = Qt::UserRole + 10;
 }
 
 EzLaboratory::EzLaboratory(QWidget* parent)
@@ -112,20 +114,24 @@ void EzLaboratory::initLabwareList()
     appendNarrowBottleInstanceItem(
         QStringLiteral("盐酸细口瓶"),
         QStringLiteral("HCl"),
-        QStringLiteral("4 mol/L"));
-
+        QStringLiteral("4 mol/L"),
+        true,
+        QColor(90, 150, 255, 125));
     appendNarrowBottleInstanceItem(
         QStringLiteral("蒸馏水细口瓶"),
-        QStringLiteral("蒸馏水"));
-
+        QStringLiteral("蒸馏水"),
+        true,
+        QColor(90, 150, 255, 80));
     appendWideBottleInstanceItem(
         QStringLiteral("氢氧化钠广口瓶"),
-        QStringLiteral("氢氧化钠"));
-
+        QStringLiteral("氢氧化钠"),
+        true,
+        QColor(90, 150, 255, 125));
     appendWideBottleInstanceItem(
-        QStringLiteral("打飞机专用"),
-        QStringLiteral("飞机"),
-        QStringLiteral("防空炮"));
+        QStringLiteral("空广口瓶"),
+        QStringLiteral("空瓶"),
+        false,
+        QColor());
 }
 
 
@@ -158,6 +164,8 @@ void EzLaboratory::decreaseRemainingCount(const QString& templateId)
 }
 void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     const QString& centerText,
+    bool enableLiquid,
+    const QColor& liquidColor,
     int limit)
 {
     if (!m_labwareModel)
@@ -177,6 +185,8 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     item->setData(centerText, LabelCenterTextRole);
     item->setData(QString(), LabelTopTextRole);
     item->setData(QString(), LabelBottomTextRole);
+    item->setData(enableLiquid, LiquidEnabledRole);
+    item->setData(liquidColor, LiquidColorRole);
 
     m_labwareModel->appendRow(item);
 }
@@ -184,6 +194,8 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
 void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     const QString& topText,
     const QString& bottomText,
+    bool enableLiquid,
+    const QColor& liquidColor,
     int limit)
 {
     if (!m_labwareModel)
@@ -203,12 +215,16 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     item->setData(QString(), LabelCenterTextRole);
     item->setData(topText, LabelTopTextRole);
     item->setData(bottomText, LabelBottomTextRole);
+    item->setData(enableLiquid, LiquidEnabledRole);
+    item->setData(liquidColor, LiquidColorRole);
 
     m_labwareModel->appendRow(item);
 }
 
 void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     const QString& centerText,
+    bool enableLiquid,
+    const QColor& liquidColor,
     int limit)
 {
     if (!m_labwareModel)
@@ -228,6 +244,8 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     item->setData(centerText, LabelCenterTextRole);
     item->setData(QString(), LabelTopTextRole);
     item->setData(QString(), LabelBottomTextRole);
+    item->setData(enableLiquid, LiquidEnabledRole);
+    item->setData(liquidColor, LiquidColorRole);
 
     m_labwareModel->appendRow(item);
 }
@@ -235,6 +253,8 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
 void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     const QString& topText,
     const QString& bottomText,
+    bool enableLiquid,
+    const QColor& liquidColor,
     int limit)
 {
     if (!m_labwareModel)
@@ -254,6 +274,8 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     item->setData(QString(), LabelCenterTextRole);
     item->setData(topText, LabelTopTextRole);
     item->setData(bottomText, LabelBottomTextRole);
+    item->setData(enableLiquid, LiquidEnabledRole);
+    item->setData(liquidColor, LiquidColorRole);
 
     m_labwareModel->appendRow(item);
 }

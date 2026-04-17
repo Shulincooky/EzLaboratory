@@ -120,6 +120,17 @@ void EzLaboratory::initLabwareList()
         QStringLiteral("空瓶"),
         false,
         QColor());
+    BottleLabelData label;
+    label.layout = BottleLabelLayout::SingleCenter;
+    label.centerText = QStringLiteral("NaOH");
+
+    auto* bottle = WideBottleItem::createInstance(label, false, QColor());
+    bottle->setSolidTexturePath(":/EzLaboratory/resources/image/solid/naoh_chunk.png");
+    bottle->setSolidFillRatio(0.65);
+    bottle->setSolidRenderingEnabled(true);
+
+    m_scene->addItem(bottle);
+    bottle->setPos(500, 260);
 }
 
 void EzLaboratory::decreaseRemainingCount(const QString& templateId)

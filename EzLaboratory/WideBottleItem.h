@@ -4,8 +4,6 @@
 #include "SolidScatterItem.h"
 #include <QColor>
 
-class SolidScatterItem;
-
 class WideBottleItem : public AbstractBottleItem
 {
     Q_OBJECT

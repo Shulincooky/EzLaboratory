@@ -16,7 +16,7 @@ TweezersItem::TweezersItem(QGraphicsItem* parent)
         "tweezers",
         "Tweezers",
         kTweezersImagePath,
-        QSizeF(220, 72),
+        QSizeF(150, 150),
         parent)
 {
     setZValue(5000.0);
@@ -115,4 +115,41 @@ void TweezersItem::refreshCarriedPreview()
     m_carriedPreview->setPixmap(px.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     m_carriedPreview->setPos(tipLocalPos() - QPointF(8.0, 10.0));
     m_carriedPreview->show();
+}
+
+void TweezersItem::paint(QPainter* painter,
+    const QStyleOptionGraphicsItem*,
+    QWidget*)
+{
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+    const QPixmap& px = itemPixmap();
+    if (!px.isNull()) {
+        const QSize targetSize = px.size().scaled(
+            boundingRect().size().toSize(),
+            Qt::KeepAspectRatio);
+
+        const QRect targetRect(
+            static_cast<int>((boundingRect().width() - targetSize.width()) * 0.5),
+            static_cast<int>((boundingRect().height() - targetSize.height()) * 0.5),
+            targetSize.width(),
+            targetSize.height());
+
+        painter->drawPixmap(targetRect, px);
+    }
+    else {
+        painter->setPen(QPen(QColor(50, 90, 180), 2));
+        painter->setBrush(QBrush(QColor(180, 220, 255)));
+        painter->drawRoundedRect(boundingRect(), 8, 8);
+
+        painter->setPen(Qt::black);
+        painter->drawText(boundingRect(), Qt::AlignCenter, itemName());
+    }
+
+    if (isSelected()) {
+        painter->setPen(QPen(QColor(255, 170, 0), 2, Qt::DashLine));
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRect(boundingRect());
+    }
 }

@@ -35,13 +35,15 @@ QPainterPath BeakerItem::liquidClipPathLocal() const
     QPainterPath path;
 
     // 上口略宽、下部略窄一点，模拟烧杯内腔
-    const qreal insetTop = 4.0;
-    const qreal insetBottom = 4.0;
+    const qreal leftTopInset = 6.0;
+    const qreal rightTopInset = -8.0;
+    const qreal leftBottomInset = 8.0;
+    const qreal rightBottomInset = -8.0;
 
-    path.moveTo(r.left() + insetTop, r.top());
-    path.lineTo(r.right() - insetTop, r.top());
-    path.lineTo(r.right() - insetBottom, r.bottom());
-    path.lineTo(r.left() + insetBottom, r.bottom());
+    path.moveTo(r.left() + leftTopInset, r.top());
+    path.lineTo(r.right() - rightTopInset, r.top());
+    path.lineTo(r.right() - rightBottomInset, r.bottom());
+    path.lineTo(r.left() + leftBottomInset, r.bottom());
     path.closeSubpath();
 
     return path;

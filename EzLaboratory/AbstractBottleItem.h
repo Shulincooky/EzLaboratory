@@ -1,12 +1,12 @@
 #pragma once
 
-#include "LabItem.h"
+#include "AbstractLiquidContainerItem.h"
 #include "BottleLabelData.h"
 
 class AbstractPlugItem;
 class BottleLabelItem;
 
-class AbstractBottleItem : public LabItem
+class AbstractBottleItem : public AbstractLiquidContainerItem
 {
     Q_OBJECT
 
@@ -40,6 +40,11 @@ protected:
 
     virtual qreal plugInsertOffsetY() const = 0;
     virtual qreal plugOffsetX() const;
+
+    virtual QRectF liquidRectLocal() const = 0;
+    virtual QColor defaultLiquidColor() const override;
+    virtual qreal defaultLiquidFillRatio() const override;
+    virtual QPainterPath liquidClipPathLocal() const override;
 
     virtual QPointF labelLocalPos() const = 0;
     virtual QSizeF labelLogicalSize() const = 0;

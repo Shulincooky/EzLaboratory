@@ -142,7 +142,10 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         label.topText = topText;
         label.bottomText = bottomText;
 
-        newItem = NarrowBottleItem::createInstance(label);
+        newItem = NarrowBottleItem::createInstance(
+            label,
+            true,
+            QColor(90, 150, 255, 125));
     }
     else if (type == "wide_bottle") {
         BottleLabelData label;
@@ -151,7 +154,10 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         label.topText = topText;
         label.bottomText = bottomText;
 
-        newItem = WideBottleItem::createInstance(label);
+        newItem = WideBottleItem::createInstance(
+            label,
+            true,
+            QColor(90, 150, 255, 125));
     }
 
     if (!newItem) {

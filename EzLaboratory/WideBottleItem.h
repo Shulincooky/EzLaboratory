@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AbstractBottleItem.h"
-
+#include <QColor>
 class WideBottleItem : public AbstractBottleItem
 {
     Q_OBJECT
@@ -10,6 +10,8 @@ public:
     explicit WideBottleItem(QGraphicsItem* parent = nullptr);
     ~WideBottleItem() override;
     static WideBottleItem* createInstance(const BottleLabelData& data,
+        bool enableLiquid = false,
+        const QColor& liquidColor = QColor(),
         QGraphicsItem* parent = nullptr);
 
     QPointF mouthLocalPos() const override;
@@ -19,4 +21,7 @@ protected:
     qreal plugInsertOffsetY() const override;
     QPointF labelLocalPos() const override;
     QSizeF labelLogicalSize() const override;
+    QRectF liquidRectLocal() const override;
+    QColor defaultLiquidColor() const override;
+    qreal defaultLiquidFillRatio() const override;
 };

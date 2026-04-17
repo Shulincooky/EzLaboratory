@@ -7,7 +7,7 @@ AbstractBottleItem::AbstractBottleItem(const QString& itemType,
     const QString& imagePath,
     const QSizeF& itemSize,
     QGraphicsItem* parent)
-    : LabItem(itemType, itemName, imagePath, itemSize, parent)
+    : AbstractLiquidContainerItem(itemType, itemName, imagePath, itemSize, parent)
 {
 }
 
@@ -107,4 +107,22 @@ QString AbstractBottleItem::labelTemplatePath() const
 void AbstractBottleItem::finalizeInstance(const BottleLabelData& data)
 {
     setLabelData(data);
+}
+
+QColor AbstractBottleItem::defaultLiquidColor() const
+{
+    return QColor(90, 150, 255, 125);
+}
+
+qreal AbstractBottleItem::defaultLiquidFillRatio() const
+{
+    // 瓶子默认“装满到瓶颈以下的液体区域”
+    return 1.0;
+}
+
+QPainterPath AbstractBottleItem::liquidClipPathLocal() const
+{
+    QPainterPath path;
+    path.addRect(liquidRectLocal());
+    return path;
 }

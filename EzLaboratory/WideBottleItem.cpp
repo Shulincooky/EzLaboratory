@@ -1,6 +1,7 @@
 #include "WideBottleItem.h"
 #include "WideBottlePlugItem.h"
 #include "BottleLabelItem.h"
+#include "LiquidItem.h"
 
 namespace
 {
@@ -18,6 +19,7 @@ WideBottleItem::WideBottleItem(QGraphicsItem* parent)
 {
     initializePlug(new WideBottlePlugItem(this));
     initializeLabel(new BottleLabelItem(this));
+    setLiquidRenderingEnabled(false);
 }
 
 WideBottleItem::~WideBottleItem()
@@ -25,10 +27,18 @@ WideBottleItem::~WideBottleItem()
 }
 
 WideBottleItem* WideBottleItem::createInstance(const BottleLabelData& data,
+    bool enableLiquid,
+    const QColor& liquidColor,
     QGraphicsItem* parent)
 {
     auto* bottle = new WideBottleItem(parent);
     bottle->finalizeInstance(data);
+
+    bottle->setLiquidRenderingEnabled(enableLiquid);
+    if (enableLiquid && liquidColor.isValid()) {
+        bottle->setLiquidColor(liquidColor);
+    }
+
     return bottle;
 }
 
@@ -55,4 +65,19 @@ QPointF WideBottleItem::labelLocalPos() const
 QSizeF WideBottleItem::labelLogicalSize() const
 {
     return QSizeF(60.0, 38.0);
+}
+QRectF WideBottleItem::liquidRectLocal() const
+{
+    // 广口瓶瓶腹更宽，默认 fillRatio=1.0 时同样是“满到瓶颈”
+    return QRectF(18.0, 42.0, itemSize().width() - 36.0, itemSize().height() - 56.0);
+}
+
+QColor WideBottleItem::defaultLiquidColor() const
+{
+    return QColor(90, 150, 255, 125);
+}
+
+qreal WideBottleItem::defaultLiquidFillRatio() const
+{
+    return 1.0;
 }

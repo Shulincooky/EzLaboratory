@@ -43,6 +43,7 @@ void LabwareListView::startDrag(Qt::DropActions)
     const bool solidEnabled = index.data(LabwareRoles::SolidEnabled).toBool();
     const QString solidTexturePath = index.data(LabwareRoles::SolidTexturePath).toString();
     const qreal solidFillRatio = index.data(LabwareRoles::SolidFillRatio).toDouble();
+    const QStringList chemicalIds = index.data(LabwareRoles::ChemicalIds).toStringList();
 
     if (type.isEmpty())
         return;
@@ -76,6 +77,8 @@ void LabwareListView::startDrag(Qt::DropActions)
     payload.append(solidTexturePath.toUtf8().toBase64());
     payload.append('|');
     payload.append(QByteArray::number(solidFillRatio, 'f', 4));
+    payload.append('|');
+    payload.append(chemicalIds.join('\n').toUtf8().toBase64());
 
     auto* mimeData = new QMimeData();
     mimeData->setData(kLabwareMimeType, payload);

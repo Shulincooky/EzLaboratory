@@ -31,6 +31,11 @@ public:
 
     void startContainerSway(qreal maxAngleDeg = 10.0, int durationMs = 1600);
 
+    void setContainedChemicalIds(const QStringList& ids);
+    QStringList containedChemicalIds() const;
+    void addContainedChemicalId(const QString& id);
+    void clearContainedChemicalIds();
+
 protected:
     void initializeLiquid(LiquidItem* liquid);
     void refreshLiquidGeometry();
@@ -39,7 +44,6 @@ protected:
     void destroyLiquid();
 
     virtual LiquidItem* createLiquidItem();
-
 
     virtual QRectF liquidRectLocal() const = 0;
     virtual QColor defaultLiquidColor() const;
@@ -53,4 +57,6 @@ private:
     bool m_liquidRenderingEnabled = false;
     QColor m_storedLiquidColor;
     qreal m_storedLiquidLevel = 0.0;
+
+    QStringList m_containedChemicalIds;
 };

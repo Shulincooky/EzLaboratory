@@ -94,21 +94,22 @@ void EzLaboratory::initLabwareList()
         QStringLiteral("beaker"),
         QStringLiteral("烧杯"),
         QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png"),
-        false);
-
-    appendNarrowBottleInstanceItem(
-        QStringLiteral("盐酸细口瓶"),
-        QStringLiteral("HCl"),
-        QStringLiteral("4 mol/L"),
-        true,
-        QColor(25, 15, 255, 125));
-
+        false,
+        QColor(),
+        QStringList{});
+    appendCommonContainerItem(
+        QStringLiteral("beaker"),
+        QStringLiteral("烧杯"),
+        QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png"),
+        false,
+        QColor(),
+        QStringList{});
     appendNarrowBottleInstanceItem(
         QStringLiteral("蒸馏水细口瓶"),
         QStringLiteral("蒸馏水"),
         true,
-        QColor(90, 150, 255, 80));
-
+        QColor(90, 150, 255, 80),
+        QStringList{ QStringLiteral("$H2O@") });
     appendWideBottleInstanceItem(
         QStringLiteral("氢氧化钠广口瓶"),
         QStringLiteral("氢氧化钠"),
@@ -116,8 +117,8 @@ void EzLaboratory::initLabwareList()
         QColor(),
         true,
         QStringLiteral(":/EzLaboratory/resources/image/solid/naoh_chunk.png"),
-        0.65);
-
+        0.65,
+        QStringList{ QStringLiteral("$NaOH@") });
     appendWideBottleInstanceItem(
         QStringLiteral("空广口瓶"),
         QStringLiteral("空瓶"),
@@ -125,7 +126,8 @@ void EzLaboratory::initLabwareList()
         QColor(),
         false,
         QString(),
-        0.0);
+        0.0,
+        QStringList{});
 }
 
 void EzLaboratory::decreaseRemainingCount(const QString& templateId)
@@ -159,6 +161,7 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     const QString& centerText,
     bool enableLiquid,
     const QColor& liquidColor,
+    const QStringList& chemicalIds,
     int limit)
 {
     if (!m_labwareModel)
@@ -185,7 +188,7 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     item->setData(false, LabwareRoles::SolidEnabled);
     item->setData(QString(), LabwareRoles::SolidTexturePath);
     item->setData(0.0, LabwareRoles::SolidFillRatio);
-
+    item->setData(chemicalIds, LabwareRoles::ChemicalIds);
     m_labwareModel->appendRow(item);
 }
 
@@ -194,6 +197,7 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     const QString& bottomText,
     bool enableLiquid,
     const QColor& liquidColor,
+    const QStringList& chemicalIds,
     int limit)
 {
     if (!m_labwareModel)
@@ -216,6 +220,7 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
 
     item->setData(enableLiquid, LabwareRoles::LiquidEnabled);
     item->setData(liquidColor, LabwareRoles::LiquidColor);
+    item->setData(chemicalIds, LabwareRoles::ChemicalIds);
 
     item->setData(false, LabwareRoles::SolidEnabled);
     item->setData(QString(), LabwareRoles::SolidTexturePath);
@@ -231,6 +236,7 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     bool enableSolid,
     const QString& solidTexturePath,
     qreal solidFillRatio,
+    const QStringList& chemicalIds,
     int limit)
 {
     if (!m_labwareModel)
@@ -253,6 +259,7 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
 
     item->setData(enableLiquid, LabwareRoles::LiquidEnabled);
     item->setData(liquidColor, LabwareRoles::LiquidColor);
+    item->setData(chemicalIds, LabwareRoles::ChemicalIds);
 
     item->setData(enableSolid, LabwareRoles::SolidEnabled);
     item->setData(solidTexturePath, LabwareRoles::SolidTexturePath);
@@ -269,6 +276,7 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     bool enableSolid,
     const QString& solidTexturePath,
     qreal solidFillRatio,
+    const QStringList& chemicalIds,
     int limit)
 {
     if (!m_labwareModel)
@@ -291,7 +299,7 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
 
     item->setData(enableLiquid, LabwareRoles::LiquidEnabled);
     item->setData(liquidColor, LabwareRoles::LiquidColor);
-
+    item->setData(chemicalIds, LabwareRoles::ChemicalIds);
     item->setData(enableSolid, LabwareRoles::SolidEnabled);
     item->setData(solidTexturePath, LabwareRoles::SolidTexturePath);
     item->setData(solidFillRatio, LabwareRoles::SolidFillRatio);
@@ -304,6 +312,7 @@ void EzLaboratory::appendCommonContainerItem(const QString& type,
     const QString& iconPath,
     bool enableLiquid,
     const QColor& liquidColor,
+    const QStringList& chemicalIds,
     int limit)
 {
     if (!m_labwareModel)
@@ -328,6 +337,7 @@ void EzLaboratory::appendCommonContainerItem(const QString& type,
     item->setData(false, LabwareRoles::SolidEnabled);
     item->setData(QString(), LabwareRoles::SolidTexturePath);
     item->setData(0.0, LabwareRoles::SolidFillRatio);
+    item->setData(chemicalIds, LabwareRoles::ChemicalIds);
 
     m_labwareModel->appendRow(item);
 }

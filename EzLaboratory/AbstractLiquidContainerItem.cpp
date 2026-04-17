@@ -185,3 +185,31 @@ qreal AbstractLiquidContainerItem::liquidLevel() const
 {
     return m_storedLiquidLevel;
 }
+
+void AbstractLiquidContainerItem::setContainedChemicalIds(const QStringList& ids)
+{
+    m_containedChemicalIds.clear();
+    for (const QString& id : ids) {
+        if (!id.isEmpty() && !m_containedChemicalIds.contains(id)) {
+            m_containedChemicalIds.push_back(id);
+        }
+    }
+}
+
+QStringList AbstractLiquidContainerItem::containedChemicalIds() const
+{
+    return m_containedChemicalIds;
+}
+
+void AbstractLiquidContainerItem::addContainedChemicalId(const QString& id)
+{
+    if (id.isEmpty() || m_containedChemicalIds.contains(id)) {
+        return;
+    }
+    m_containedChemicalIds.push_back(id);
+}
+
+void AbstractLiquidContainerItem::clearContainedChemicalIds()
+{
+    m_containedChemicalIds.clear();
+}

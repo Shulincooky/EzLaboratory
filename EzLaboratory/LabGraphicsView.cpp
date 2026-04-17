@@ -104,7 +104,7 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     const QByteArray data = event->mimeData()->data(kLabwareMimeType);
     const QList<QByteArray> parts = data.split('|');
-    if (parts.size() != 13) {
+    if (parts.size() != 14) {
         event->ignore();
         return;
     }
@@ -133,7 +133,9 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     const QString solidTexturePath =
         QString::fromUtf8(QByteArray::fromBase64(parts[11]));
     const qreal solidFillRatio = parts[12].toDouble();
-
+    const QStringList chemicalIds =
+        QString::fromUtf8(QByteArray::fromBase64(parts[13]))
+        .split('\n', Qt::SkipEmptyParts);
     if (limit > 0 && remaining <= 0) {
         event->ignore();
         return;
@@ -175,6 +177,9 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     if (!newItem) {
         event->ignore();
         return;
+    }
+    if (auto* container = dynamic_cast<AbstractLiquidContainerItem*>(newItem)) {
+        container->setContainedChemicalIds(chemicalIds);
     }
 
     const QPointF scenePos = mapToScene(event->position().toPoint());

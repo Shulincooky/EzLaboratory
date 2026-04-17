@@ -40,6 +40,7 @@ private:
         const QString& centerText,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
+        const QStringList& chemicalIds = {},
         int limit = 3);
 
     void appendNarrowBottleInstanceItem(const QString& displayName,
@@ -47,6 +48,7 @@ private:
         const QString& bottomText,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
+        const QStringList& chemicalIds = {},
         int limit = 3);
 
     void appendWideBottleInstanceItem(const QString& displayName,
@@ -56,6 +58,7 @@ private:
         bool enableSolid = false,
         const QString& solidTexturePath = QString(),
         qreal solidFillRatio = 0.0,
+        const QStringList& chemicalIds = {},
         int limit = 3);
 
     void appendWideBottleInstanceItem(const QString& displayName,
@@ -66,6 +69,7 @@ private:
         bool enableSolid = false,
         const QString& solidTexturePath = QString(),
         qreal solidFillRatio = 0.0,
+        const QStringList& chemicalIds = {},
         int limit = 3);
 
     void appendCommonContainerItem(const QString& type,
@@ -73,5 +77,6 @@ private:
         const QString& iconPath,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
+        const QStringList& chemicalIds = {},
         int limit = 3);
 };

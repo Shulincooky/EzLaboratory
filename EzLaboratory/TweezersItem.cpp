@@ -65,6 +65,10 @@ void TweezersItem::tryPickSolid()
             continue;
         }
 
+        if (bottle->hasPlug()) {
+            continue;
+        }
+
         if (!bottle->hasSolidItem()) {
             continue;
         }

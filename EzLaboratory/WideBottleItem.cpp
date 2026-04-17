@@ -245,6 +245,10 @@ QString WideBottleItem::solidChemicalId() const
 
 bool WideBottleItem::takeSolidForTweezers(QString* chemicalId, QString* texturePath)
 {
+    if (hasPlug()) {
+        return false;
+    }
+
     if (!m_solidItem || m_solidChemicalId.isEmpty() || m_solidTexturePath.isEmpty()) {
         return false;
     }
@@ -256,9 +260,5 @@ bool WideBottleItem::takeSolidForTweezers(QString* chemicalId, QString* textureP
         *texturePath = m_solidTexturePath;
     }
 
-    destroySolid();
-    m_solidFillRatio = 0.0;
-    clearContainedChemicalIds();
-    m_solidChemicalId.clear();
     return true;
 }

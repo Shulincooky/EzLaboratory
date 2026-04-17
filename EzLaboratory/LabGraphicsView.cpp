@@ -137,7 +137,7 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
     LabItem* newItem = nullptr;
 
     if (type == "beaker") {
-        newItem = new BeakerItem();
+        newItem = BeakerItem::createInstance(liquidEnabled, liquidColor);
     }
     else if (type == "narrow_bottle") {
         BottleLabelData label;

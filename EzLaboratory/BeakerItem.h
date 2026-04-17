@@ -33,6 +33,7 @@ private:
     void refreshAttachedBottleTransform();
     void refreshHandleGeometry();
 
+    QRectF attachZoneSceneRect() const;
     QPointF beakerAttachPivotLocalPos() const;
     qreal maxPourRotationDeg() const;
     qreal previewPourRatio() const;
@@ -45,10 +46,4 @@ private:
     qreal m_pourRatio = 0.0;
 
     int m_scanTimerId = -1;
-
-    NarrowBottleItem* m_detachSuppressedBottle = nullptr;
-    qreal m_reacquireDistance = 90.0;
-
-    QPointF m_lastSceneAnchorPos;
-    bool m_hasLastSceneAnchorPos = false;
 };

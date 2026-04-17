@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.8.3_msvc2022_64</QtInstall>
-    <QtModules>core;gui;widgets;svg;</QtModules>
+    <QtModules>core;gui;widgets;svg</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -100,6 +100,7 @@
     <ClCompile Include="BottleLabelRenderer.cpp" />
     <ClCompile Include="ExperimentSidebarConfigLoader.cpp" />
     <ClCompile Include="LiquidItem.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="NarrowBottleItem.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
@@ -120,6 +121,7 @@
     <ClCompile Include="LabwareItemDelegate.cpp" />
     <ClCompile Include="LabwareListView.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="MainWindow.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LabGraphicsView.h" />
@@ -158,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="ExperimentSidebarConfigLoader.h" />
     <ClInclude Include="LabwareTemplateRoles.h" />
+    <QtMoc Include="MainWindow.h" />
     <ClInclude Include="SolidScatterItem.h" />
     <QtMoc Include="TweezersItem.h" />
     <QtMoc Include="AbstractLiquidContainerItem.h" />

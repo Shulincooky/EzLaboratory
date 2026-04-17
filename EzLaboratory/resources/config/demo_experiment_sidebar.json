@@ -1,60 +1,59 @@
 {
   "chemicals": [
     {
-      "id": "$H2O@",
-      "alias": "水",
-      "displayName": "蒸馏水",
+      "id": "$CuSO4@",
+      "alias": "硫酸铜",
+      "displayName": "硫酸铜",
       "phase": "liquid",
-      "liquidColor": "#505A96FF"
+      "liquidColor": "#5070B8FF"
     },
     {
       "id": "$NaOH@",
       "alias": "氢氧化钠",
       "displayName": "氢氧化钠",
-      "phase": "solid",
-      "solidTexturePath": ":/EzLaboratory/resources/image/solid/naoh_chunk.png"
+      "phase": "liquid",
+      "liquidColor": "#28C8D2FF"
     },
     {
-      "id": "$HCl@",
-      "alias": "盐酸",
-      "displayName": "盐酸",
+      "id": "$CuOH2@",
+      "alias": "氢氧化铜",
+      "displayName": "氢氧化铜",
+      "phase": "solid",
+      "solidTexturePath": ":/EzLaboratory/resources/image/solid/cuoh2_chunk.png"
+    },
+    {
+      "id": "$Na2SO4@",
+      "alias": "硫酸钠",
+      "displayName": "硫酸钠",
       "phase": "liquid",
-      "liquidColor": "#7D190FFF"
+      "liquidColor": "#28C8D2FF"
     }
   ],
   "sidebar": [
     {
       "type": "beaker",
       "displayName": "烧杯",
-      "limit": 3
-    },
-    {
-      "type": "tweezers",
-      "displayName": "镊子",
-      "limit": 1
+      "limit": 2
     },
     {
       "type": "chemical_container",
-      "chemicalId": "$H2O@",
-      "container": "auto",
+      "chemicalId": "$CuSO4@",
+      "container": "narrow_bottle",
+      "label": {
+        "top": "CuSO4",
+        "bottom": "硫酸铜溶液"
+      },
       "limit": 1
     },
     {
       "type": "chemical_container",
       "chemicalId": "$NaOH@",
-      "container": "auto",
-      "solidFillRatio": 0.65,
-      "limit": 1
-    },
-    {
-      "type": "chemical_container",
-      "chemicalId": "$HCl@",
       "container": "narrow_bottle",
       "label": {
-        "top": "HCl",
-        "bottom": "4 mol/L"
+        "top": "NaOH",
+        "bottom": "氢氧化钠溶液"
       },
-      "limit": 2
+      "limit": 1
     }
   ]
 }

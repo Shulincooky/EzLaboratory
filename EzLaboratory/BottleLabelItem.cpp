@@ -1,6 +1,8 @@
 #include "BottleLabelItem.h"
 #include "BottleLabelRenderer.h"
 
+#include <QPainter>
+
 BottleLabelItem::BottleLabelItem(QGraphicsItem* parent)
     : QGraphicsPixmapItem(parent)
 {
@@ -21,8 +23,26 @@ void BottleLabelItem::updateLabel(const BottleLabelData& data,
         return;
     }
 
-    setPixmap(pix.scaled(
+    QPixmap scaledLabel = pix.scaled(
         logicalSize.toSize(),
         Qt::IgnoreAspectRatio,
-        Qt::SmoothTransformation));
+        Qt::SmoothTransformation);
+
+    QPixmap composed(logicalSize.toSize());
+    composed.fill(Qt::transparent);
+
+    QPainter painter(&composed);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    // 先垫一个不透明白底，避免液体从标签透明区域透出来
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(Qt::white);
+    painter.drawRoundedRect(
+        QRectF(0.0, 0.0, logicalSize.width(), logicalSize.height()),
+        4.0, 4.0);
+
+    // 再画 SVG 标签内容
+    painter.drawPixmap(0, 0, scaledLabel);
+
+    setPixmap(composed);
 }

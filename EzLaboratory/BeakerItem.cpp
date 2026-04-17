@@ -161,6 +161,10 @@ void BeakerItem::updateAttachmentScan()
             continue;
         }
 
+        if (bottle->hasPlug()) {
+            continue;
+        }
+
         const qreal d = QLineF(bottle->mouthScenePos(), pivotScene).length();
         if (d < 70.0 && d < bestDistance) {
             bestDistance = d;
@@ -175,7 +179,29 @@ void BeakerItem::updateAttachmentScan()
 
 void BeakerItem::attachBottle(NarrowBottleItem* bottle)
 {
+    if (!scene()) {
+        return;
+    }
+
     if (!bottle || m_attachedBottle == bottle) {
+        return;
+    }
+
+    if (m_attachedBottle) {
+        if (m_attachedBottle->hasPlug()) {
+            detachBottle();
+            return;
+        }
+
+
+        const QPointF pivotScene = mapToScene(beakerAttachPivotLocalPos());
+        const qreal d = QLineF(m_attachedBottle->mouthScenePos(), pivotScene).length();
+
+        // 弱绑定：偏离吸附点一定距离就自动解除
+        if (d > 26.0) {
+            detachBottle();
+        }
+
         return;
     }
 
@@ -183,7 +209,6 @@ void BeakerItem::attachBottle(NarrowBottleItem* bottle)
     m_attachedBottle->setData(kBottleAttachedToBeakerRole, true);
     m_attachedBottle->setLabelOffset(QPointF(10.0, 0.0));
     m_attachedBottle->setTransformOriginPoint(m_attachedBottle->pourPivotLocalPos());
-    m_attachedBottle->setFlag(QGraphicsItem::ItemIsMovable, false);
 
     m_pourRatio = 0.0;
     if (m_pourHandle) {
@@ -205,13 +230,13 @@ void BeakerItem::detachBottle()
     m_attachedBottle->setData(kBottleAttachedToBeakerRole, false);
     m_attachedBottle->setLabelOffset(QPointF(0.0, 0.0));
     m_attachedBottle->setRotation(0.0);
-    m_attachedBottle->setFlag(QGraphicsItem::ItemIsMovable, true);
 
     m_attachedBottle = nullptr;
     m_pourRatio = 0.0;
 
     if (m_pourHandle) {
         m_pourHandle->setRatio(0.0);
+        m_trackVisible = false;
         m_pourHandle->hide();
     }
 

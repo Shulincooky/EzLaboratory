@@ -139,17 +139,52 @@ void BeakerItem::setPourHandleIconPath(const QString& iconPath)
 
 void BeakerItem::updateAttachmentScan()
 {
-    if (!scene() || m_attachedBottle) {
+    if (!scene()) {
         return;
     }
 
+    const QPointF pivotScene = mapToScene(beakerAttachPivotLocalPos());
+
+    // 1. 已处于倒液弱绑定状态时，持续检查是否需要自动解除
+    if (m_attachedBottle) {
+        if (m_attachedBottle->hasPlug()) {
+            detachBottle();
+            return;
+        }
+
+        const qreal d = QLineF(m_attachedBottle->mouthScenePos(), pivotScene).length();
+
+        // 弱绑定：偏离接触点一定距离就自动解除
+        if (d > 26.0) {
+            detachBottle();
+            return;
+        }
+
+        // 仍然有效时，持续刷新位置
+        refreshAttachedBottleTransform();
+        return;
+    }
+
+    // 2. 解除后，只有当那只刚脱离的瓶子离开一定范围，才允许重新吸附
+    if (m_detachSuppressedBottle) {
+        if (!m_detachSuppressedBottle->scene()) {
+            m_detachSuppressedBottle = nullptr;
+        }
+        else {
+            const qreal d = QLineF(m_detachSuppressedBottle->mouthScenePos(), pivotScene).length();
+            if (d < m_reacquireDistance) {
+                return;
+            }
+            m_detachSuppressedBottle = nullptr;
+        }
+    }
+
+    // 3. 空闲状态下再去扫描可吸附细口瓶
     const QRectF searchRect = mapRectToScene(boundingRect()).adjusted(-70.0, -30.0, 100.0, 40.0);
     const QList<QGraphicsItem*> items = scene()->items(searchRect, Qt::IntersectsItemBoundingRect);
 
     NarrowBottleItem* bestBottle = nullptr;
     qreal bestDistance = std::numeric_limits<qreal>::max();
-
-    const QPointF pivotScene = mapToScene(beakerAttachPivotLocalPos());
 
     for (QGraphicsItem* item : items) {
         auto* bottle = dynamic_cast<NarrowBottleItem*>(item);
@@ -161,7 +196,13 @@ void BeakerItem::updateAttachmentScan()
             continue;
         }
 
+        // 盖着塞子的细口瓶不能进入倒液状态
         if (bottle->hasPlug()) {
+            continue;
+        }
+
+        // 刚刚解除绑定的同一只瓶子，在冷却期内不允许马上重新吸附
+        if (bottle == m_detachSuppressedBottle) {
             continue;
         }
 
@@ -187,25 +228,9 @@ void BeakerItem::attachBottle(NarrowBottleItem* bottle)
         return;
     }
 
-    if (m_attachedBottle) {
-        if (m_attachedBottle->hasPlug()) {
-            detachBottle();
-            return;
-        }
-
-
-        const QPointF pivotScene = mapToScene(beakerAttachPivotLocalPos());
-        const qreal d = QLineF(m_attachedBottle->mouthScenePos(), pivotScene).length();
-
-        // 弱绑定：偏离吸附点一定距离就自动解除
-        if (d > 26.0) {
-            detachBottle();
-        }
-
-        return;
-    }
 
     m_attachedBottle = bottle;
+    m_detachSuppressedBottle = nullptr;
     m_attachedBottle->setData(kBottleAttachedToBeakerRole, true);
     m_attachedBottle->setLabelOffset(QPointF(10.0, 0.0));
     m_attachedBottle->setTransformOriginPoint(m_attachedBottle->pourPivotLocalPos());
@@ -231,7 +256,9 @@ void BeakerItem::detachBottle()
     m_attachedBottle->setLabelOffset(QPointF(0.0, 0.0));
     m_attachedBottle->setRotation(0.0);
 
+    m_detachSuppressedBottle = m_attachedBottle;
     m_attachedBottle = nullptr;
+
     m_pourRatio = 0.0;
 
     if (m_pourHandle) {

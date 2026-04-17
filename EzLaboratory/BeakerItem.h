@@ -45,4 +45,7 @@ private:
     qreal m_pourRatio = 0.0;
 
     int m_scanTimerId = -1;
+
+    NarrowBottleItem* m_detachSuppressedBottle = nullptr;
+    qreal m_reacquireDistance = 90.0;
 };

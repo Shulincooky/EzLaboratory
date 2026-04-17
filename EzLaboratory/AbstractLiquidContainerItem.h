@@ -22,6 +22,8 @@ public:
     void setLiquidFillRatio(qreal ratio);
 
     void setLiquidLevel(qreal level);
+    QColor liquidColor() const;
+    qreal liquidLevel() const;
 
     void setLiquidRenderingEnabled(bool enabled);
     bool liquidRenderingEnabled() const;
@@ -38,6 +40,7 @@ protected:
 
     virtual LiquidItem* createLiquidItem();
 
+
     virtual QRectF liquidRectLocal() const = 0;
     virtual QColor defaultLiquidColor() const;
     virtual qreal defaultLiquidFillRatio() const;
@@ -51,4 +54,6 @@ private:
     QVariantAnimation* m_swayAnimation = nullptr;
 
     bool m_liquidRenderingEnabled = false;
+    QColor m_storedLiquidColor;
+    qreal m_storedLiquidLevel = 0.0;
 };

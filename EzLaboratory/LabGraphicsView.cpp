@@ -104,7 +104,7 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     const QByteArray data = event->mimeData()->data(kLabwareMimeType);
     const QList<QByteArray> parts = data.split('|');
-    if (parts.size() != 8) {
+    if (parts.size() != 10) {
         event->ignore();
         return;
     }
@@ -124,6 +124,10 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         QString::fromUtf8(QByteArray::fromBase64(parts[6]));
     const QString templateId =
         QString::fromUtf8(QByteArray::fromBase64(parts[7]));
+    const bool liquidEnabled = (parts[8] == "1");
+    const QString liquidColorText =
+        QString::fromUtf8(QByteArray::fromBase64(parts[9]));
+    const QColor liquidColor(liquidColorText);
 
     if (limit > 0 && remaining <= 0) {
         event->ignore();
@@ -144,8 +148,8 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
         newItem = NarrowBottleItem::createInstance(
             label,
-            true,
-            QColor(90, 150, 255, 125));
+            liquidEnabled,
+            liquidColor);
     }
     else if (type == "wide_bottle") {
         BottleLabelData label;
@@ -156,8 +160,8 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
         newItem = WideBottleItem::createInstance(
             label,
-            true,
-            QColor(90, 150, 255, 125));
+            liquidEnabled,
+            liquidColor);
     }
 
     if (!newItem) {

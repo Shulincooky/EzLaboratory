@@ -13,6 +13,9 @@ public:
     ~BeakerItem() override;
 
     void setPourHandleIconPath(const QString& iconPath);
+    static BeakerItem* createInstance(bool enableLiquid = true,
+        const QColor& liquidColor = QColor(),
+        QGraphicsItem* parent = nullptr);
 
 protected:
     QRectF liquidRectLocal() const override;

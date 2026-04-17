@@ -43,22 +43,26 @@ AbstractLiquidContainerItem::AbstractLiquidContainerItem(const QString& itemType
     const QSizeF& itemSize,
     QGraphicsItem* parent)
     : LabItem(itemType, itemName, imagePath, itemSize, parent)
+    , m_storedLiquidColor(defaultLiquidColor())
+    , m_storedLiquidLevel(defaultLiquidFillRatio())
 {
 }
-
 AbstractLiquidContainerItem::~AbstractLiquidContainerItem()
 {
 }
 
 void AbstractLiquidContainerItem::setLiquidColor(const QColor& color)
 {
+    if (color.isValid()) {
+        m_storedLiquidColor = color;
+    }
+
     if (!m_liquidItem) {
         return;
     }
 
-    m_liquidItem->setColor(color);
+    m_liquidItem->setColor(m_storedLiquidColor);
 }
-
 void AbstractLiquidContainerItem::startLiquidColorTransition(const QColor& targetColor, int durationMs)
 {
     if (!m_liquidItem) {
@@ -70,11 +74,13 @@ void AbstractLiquidContainerItem::startLiquidColorTransition(const QColor& targe
 
 void AbstractLiquidContainerItem::setLiquidFillRatio(qreal ratio)
 {
+    m_storedLiquidLevel = qBound(0.0, ratio, 1.0);
+
     if (!m_liquidItem) {
         return;
     }
 
-    m_liquidItem->setFillRatio(ratio);
+    m_liquidItem->setFillRatio(m_storedLiquidLevel);
 }
 
 void AbstractLiquidContainerItem::startContainerSway(qreal maxAngleDeg, int durationMs)
@@ -137,8 +143,8 @@ void AbstractLiquidContainerItem::initializeLiquid(LiquidItem* liquid)
     m_liquidItem = liquid;
     m_liquidRenderingEnabled = true;
     m_liquidItem->setParentItem(this);
-    m_liquidItem->setColor(defaultLiquidColor());
-    m_liquidItem->setFillRatio(defaultLiquidFillRatio());
+    m_liquidItem->setColor(m_storedLiquidColor);
+    m_liquidItem->setFillRatio(m_storedLiquidLevel);
 
     refreshLiquidGeometry();
 }
@@ -217,4 +223,13 @@ QPainterPath AbstractLiquidContainerItem::liquidClipPathLocal() const
     QPainterPath path;
     path.addRect(liquidRectLocal());
     return path;
+}
+QColor AbstractLiquidContainerItem::liquidColor() const
+{
+    return m_storedLiquidColor;
+}
+
+qreal AbstractLiquidContainerItem::liquidLevel() const
+{
+    return m_storedLiquidLevel;
 }

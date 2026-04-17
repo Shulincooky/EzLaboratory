@@ -47,6 +47,9 @@ void LabwareListView::startDrag(Qt::DropActions)
     const QString topText = index.data(LabelTopTextRole).toString();
     const QString bottomText = index.data(LabelBottomTextRole).toString();
 
+    const bool liquidEnabled = index.data(LiquidEnabledRole).toBool();
+    const QColor liquidColor = index.data(LiquidColorRole).value<QColor>();
+
     if (type.isEmpty())
         return;
     if (limit > 0 && remaining <= 0)
@@ -68,6 +71,10 @@ void LabwareListView::startDrag(Qt::DropActions)
     payload.append(bottomText.toUtf8().toBase64());
     payload.append('|');
     payload.append(templateId.toUtf8().toBase64());
+    payload.append('|');
+    payload.append(liquidEnabled ? '1' : '0');
+    payload.append('|');
+    payload.append(liquidColor.name(QColor::HexArgb).toUtf8().toBase64());
 
     auto* mimeData = new QMimeData();
     mimeData->setData(kLabwareMimeType, payload);

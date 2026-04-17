@@ -107,7 +107,8 @@ void EzLaboratory::initLabwareList()
     appendCommonContainerItem(
         QStringLiteral("beaker"),
         QStringLiteral("烧杯"),
-        QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png")
+        QStringLiteral(":/EzLaboratory/resources/image/glassware/beaker.png"),
+        false
     );
 
     appendNarrowBottleInstanceItem(
@@ -115,7 +116,7 @@ void EzLaboratory::initLabwareList()
         QStringLiteral("HCl"),
         QStringLiteral("4 mol/L"),
         true,
-        QColor(90, 150, 255, 125));
+        QColor(25, 15, 255, 125));
     appendNarrowBottleInstanceItem(
         QStringLiteral("蒸馏水细口瓶"),
         QStringLiteral("蒸馏水"),

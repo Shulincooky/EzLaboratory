@@ -2,6 +2,7 @@
 #include "LiquidItem.h"
 #include "NarrowBottleItem.h"
 #include "BeakerPourHandleItem.h"
+#include <QColor>
 
 #include <QPainterPath>
 #include <QPainter>
@@ -35,6 +36,12 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
     m_pourHandle->setZValue(10000.0);
 
     connect(m_pourHandle, &BeakerPourHandleItem::dragStarted, this, [this]() {
+        if (m_attachedBottle && !liquidRenderingEnabled()) {
+            setLiquidRenderingEnabled(true);
+            setLiquidColor(m_attachedBottle->liquidColor());
+            setLiquidLevel(m_currentLiquidLevel);
+        }
+
         m_trackVisible = true;
         m_pourHandle->setTrackVisible(true);
         update();
@@ -76,6 +83,20 @@ BeakerItem::~BeakerItem()
         delete m_pourHandle;
         m_pourHandle = nullptr;
     }
+}
+
+BeakerItem* BeakerItem::createInstance(bool enableLiquid,
+    const QColor& liquidColor,
+    QGraphicsItem* parent)
+{
+    auto* beaker = new BeakerItem(parent);
+
+    beaker->setLiquidRenderingEnabled(enableLiquid);
+    if (enableLiquid && liquidColor.isValid()) {
+        beaker->setLiquidColor(liquidColor);
+    }
+
+    return beaker;
 }
 
 QRectF BeakerItem::liquidRectLocal() const

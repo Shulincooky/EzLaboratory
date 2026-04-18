@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include <QByteArray>
 #include <QColor>
 #include <QHash>
@@ -79,4 +77,4 @@ private:
     QHash<QString, ChemicalDefinition> m_chemicals;
     QList<SidebarTemplate> m_sidebarTemplates;
     QList<ReactionTemplate> m_reactionTemplates;
-}
+};

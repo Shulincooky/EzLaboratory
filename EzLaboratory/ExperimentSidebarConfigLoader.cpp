@@ -11,6 +11,7 @@ bool ExperimentSidebarConfigLoader::loadFromFile(const QString& filePath)
     m_chemicals.clear();
     m_sidebarTemplates.clear();
     m_reactionTemplates.clear();
+
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
         m_errorString = QStringLiteral("无法打开配置文件: %1").arg(filePath);
@@ -29,10 +30,12 @@ QList<SidebarTemplate> ExperimentSidebarConfigLoader::sidebarTemplates() const
 {
     return m_sidebarTemplates;
 }
+
 QList<ReactionTemplate> ExperimentSidebarConfigLoader::reactionTemplates() const
 {
     return m_reactionTemplates;
 }
+
 bool ExperimentSidebarConfigLoader::parseRoot(const QByteArray& jsonData)
 {
     QJsonParseError parseError;
@@ -72,8 +75,6 @@ bool ExperimentSidebarConfigLoader::parseRoot(const QByteArray& jsonData)
             return false;
         }
     }
-
-    return true;
 
     return true;
 }
@@ -223,47 +224,6 @@ bool ExperimentSidebarConfigLoader::parseSidebar(const QJsonArray& array)
     return true;
 }
 
-QString ExperimentSidebarConfigLoader::resolvedChemicalDisplayName(const ChemicalDefinition& chemical) const
-{
-    if (!chemical.displayName.isEmpty()) {
-        return chemical.displayName;
-    }
-    if (!chemical.alias.isEmpty()) {
-        return chemical.alias;
-    }
-    return chemical.id;
-}
-
-QString ExperimentSidebarConfigLoader::resolvedBottleDisplayName(const ChemicalDefinition& chemical, const QString& containerType) const
-{
-    const QString base = resolvedChemicalDisplayName(chemical);
-    if (containerType == "wide_bottle") {
-        return base + QStringLiteral("广口瓶");
-    }
-    if (containerType == "narrow_bottle") {
-        return base + QStringLiteral("细口瓶");
-    }
-    return base;
-}
-
-QString ExperimentSidebarConfigLoader::resolvedContainerType(const QString& requested, const ChemicalDefinition& chemical) const
-{
-    if (requested == "wide_bottle" || requested == "narrow_bottle") {
-        return requested;
-    }
-
-    if (requested == "auto" || requested.isEmpty()) {
-        if (chemical.phase == "solid") {
-            return "wide_bottle";
-        }
-        if (chemical.phase == "liquid") {
-            return "narrow_bottle";
-        }
-    }
-
-    return QString();
-}
-
 bool ExperimentSidebarConfigLoader::parseReactions(const QJsonArray& array)
 {
     for (const QJsonValue& value : array) {
@@ -320,4 +280,45 @@ bool ExperimentSidebarConfigLoader::parseReactions(const QJsonArray& array)
     }
 
     return true;
+}
+
+QString ExperimentSidebarConfigLoader::resolvedChemicalDisplayName(const ChemicalDefinition& chemical) const
+{
+    if (!chemical.displayName.isEmpty()) {
+        return chemical.displayName;
+    }
+    if (!chemical.alias.isEmpty()) {
+        return chemical.alias;
+    }
+    return chemical.id;
+}
+
+QString ExperimentSidebarConfigLoader::resolvedBottleDisplayName(const ChemicalDefinition& chemical, const QString& containerType) const
+{
+    const QString base = resolvedChemicalDisplayName(chemical);
+    if (containerType == "wide_bottle") {
+        return base + QStringLiteral("广口瓶");
+    }
+    if (containerType == "narrow_bottle") {
+        return base + QStringLiteral("细口瓶");
+    }
+    return base;
+}
+
+QString ExperimentSidebarConfigLoader::resolvedContainerType(const QString& requested, const ChemicalDefinition& chemical) const
+{
+    if (requested == "wide_bottle" || requested == "narrow_bottle") {
+        return requested;
+    }
+
+    if (requested == "auto" || requested.isEmpty()) {
+        if (chemical.phase == "solid") {
+            return "wide_bottle";
+        }
+        if (chemical.phase == "liquid") {
+            return "narrow_bottle";
+        }
+    }
+
+    return QString();
 }

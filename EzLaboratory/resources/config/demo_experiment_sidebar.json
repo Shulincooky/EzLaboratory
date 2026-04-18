@@ -19,7 +19,7 @@
       "alias": "氢氧化铜",
       "displayName": "氢氧化铜",
       "phase": "solid",
-      "solidTexturePath": ":/EzLaboratory/resources/image/solid/cuoh2_chunk.png"
+      "solidTexturePath": ":/EzLaboratory/resources/image/solid/cuoh_chunk.png"
     },
     {
       "id": "$Na2SO4@",

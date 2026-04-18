@@ -9,5 +9,6 @@
         <file>resources/image/solid/naoh_chunk.png</file>
         <file>resources/image/lab_tools/tweezers.png</file>
         <file>resources/config/demo_experiment_sidebar.json</file>
+        <file>resources/icon/setting.svg</file>
     </qresource>
 </RCC>

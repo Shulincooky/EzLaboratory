@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractLiquidContainerItem.h"
+#include "ExperimentSidebarConfigLoader.h"
 #include "SolidScatterItem.h"
 
 class NarrowBottleItem;
@@ -20,6 +21,8 @@ public:
 
     void acceptSolidFromTweezers(const QString& chemicalId, const QString& texturePath);
     bool hasSolidItem() const;
+
+    static void setReactionTemplates(const QList<ReactionTemplate>& templates);
 protected:
     QRectF liquidRectLocal() const override;
     QColor defaultLiquidColor() const override;
@@ -47,7 +50,7 @@ private:
     void ensureSolidCreated();
     void destroySolid();
     void refreshSolidGeometry();
-
+    void tryApplyReactions();
 private:
     NarrowBottleItem* m_attachedBottle = nullptr;
     BeakerPourHandleItem* m_pourHandle = nullptr;
@@ -62,4 +65,6 @@ private:
     qreal m_solidFillRatio = 0.0;
 
     int m_scanTimerId = -1;
+
+    static QList<ReactionTemplate> s_reactionTemplates;
 };

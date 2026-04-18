@@ -16,6 +16,7 @@ namespace
 {
     constexpr int kBottleAttachedToBeakerRole = 1001;
 }
+QList<ReactionTemplate> BeakerItem::s_reactionTemplates;
 
 BeakerItem::BeakerItem(QGraphicsItem* parent)
     : AbstractLiquidContainerItem(
@@ -59,6 +60,7 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
                 addContainedChemicalId(id);
             }
         }
+        tryApplyReactions();
         qDebug() << "[Beaker][dragFinished] attached bottle ids ="
             << (m_attachedBottle ? m_attachedBottle->containedChemicalIds() : QStringList{});
         qDebug() << "[Beaker][dragFinished] beaker ids =" << containedChemicalIds();
@@ -95,6 +97,11 @@ BeakerItem::~BeakerItem()
         delete m_pourHandle;
         m_pourHandle = nullptr;
     }
+}
+
+void BeakerItem::setReactionTemplates(const QList<ReactionTemplate>& templates)
+{
+    s_reactionTemplates = templates;
 }
 
 BeakerItem* BeakerItem::createInstance(bool enableLiquid,
@@ -423,6 +430,7 @@ void BeakerItem::acceptSolidFromTweezers(const QString& chemicalId, const QStrin
     m_solidFillRatio = 0.35;
 
     addContainedChemicalId(chemicalId);
+    tryApplyReactions();
 
     qDebug() << "[Beaker][acceptSolidFromTweezers] added =" << chemicalId;
     qDebug() << "[Beaker][acceptSolidFromTweezers] beaker ids =" << containedChemicalIds();
@@ -477,4 +485,55 @@ void BeakerItem::refreshSolidGeometry()
 
     m_solidItem->setContainerRect(liquidRectLocal());
     m_solidItem->setClipPath(liquidClipPathLocal());
+}
+
+void BeakerItem::tryApplyReactions()
+{
+    if (s_reactionTemplates.isEmpty()) {
+        return;
+    }
+
+    const QStringList ids = containedChemicalIds();
+
+    for (const ReactionTemplate& reaction : s_reactionTemplates) {
+        bool matched = true;
+        for (const QString& reactantId : reaction.reactantIds) {
+            if (!ids.contains(reactantId)) {
+                matched = false;
+                break;
+            }
+        }
+
+        if (!matched) {
+            continue;
+        }
+
+        if (!reaction.productLiquidId.isEmpty()) {
+            addContainedChemicalId(reaction.productLiquidId);
+
+            if (reaction.productLiquidColor.isValid()) {
+                if (!liquidRenderingEnabled()) {
+                    setLiquidRenderingEnabled(true);
+                }
+                setLiquidColor(reaction.productLiquidColor);
+            }
+        }
+
+        if (!reaction.productSolidId.isEmpty()) {
+            addContainedChemicalId(reaction.productSolidId);
+
+            m_solidChemicalId = reaction.productSolidId;
+            m_solidTexturePath = reaction.productSolidTexturePath;
+            m_solidFillRatio = reaction.productSolidFillRatio;
+
+            ensureSolidCreated();
+            if (m_solidItem) {
+                m_solidItem->setTexturePath(m_solidTexturePath);
+                m_solidItem->setFillRatio(m_solidFillRatio);
+                refreshSolidGeometry();
+            }
+        }
+
+        return;
+    }
 }

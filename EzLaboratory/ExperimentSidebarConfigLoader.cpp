@@ -10,7 +10,7 @@ bool ExperimentSidebarConfigLoader::loadFromFile(const QString& filePath)
     m_errorString.clear();
     m_chemicals.clear();
     m_sidebarTemplates.clear();
-
+    m_reactionTemplates.clear();
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
         m_errorString = QStringLiteral("无法打开配置文件: %1").arg(filePath);
@@ -29,7 +29,10 @@ QList<SidebarTemplate> ExperimentSidebarConfigLoader::sidebarTemplates() const
 {
     return m_sidebarTemplates;
 }
-
+QList<ReactionTemplate> ExperimentSidebarConfigLoader::reactionTemplates() const
+{
+    return m_reactionTemplates;
+}
 bool ExperimentSidebarConfigLoader::parseRoot(const QByteArray& jsonData)
 {
     QJsonParseError parseError;
@@ -58,6 +61,19 @@ bool ExperimentSidebarConfigLoader::parseRoot(const QByteArray& jsonData)
     if (!parseSidebar(root.value("sidebar").toArray())) {
         return false;
     }
+
+    if (root.contains("reactions")) {
+        if (!root.value("reactions").isArray()) {
+            m_errorString = QStringLiteral("配置文件中的 reactions 必须是数组");
+            return false;
+        }
+
+        if (!parseReactions(root.value("reactions").toArray())) {
+            return false;
+        }
+    }
+
+    return true;
 
     return true;
 }
@@ -246,4 +262,62 @@ QString ExperimentSidebarConfigLoader::resolvedContainerType(const QString& requ
     }
 
     return QString();
+}
+
+bool ExperimentSidebarConfigLoader::parseReactions(const QJsonArray& array)
+{
+    for (const QJsonValue& value : array) {
+        if (!value.isObject()) {
+            m_errorString = QStringLiteral("reactions 数组中存在非对象项");
+            return false;
+        }
+
+        const QJsonObject obj = value.toObject();
+
+        ReactionTemplate reaction;
+        reaction.equation = obj.value("equation").toString().trimmed();
+
+        const QJsonArray reactantsArray = obj.value("reactants").toArray();
+        for (const QJsonValue& reactantValue : reactantsArray) {
+            const QString id = reactantValue.toString().trimmed();
+            if (id.isEmpty()) {
+                continue;
+            }
+            if (!m_chemicals.contains(id)) {
+                m_errorString = QStringLiteral("reaction 引用了未定义反应物: %1").arg(id);
+                return false;
+            }
+            reaction.reactantIds.push_back(id);
+        }
+
+        if (reaction.reactantIds.isEmpty()) {
+            m_errorString = QStringLiteral("reaction 缺少 reactants");
+            return false;
+        }
+
+        reaction.productLiquidId = obj.value("productLiquidId").toString().trimmed();
+        if (!reaction.productLiquidId.isEmpty()) {
+            if (!m_chemicals.contains(reaction.productLiquidId)) {
+                m_errorString = QStringLiteral("reaction 引用了未定义液体产物: %1").arg(reaction.productLiquidId);
+                return false;
+            }
+            reaction.productLiquidColor = m_chemicals.value(reaction.productLiquidId).liquidColor;
+        }
+
+        reaction.productSolidId = obj.value("productSolidId").toString().trimmed();
+        if (!reaction.productSolidId.isEmpty()) {
+            if (!m_chemicals.contains(reaction.productSolidId)) {
+                m_errorString = QStringLiteral("reaction 引用了未定义固体产物: %1").arg(reaction.productSolidId);
+                return false;
+            }
+            reaction.productSolidTexturePath = m_chemicals.value(reaction.productSolidId).solidTexturePath;
+            reaction.productSolidFillRatio = obj.contains("productSolidFillRatio")
+                ? qBound(0.05, obj.value("productSolidFillRatio").toDouble(0.35), 1.0)
+                : 0.35;
+        }
+
+        m_reactionTemplates.push_back(reaction);
+    }
+
+    return true;
 }

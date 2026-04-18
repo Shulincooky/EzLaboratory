@@ -12,21 +12,21 @@
       "alias": "氢氧化钠",
       "displayName": "氢氧化钠",
       "phase": "liquid",
-      "liquidColor": "#28C8D2FF"
+      "liquidColor": "#28D8E8A0"
     },
     {
       "id": "$CuOH2@",
       "alias": "氢氧化铜",
       "displayName": "氢氧化铜",
       "phase": "solid",
-      "solidTexturePath": ":/EzLaboratory/resources/image/solid/cuoh_chunk.png"
+      "solidTexturePath": ":/EzLaboratory/resources/image/solid/naoh_chunk.png"
     },
     {
       "id": "$Na2SO4@",
       "alias": "硫酸钠",
       "displayName": "硫酸钠",
       "phase": "liquid",
-      "liquidColor": "#28C8D2FF"
+      "liquidColor": "#18DCE8A0"
     }
   ],
   "sidebar": [
@@ -34,6 +34,11 @@
       "type": "beaker",
       "displayName": "烧杯",
       "limit": 2
+    },
+    {
+      "type": "tweezers",
+      "displayName": "镊子",
+      "limit": 1
     },
     {
       "type": "chemical_container",
@@ -54,6 +59,18 @@
         "bottom": "氢氧化钠溶液"
       },
       "limit": 1
+    }
+  ],
+  "reactions": [
+    {
+      "equation": "$CuSO4@ + $NaOH@ -> $CuOH2@ + $Na2SO4@",
+      "reactants": [
+        "$CuSO4@",
+        "$NaOH@"
+      ],
+      "productLiquidId": "$Na2SO4@",
+      "productSolidId": "$CuOH2@",
+      "productSolidFillRatio": 0.35
     }
   ]
 }

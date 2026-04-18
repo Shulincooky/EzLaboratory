@@ -42,6 +42,19 @@ struct SidebarTemplate
     int limit = 1;
 };
 
+struct ReactionTemplate
+{
+    QString equation;
+    QStringList reactantIds;
+
+    QString productLiquidId;
+    QColor productLiquidColor;
+
+    QString productSolidId;
+    QString productSolidTexturePath;
+    qreal productSolidFillRatio = 0.35;
+};
+
 class ExperimentSidebarConfigLoader
 {
 public:
@@ -49,11 +62,13 @@ public:
     QString errorString() const;
 
     QList<SidebarTemplate> sidebarTemplates() const;
+    QList<ReactionTemplate> reactionTemplates() const;
 
 private:
     bool parseRoot(const QByteArray& jsonData);
     bool parseChemicals(const QJsonArray& array);
     bool parseSidebar(const QJsonArray& array);
+    bool parseReactions(const QJsonArray& array);
 
     QString resolvedChemicalDisplayName(const ChemicalDefinition& chemical) const;
     QString resolvedBottleDisplayName(const ChemicalDefinition& chemical, const QString& containerType) const;
@@ -63,4 +78,5 @@ private:
     QString m_errorString;
     QHash<QString, ChemicalDefinition> m_chemicals;
     QList<SidebarTemplate> m_sidebarTemplates;
-};
+    QList<ReactionTemplate> m_reactionTemplates;
+}

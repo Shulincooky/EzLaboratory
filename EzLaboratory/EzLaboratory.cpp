@@ -6,6 +6,7 @@
 #include "NarrowBottleItem.h"
 #include "WideBottleItem.h"
 #include "ExperimentSidebarConfigLoader.h"
+#include "BeakerItem.h"
 
 #include <QEvent>
 #include <QGraphicsScene>
@@ -313,6 +314,7 @@ bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
         qWarning() << "[SidebarConfig] load failed:" << loader.errorString();
         return false;
     }
+    BeakerItem::setReactionTemplates(loader.reactionTemplates());
 
     const QList<SidebarTemplate> templates = loader.sidebarTemplates();
     for (const SidebarTemplate& item : templates) {

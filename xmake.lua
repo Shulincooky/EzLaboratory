@@ -1,5 +1,4 @@
 add_rules("mode.debug", "mode.release")
-add_rules("plugin.vsxmake.autoupdate")
 
 set_project("EzLaboratory")
 set_version("0.1.0")

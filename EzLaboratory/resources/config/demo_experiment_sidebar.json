@@ -23,10 +23,10 @@
     },
     {
       "id": "$Na2SO4@",
-      "alias": "硫酸钠",
-      "displayName": "硫酸钠",
+      "alias": "紫色反应液",
+      "displayName": "紫色反应液",
       "phase": "liquid",
-      "liquidColor": "#18DCE8A0"
+      "liquidColor": "#DCD0FF"
     }
   ],
   "sidebar": [
@@ -63,14 +63,12 @@
   ],
   "reactions": [
     {
-      "equation": "$CuSO4@ + $NaOH@ -> $CuOH2@ + $Na2SO4@",
+      "equation": "$CuSO4@ + $NaOH@ -> purple_visual",
       "reactants": [
         "$CuSO4@",
         "$NaOH@"
       ],
-      "productLiquidId": "$Na2SO4@",
-      "productSolidId": "$CuOH2@",
-      "productSolidFillRatio": 0.35
+      "productLiquidId": "$Na2SO4@"
     }
   ]
 }

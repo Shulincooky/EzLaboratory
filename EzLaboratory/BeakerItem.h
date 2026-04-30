@@ -2,6 +2,7 @@
 #include "AbstractLiquidContainerItem.h"
 #include "ExperimentSidebarConfigLoader.h"
 #include "SolidScatterItem.h"
+#include <QColor>
 
 class NarrowBottleItem;
 class BeakerPourHandleItem;
@@ -51,6 +52,7 @@ private:
     void destroySolid();
     void refreshSolidGeometry();
     void tryApplyReactions();
+    void startLiquidColorTransition(const QColor& targetColor);
 private:
     NarrowBottleItem* m_attachedBottle = nullptr;
     BeakerPourHandleItem* m_pourHandle = nullptr;
@@ -65,6 +67,11 @@ private:
     qreal m_solidFillRatio = 0.0;
 
     int m_scanTimerId = -1;
+
+    QColor m_animStartLiquidColor;
+    QColor m_animTargetLiquidColor;
+    int m_colorAnimTimerId = -1;
+    int m_colorAnimStep = 0;
 
     static QList<ReactionTemplate> s_reactionTemplates;
 };

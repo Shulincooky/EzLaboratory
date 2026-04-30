@@ -91,6 +91,11 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
 
 BeakerItem::~BeakerItem()
 {
+    if (m_colorAnimTimerId != -1) {
+        killTimer(m_colorAnimTimerId);
+        m_colorAnimTimerId = -1;
+    }
+
     destroySolid();
 
     if (m_pourHandle) {
@@ -416,6 +421,38 @@ void BeakerItem::timerEvent(QTimerEvent* event)
         return;
     }
 
+    if (event->timerId() == m_colorAnimTimerId) {
+        constexpr int kMaxSteps = 12;
+        ++m_colorAnimStep;
+
+        const qreal t = qBound(0.0, static_cast<qreal>(m_colorAnimStep) / kMaxSteps, 1.0);
+
+        const auto lerp = [t](int a, int b) {
+            return static_cast<int>(a + (b - a) * t);
+            };
+
+        const QColor mixed(
+            lerp(m_animStartLiquidColor.red(), m_animTargetLiquidColor.red()),
+            lerp(m_animStartLiquidColor.green(), m_animTargetLiquidColor.green()),
+            lerp(m_animStartLiquidColor.blue(), m_animTargetLiquidColor.blue()),
+            lerp(m_animStartLiquidColor.alpha(), m_animTargetLiquidColor.alpha())
+        );
+
+        if (!liquidRenderingEnabled()) {
+            setLiquidRenderingEnabled(true);
+        }
+        setLiquidColor(mixed);
+
+        if (m_colorAnimStep >= kMaxSteps) {
+            killTimer(m_colorAnimTimerId);
+            m_colorAnimTimerId = -1;
+            setLiquidColor(m_animTargetLiquidColor);
+        }
+
+        update();
+        return;
+    }
+
     AbstractLiquidContainerItem::timerEvent(event);
 }
 
@@ -512,28 +549,34 @@ void BeakerItem::tryApplyReactions()
             addContainedChemicalId(reaction.productLiquidId);
 
             if (reaction.productLiquidColor.isValid()) {
-                if (!liquidRenderingEnabled()) {
-                    setLiquidRenderingEnabled(true);
-                }
-                setLiquidColor(reaction.productLiquidColor);
-            }
-        }
-
-        if (!reaction.productSolidId.isEmpty()) {
-            addContainedChemicalId(reaction.productSolidId);
-
-            m_solidChemicalId = reaction.productSolidId;
-            m_solidTexturePath = reaction.productSolidTexturePath;
-            m_solidFillRatio = reaction.productSolidFillRatio;
-
-            ensureSolidCreated();
-            if (m_solidItem) {
-                m_solidItem->setTexturePath(m_solidTexturePath);
-                m_solidItem->setFillRatio(m_solidFillRatio);
-                refreshSolidGeometry();
+                startLiquidColorTransition(reaction.productLiquidColor);
             }
         }
 
         return;
     }
+}
+void BeakerItem::startLiquidColorTransition(const QColor& targetColor)
+{
+    if (!targetColor.isValid()) {
+        return;
+    }
+
+    if (m_colorAnimTimerId != -1) {
+        killTimer(m_colorAnimTimerId);
+        m_colorAnimTimerId = -1;
+    }
+
+    m_animStartLiquidColor = liquidColor().isValid()
+        ? liquidColor()
+        : defaultLiquidColor();
+
+    m_animTargetLiquidColor = targetColor;
+    m_colorAnimStep = 0;
+
+    if (!liquidRenderingEnabled()) {
+        setLiquidRenderingEnabled(true);
+    }
+
+    m_colorAnimTimerId = startTimer(35);
 }

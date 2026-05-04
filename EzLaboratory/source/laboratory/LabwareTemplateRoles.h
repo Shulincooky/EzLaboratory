@@ -12,8 +12,5 @@ namespace LabwareRoles {
     constexpr int TemplateId = Qt::UserRole + 8;
     constexpr int LiquidEnabled = Qt::UserRole + 9;
     constexpr int LiquidColor = Qt::UserRole + 10;
-    constexpr int SolidEnabled = Qt::UserRole + 11;
-    constexpr int SolidTexturePath = Qt::UserRole + 12;
-    constexpr int SolidFillRatio = Qt::UserRole + 13;
-    constexpr int ChemicalIds = Qt::UserRole + 14;
+    constexpr int ChemicalIds = Qt::UserRole + 11;
 }

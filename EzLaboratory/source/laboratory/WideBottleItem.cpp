@@ -28,31 +28,24 @@ WideBottleItem::WideBottleItem(QGraphicsItem* parent)
 
 WideBottleItem::~WideBottleItem()
 {
-    destroySolid();
 }
 
-WideBottleItem* WideBottleItem::createInstance(const BottleLabelData& data,
+WideBottleItem* WideBottleItem::createInstance(
+    const BottleLabelData& data,
     bool enableLiquid,
     const QColor& liquidColor,
-    bool enableSolid,
-    const QString& solidTexturePath,
-    qreal solidFillRatio,
-    QGraphicsItem* parent)
-{
-    auto* bottle = new WideBottleItem(parent);
-    bottle->finalizeInstance(data);
+    QGraphicsItem* parent
+) {
+    auto* item = new WideBottleItem(parent);
 
-    bottle->setLiquidRenderingEnabled(enableLiquid);
-    if (enableLiquid && liquidColor.isValid()) {
-        bottle->setLiquidColor(liquidColor);
+    item->setLabelData(data);
+
+    if (enableLiquid) {
+        item->setLiquidRenderingEnabled(true);
+        item->setLiquidColor(liquidColor);
     }
 
-    if (enableSolid) {
-        bottle->setSolidTexturePath(solidTexturePath);
-        bottle->setSolidFillRatio(solidFillRatio);
-        bottle->setSolidRenderingEnabled(true);
-    }
-    return bottle;
+    return item;
 }
 
 QPointF WideBottleItem::mouthLocalPos() const
@@ -103,162 +96,4 @@ QColor WideBottleItem::defaultLiquidColor() const
 qreal WideBottleItem::defaultLiquidFillRatio() const
 {
     return 1.0;
-}
-
-void WideBottleItem::setSolidTexturePath(const QString& texturePath)
-{
-    if (m_solidTexturePath == texturePath) {
-        return;
-    }
-
-    m_solidTexturePath = texturePath;
-
-    if (m_solidTexturePath.isEmpty()) {
-        destroySolid();
-        return;
-    }
-
-    ensureSolidCreated();
-    if (m_solidItem) {
-        m_solidItem->setTexturePath(m_solidTexturePath);
-        refreshSolidGeometry();
-    }
-}
-
-QString WideBottleItem::solidTexturePath() const
-{
-    return m_solidTexturePath;
-}
-
-void WideBottleItem::setSolidFillRatio(qreal ratio)
-{
-    ratio = qBound(0.0, ratio, 1.0);
-    if (qFuzzyCompare(m_solidFillRatio, ratio)) {
-        return;
-    }
-
-    m_solidFillRatio = ratio;
-
-    if (m_solidFillRatio <= 0.0) {
-        destroySolid();
-        return;
-    }
-
-    ensureSolidCreated();
-    if (m_solidItem) {
-        m_solidItem->setFillRatio(m_solidFillRatio);
-        refreshSolidGeometry();
-    }
-}
-
-qreal WideBottleItem::solidFillRatio() const
-{
-    return m_solidFillRatio;
-}
-
-void WideBottleItem::setSolidRenderingEnabled(bool enabled)
-{
-    if (!enabled) {
-        destroySolid();
-        return;
-    }
-
-    if (m_solidTexturePath.isEmpty()) {
-        return;
-    }
-
-    if (m_solidFillRatio <= 0.0) {
-        m_solidFillRatio = 1.0;
-    }
-
-    ensureSolidCreated();
-    if (m_solidItem) {
-        m_solidItem->setTexturePath(m_solidTexturePath);
-        m_solidItem->setFillRatio(m_solidFillRatio);
-        refreshSolidGeometry();
-    }
-}
-
-bool WideBottleItem::solidRenderingEnabled() const
-{
-    return m_solidItem != nullptr;
-}
-
-bool WideBottleItem::hasSolidItem() const
-{
-    return m_solidItem != nullptr;
-}
-
-void WideBottleItem::ensureSolidCreated()
-{
-    if (m_solidItem) {
-        refreshSolidGeometry();
-        return;
-    }
-
-    if (m_solidTexturePath.isEmpty() || m_solidFillRatio <= 0.0) {
-        return;
-    }
-
-    m_solidItem = new SolidScatterItem(this);
-    m_solidItem->setParentItem(this);
-    m_solidItem->setTexturePath(m_solidTexturePath);
-    m_solidItem->setFillRatio(m_solidFillRatio);
-    m_solidItem->setZValue(0.25);
-
-    refreshSolidGeometry();
-}
-
-void WideBottleItem::destroySolid()
-{
-    if (!m_solidItem) {
-        return;
-    }
-
-    delete m_solidItem;
-    m_solidItem = nullptr;
-}
-
-void WideBottleItem::refreshSolidGeometry()
-{
-    if (!m_solidItem) {
-        return;
-    }
-
-    m_solidItem->setContainerRect(liquidRectLocal());
-    m_solidItem->setClipPath(liquidClipPathLocal());
-}
-
-void WideBottleItem::setSolidChemicalId(const QString& chemicalId)
-{
-    m_solidChemicalId = chemicalId;
-    clearContainedChemicalIds();
-    if (!chemicalId.isEmpty()) {
-        addContainedChemicalId(chemicalId);
-    }
-}
-
-QString WideBottleItem::solidChemicalId() const
-{
-    return m_solidChemicalId;
-}
-
-bool WideBottleItem::takeSolidForTweezers(QString* chemicalId, QString* texturePath)
-{
-    if (hasPlug()) {
-        return false;
-    }
-
-    if (!m_solidItem || m_solidChemicalId.isEmpty() || m_solidTexturePath.isEmpty()) {
-        return false;
-    }
-
-    if (chemicalId) {
-        *chemicalId = m_solidChemicalId;
-    }
-    if (texturePath) {
-        *texturePath = m_solidTexturePath;
-    }
-
-    return true;
 }

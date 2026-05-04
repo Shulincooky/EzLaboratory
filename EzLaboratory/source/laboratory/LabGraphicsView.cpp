@@ -4,7 +4,6 @@
 #include "WideBottleItem.h"
 #include "BottleLabelData.h"
 #include "AbstractLiquidContainerItem.h"
-#include "TweezersItem.h"
 
 #include <QMimeData>
 #include <QGraphicsScene>
@@ -106,7 +105,7 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     const QByteArray data = event->mimeData()->data(kLabwareMimeType);
     const QList<QByteArray> parts = data.split('|');
-    if (parts.size() != 14) {
+    if (parts.size() != 11) {
         event->ignore();
         return;
     }
@@ -131,13 +130,10 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         QString::fromUtf8(QByteArray::fromBase64(parts[9]));
     const QColor liquidColor(liquidColorText);
 
-    const bool solidEnabled = (parts[10] == "1");
-    const QString solidTexturePath =
-        QString::fromUtf8(QByteArray::fromBase64(parts[11]));
-    const qreal solidFillRatio = parts[12].toDouble();
     const QStringList chemicalIds =
-        QString::fromUtf8(QByteArray::fromBase64(parts[13]))
+        QString::fromUtf8(QByteArray::fromBase64(parts[10]))
         .split('\n', Qt::SkipEmptyParts);
+
     if (limit > 0 && remaining <= 0) {
         event->ignore();
         return;
@@ -147,9 +143,6 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
 
     if (type == "beaker") {
         newItem = BeakerItem::createInstance(liquidEnabled, liquidColor);
-    }
-    else if (type == "tweezers") {
-        newItem = new TweezersItem();
     }
     else if (type == "narrow_bottle") {
         BottleLabelData label;
@@ -173,32 +166,24 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
         newItem = WideBottleItem::createInstance(
             label,
             liquidEnabled,
-            liquidColor,
-            solidEnabled,
-            solidTexturePath,
-            solidFillRatio);
-    }
+            liquidColor
+        );
 
-    if (!newItem) {
-        event->ignore();
-        return;
-    }
-    if (auto* container = dynamic_cast<AbstractLiquidContainerItem*>(newItem)) {
-        container->setContainedChemicalIds(chemicalIds);
-    }
-
-    if (auto* wideBottle = dynamic_cast<WideBottleItem*>(newItem)) {
-        if (solidEnabled && !chemicalIds.isEmpty()) {
-            wideBottle->setSolidChemicalId(chemicalIds.front());
+        if (!newItem) {
+            event->ignore();
+            return;
         }
+        if (auto* container = dynamic_cast<AbstractLiquidContainerItem*>(newItem)) {
+            container->setContainedChemicalIds(chemicalIds);
+        }
+
+        const QPointF scenePos = mapToScene(event->position().toPoint());
+        newItem->setPos(scenePos);
+        scene()->addItem(newItem);
+        viewport()->update();
+
+        emit labwareDropped(templateId);
+
+        event->acceptProposedAction();
     }
-
-    const QPointF scenePos = mapToScene(event->position().toPoint());
-    newItem->setPos(scenePos);
-    scene()->addItem(newItem);
-    viewport()->update();
-
-    emit labwareDropped(templateId);
-
-    event->acceptProposedAction();
 }

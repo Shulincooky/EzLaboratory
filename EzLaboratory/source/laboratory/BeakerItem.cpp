@@ -96,8 +96,6 @@ BeakerItem::~BeakerItem()
         m_colorAnimTimerId = -1;
     }
 
-    destroySolid();
-
     if (m_pourHandle) {
         delete m_pourHandle;
         m_pourHandle = nullptr;
@@ -454,74 +452,6 @@ void BeakerItem::timerEvent(QTimerEvent* event)
     }
 
     AbstractLiquidContainerItem::timerEvent(event);
-}
-
-void BeakerItem::acceptSolidFromTweezers(const QString& chemicalId, const QString& texturePath)
-{
-    if (chemicalId.isEmpty() || texturePath.isEmpty()) {
-        return;
-    }
-
-    m_solidChemicalId = chemicalId;
-    m_solidTexturePath = texturePath;
-    m_solidFillRatio = 0.35;
-
-    addContainedChemicalId(chemicalId);
-    tryApplyReactions();
-
-    qDebug() << "[Beaker][acceptSolidFromTweezers] added =" << chemicalId;
-    qDebug() << "[Beaker][acceptSolidFromTweezers] beaker ids =" << containedChemicalIds();
-
-    ensureSolidCreated();
-    if (m_solidItem) {
-        m_solidItem->setTexturePath(m_solidTexturePath);
-        m_solidItem->setFillRatio(m_solidFillRatio);
-        refreshSolidGeometry();
-    }
-}
-
-bool BeakerItem::hasSolidItem() const
-{
-    return m_solidItem != nullptr;
-}
-
-void BeakerItem::ensureSolidCreated()
-{
-    if (m_solidItem) {
-        refreshSolidGeometry();
-        return;
-    }
-
-    if (m_solidTexturePath.isEmpty() || m_solidFillRatio <= 0.0) {
-        return;
-    }
-
-    m_solidItem = new SolidScatterItem(this);
-    m_solidItem->setParentItem(this);
-    m_solidItem->setTexturePath(m_solidTexturePath);
-    m_solidItem->setFillRatio(m_solidFillRatio);
-    m_solidItem->setZValue(0.25);
-    refreshSolidGeometry();
-}
-
-void BeakerItem::destroySolid()
-{
-    if (!m_solidItem) {
-        return;
-    }
-
-    delete m_solidItem;
-    m_solidItem = nullptr;
-}
-
-void BeakerItem::refreshSolidGeometry()
-{
-    if (!m_solidItem) {
-        return;
-    }
-
-    m_solidItem->setContainerRect(liquidRectLocal());
-    m_solidItem->setClipPath(liquidClipPathLocal());
 }
 
 void BeakerItem::tryApplyReactions()

@@ -150,9 +150,6 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     item->setData(enableLiquid, LabwareRoles::LiquidEnabled);
     item->setData(liquidColor, LabwareRoles::LiquidColor);
 
-    item->setData(false, LabwareRoles::SolidEnabled);
-    item->setData(QString(), LabwareRoles::SolidTexturePath);
-    item->setData(0.0, LabwareRoles::SolidFillRatio);
     item->setData(chemicalIds, LabwareRoles::ChemicalIds);
     m_labwareModel->appendRow(item);
 }
@@ -186,10 +183,6 @@ void EzLaboratory::appendNarrowBottleInstanceItem(const QString& displayName,
     item->setData(enableLiquid, LabwareRoles::LiquidEnabled);
     item->setData(liquidColor, LabwareRoles::LiquidColor);
     item->setData(chemicalIds, LabwareRoles::ChemicalIds);
-
-    item->setData(false, LabwareRoles::SolidEnabled);
-    item->setData(QString(), LabwareRoles::SolidTexturePath);
-    item->setData(0.0, LabwareRoles::SolidFillRatio);
 
     m_labwareModel->appendRow(item);
 }
@@ -226,9 +219,6 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     item->setData(liquidColor, LabwareRoles::LiquidColor);
     item->setData(chemicalIds, LabwareRoles::ChemicalIds);
 
-    item->setData(enableSolid, LabwareRoles::SolidEnabled);
-    item->setData(solidTexturePath, LabwareRoles::SolidTexturePath);
-    item->setData(solidFillRatio, LabwareRoles::SolidFillRatio);
 
     m_labwareModel->appendRow(item);
 }
@@ -265,9 +255,6 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     item->setData(enableLiquid, LabwareRoles::LiquidEnabled);
     item->setData(liquidColor, LabwareRoles::LiquidColor);
     item->setData(chemicalIds, LabwareRoles::ChemicalIds);
-    item->setData(enableSolid, LabwareRoles::SolidEnabled);
-    item->setData(solidTexturePath, LabwareRoles::SolidTexturePath);
-    item->setData(solidFillRatio, LabwareRoles::SolidFillRatio);
 
     m_labwareModel->appendRow(item);
 }
@@ -299,9 +286,6 @@ void EzLaboratory::appendCommonContainerItem(const QString& type,
     item->setData(enableLiquid, LabwareRoles::LiquidEnabled);
     item->setData(liquidColor, LabwareRoles::LiquidColor);
 
-    item->setData(false, LabwareRoles::SolidEnabled);
-    item->setData(QString(), LabwareRoles::SolidTexturePath);
-    item->setData(0.0, LabwareRoles::SolidFillRatio);
     item->setData(chemicalIds, LabwareRoles::ChemicalIds);
 
     m_labwareModel->appendRow(item);

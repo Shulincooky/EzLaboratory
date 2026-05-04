@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/EzLaboratory">
+        <file>image/labcontainer/beaker.png</file>
+        <file>image/labcontainer/narrow-neck_bottle/bottle.png</file>
+        <file>image/labcontainer/narrow-neck_bottle/plug.png</file>
+        <file>image/labcontainer/wide-mouth_bottle/bottle.png</file>
+        <file>image/labcontainer/wide-mouth_bottle/plug.png</file>
+        <file>label.svg</file>
+        <file>image/solid/naoh_chunk.png</file>
+        <file>image/labtool/tweezers.png</file>
+        <file>config/demo_experiment_sidebar.json</file>
+        <file>icon/setting.svg</file>
+    </qresource>
+</RCC>

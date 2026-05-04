@@ -11,60 +11,87 @@ target("EzLaboratory")
 
     add_rules("qt.widgetapp")
 
-    -- 当前已有模块。
-    -- 如果之后前端接 HTTP/TCP，再加 QtNetwork。
-    add_frameworks("QtCore", "QtGui", "QtWidgets", "QtSvg")
-
-    -- 物理目录 include。
-    -- 这样 app/main.cpp 里可以继续 #include "EzLaboratory.h"，
-    -- laboratory 下的类也可以继续互相 include。
-    add_includedirs(
-        "EzLaboratory/app",
-        "EzLaboratory/laboratory",
-        "EzLaboratory/tool"
+    add_frameworks(
+        "QtCore",
+        "QtGui",
+        "QtWidgets",
+        "QtSvg"
     )
 
-    -- 根据物理路径自动加入源码。
-    add_files("EzLaboratory/**.cpp")
+    -- =========================
+    -- 目录变量
+    -- =========================
+    local project_dir = "EzLaboratory"
+    local source_dir = path.join(project_dir, "source")
+    local resource_dir = path.join(project_dir, "resources")
 
-    -- 自动加入 Qt Designer UI 文件。
-    add_files("EzLaboratory/**.ui")
+    -- =========================
+    -- Include 路径
+    -- =========================
+    add_includedirs(
+        source_dir,
+        path.join(source_dir, "app"),
+        path.join(source_dir, "frontend"),
+        path.join(source_dir, "laboratory"),
+        path.join(source_dir, "network"),
+        path.join(source_dir, "payload"),
+        path.join(source_dir, "tool")
+    )
 
-    -- 自动加入 Qt 资源文件。
-    add_files("EzLaboratory/**.qrc")
+    -- =========================
+    -- 编译文件
+    -- =========================
 
-    -- 自动加入头文件，让含 Q_OBJECT 的头参与 Qt moc。
-    -- 这可以替代你原来手动列 AbstractBottleItem.h / BeakerItem.h / ... 的方式。
-    add_files("EzLaboratory/**.h")
+    -- C++ 源文件
+    add_files(path.join(source_dir, "**.cpp"))
 
-    -- 让头文件出现在 VS / VSXMake 工程里。
-    add_headerfiles("EzLaboratory/**.h", { install = false })
+    -- Qt UI 文件
+    add_files(path.join(source_dir, "**.ui"))
 
-    -- 资源文件只作为工程展示，不参与编译。
-    -- 真正参与编译的是 .qrc。
+    -- Qt Resource 文件
+    -- 注意：qrc 只允许通过 add_files 加一次
+    add_files(path.join(resource_dir, "**.qrc"))
+
+    -- Qt MOC 头文件
+    add_files(path.join(source_dir, "**.h"))
+
+    -- 让头文件在 VS 工程中显示
+    add_headerfiles(path.join(source_dir, "**.h"), { install = false })
+
+    -- =========================
+    -- 资源文件展示
+    -- =========================
+    -- 不要写 resources/**，否则 qrc 会被重复加入
     add_extrafiles(
-        "EzLaboratory/resources/**",
-        "resources/**",
+        path.join(resource_dir, "config/**"),
+        path.join(resource_dir, "image/**"),
         { install = false }
     )
 
-    -- VS 工程中按物理路径显示。
+    -- =========================
+    -- VS 工程筛选器分组
+    -- =========================
+
     add_filegroups("Source", {
-        rootdir = "EzLaboratory",
+        rootdir = source_dir,
         mode = "plain",
         files = {
             "app/**",
+            "frontend/**",
             "laboratory/**",
+            "network/**",
+            "payload/**",
             "tool/**"
         }
     })
 
     add_filegroups("Resources", {
-        rootdir = ".",
+        rootdir = resource_dir,
         mode = "plain",
         files = {
-            "EzLaboratory/resources/**",
-            "resources/**"
+            "EzLaboratory.qrc",
+            "config/**",
+            "image/**"
         }
     })
 

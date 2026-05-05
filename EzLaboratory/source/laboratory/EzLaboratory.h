@@ -53,26 +53,24 @@ private:
         const QStringList& chemicalIds = {},
         int limit = 3);
 
-    void appendWideBottleInstanceItem(const QString& displayName,
+    void appendWideBottleInstanceItem(
+        const QString& displayName,
         const QString& centerText,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
-        bool enableSolid = false,
-        const QString& solidTexturePath = QString(),
-        qreal solidFillRatio = 0.0,
         const QStringList& chemicalIds = {},
-        int limit = 3);
+        int limit = 3
+    );
 
-    void appendWideBottleInstanceItem(const QString& displayName,
+    void appendWideBottleInstanceItem(
+        const QString& displayName,
         const QString& topText,
         const QString& bottomText,
         bool enableLiquid = false,
         const QColor& liquidColor = QColor(),
-        bool enableSolid = false,
-        const QString& solidTexturePath = QString(),
-        qreal solidFillRatio = 0.0,
         const QStringList& chemicalIds = {},
-        int limit = 3);
+        int limit = 3
+    );
 
     void appendCommonContainerItem(const QString& type,
         const QString& displayName,

@@ -191,9 +191,6 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     const QString& centerText,
     bool enableLiquid,
     const QColor& liquidColor,
-    bool enableSolid,
-    const QString& solidTexturePath,
-    qreal solidFillRatio,
     const QStringList& chemicalIds,
     int limit)
 {
@@ -228,9 +225,6 @@ void EzLaboratory::appendWideBottleInstanceItem(const QString& displayName,
     const QString& bottomText,
     bool enableLiquid,
     const QColor& liquidColor,
-    bool enableSolid,
-    const QString& solidTexturePath,
-    qreal solidFillRatio,
     const QStringList& chemicalIds,
     int limit)
 {
@@ -302,7 +296,7 @@ bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
 
     const QList<SidebarTemplate> templates = loader.sidebarTemplates();
     for (const SidebarTemplate& item : templates) {
-        if (item.type == "beaker" || item.type == "tweezers") {
+        if (item.type == "beaker") {
             appendCommonContainerItem(
                 item.type,
                 item.displayName,
@@ -310,7 +304,8 @@ bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
                 false,
                 QColor(),
                 QStringList{},
-                item.limit);
+                item.limit
+            );
             continue;
         }
 
@@ -349,9 +344,6 @@ bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
                     item.bottomText,
                     item.enableLiquid,
                     item.liquidColor,
-                    item.enableSolid,
-                    item.solidTexturePath,
-                    item.solidFillRatio,
                     item.chemicalIds,
                     item.limit);
             }
@@ -361,9 +353,6 @@ bool EzLaboratory::loadSidebarFromConfig(const QString& filePath)
                     item.centerText,
                     item.enableLiquid,
                     item.liquidColor,
-                    item.enableSolid,
-                    item.solidTexturePath,
-                    item.solidFillRatio,
                     item.chemicalIds,
                     item.limit);
             }

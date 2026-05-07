@@ -13,15 +13,14 @@ struct ChemicalDefinition
     QString id;
     QString alias;
     QString displayName;
-    QString phase;               // "liquid" / "solid"
+    QString phase;               // currently only "liquid" is supported
     QColor liquidColor;
-    QString solidTexturePath;
 };
 
 struct SidebarTemplate
 {
-    QString type;                // "beaker" / "tweezers" / "chemical_container"
-    QString containerType;       // "narrow_bottle" / "wide_bottle"，仅 chemical_container 使用
+    QString type;                // "beaker" / "chemical_container"
+    QString containerType;       // "narrow_bottle" / "wide_bottle"
     QString displayName;
     QString iconPath;
 
@@ -31,10 +30,6 @@ struct SidebarTemplate
 
     bool enableLiquid = false;
     QColor liquidColor;
-
-    bool enableSolid = false;
-    QString solidTexturePath;
-    qreal solidFillRatio = 0.65;
 
     QStringList chemicalIds;
     int limit = 1;
@@ -47,10 +42,6 @@ struct ReactionTemplate
 
     QString productLiquidId;
     QColor productLiquidColor;
-
-    QString productSolidId;
-    QString productSolidTexturePath;
-    qreal productSolidFillRatio = 0.35;
 };
 
 class ExperimentSidebarConfigLoader
@@ -70,7 +61,7 @@ private:
 
     QString resolvedChemicalDisplayName(const ChemicalDefinition& chemical) const;
     QString resolvedBottleDisplayName(const ChemicalDefinition& chemical, const QString& containerType) const;
-    QString resolvedContainerType(const QString& requested, const ChemicalDefinition& chemical) const;
+    QString resolvedContainerType(const QString& requested) const;
 
 private:
     QString m_errorString;

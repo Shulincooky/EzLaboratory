@@ -1,7 +1,6 @@
 #include "BeakerItem.h"
 #include "NarrowBottleItem.h"
 #include "BeakerPourHandleItem.h"
-#include "SolidScatterItem.h"
 #include <QColor>
 #include <QDebug>
 

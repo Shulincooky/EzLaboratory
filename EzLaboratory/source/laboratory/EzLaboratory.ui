@@ -113,7 +113,7 @@ QListView#labwareList::item{
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="EzLaboratory.qrc"/>
+  <include location="../../resources/EzLaboratory.qrc"/>
  </resources>
  <connections/>
 </ui>

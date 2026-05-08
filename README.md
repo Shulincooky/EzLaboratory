@@ -1,82 +1,47 @@
 # EzLaboratory
 
-EzLaboratory uses CMake as the only build system. The Visual Studio entry point is a thin `.slnx` wrapper so that Solution Explorer can use "Show All Files" with the real source directory.
+EzLaboratory is a standard Qt/CMake project.
 
-## Layout
+## Open In Visual Studio
 
-```text
-EzLaboratory/
-  build.bat
-  EzLaboratory/
-    EzLaboratory.slnx
-    EzLaboratory.vcxproj
-    CMakeLists.txt
-    CMakePresets.json
-    source/
-    resources/
-  scripts/
-  vendor/
-    cmake-4.3.2-windows-x86_64/
-  build/
-```
-
-## Visual Studio
-
-Open:
+Use **File > Open > Folder...** and open the repository root:
 
 ```text
-EzLaboratory/EzLaboratory.slnx
+F:\Project\C++\EzLaboratory
 ```
 
-In Solution Explorer, enable "Show All Files". The project root is the physical source directory:
+Visual Studio reads `CMakeLists.txt` and `CMakePresets.json` directly. Do not open a generated `.sln` or `.vcxproj`.
 
-```text
-EzLaboratory/EzLaboratory
-```
+## Build
 
-Build, rebuild, clean, and F5 are forwarded to CMake through the Makefile `.vcxproj`.
-
-## Command Line
-
-Debug build:
+From the repository root:
 
 ```bat
-build.bat
+cmake --preset vs2026-x64
+cmake --build --preset debug
 ```
 
-Release build:
+Release:
 
 ```bat
-build.bat release
+cmake --build --preset release
 ```
 
-Equivalent CMake commands:
+Generated files stay under `build/`.
 
-```bat
-cd EzLaboratory
-..\scripts\CMake.bat --preset vs2026-x64
-..\scripts\CMake.bat --build --preset debug
-```
-
-`scripts/CMake.bat` first uses the portable CMake in `vendor/cmake-4.3.2-windows-x86_64/bin/cmake.exe`, then falls back to `cmake` on `PATH`.
-
-## Requirements
-
-- Visual Studio 2026 with C++ desktop tools
-- Qt 6 for MSVC x64
-- Portable CMake already included under `vendor`
+## Qt
 
 Qt is found in this order:
 
-1. `CMAKE_PREFIX_PATH` if you pass it yourself
-2. `QT_DIR` environment variable
-3. Known local install paths in `CMakeLists.txt`
+1. `CMAKE_PREFIX_PATH`
+2. `QT_DIR`
 
 Example:
 
 ```bat
 set QT_DIR=E:\Programme\Qt\6.8.3\msvc2022_64
-build.bat
+cmake --preset vs2026-x64
+cmake --build --preset debug
 ```
 
-Generated files stay under `build/` and are ignored by git.
+To add a Qt module, add it once in `find_package` and `target_link_libraries`.

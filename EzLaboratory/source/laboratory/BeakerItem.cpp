@@ -15,7 +15,6 @@ namespace
 {
     constexpr int kBottleAttachedToBeakerRole = 1001;
 }
-QList<ReactionTemplate> BeakerItem::s_reactionTemplates;
 
 BeakerItem::BeakerItem(QGraphicsItem* parent)
     : AbstractLiquidContainerItem(
@@ -59,7 +58,6 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
                 addContainedChemicalId(id);
             }
         }
-        tryApplyReactions();
         qDebug() << "[Beaker][dragFinished] attached bottle ids ="
             << (m_attachedBottle ? m_attachedBottle->containedChemicalIds() : QStringList{});
         qDebug() << "[Beaker][dragFinished] beaker ids =" << containedChemicalIds();
@@ -90,20 +88,10 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
 
 BeakerItem::~BeakerItem()
 {
-    if (m_colorAnimTimerId != -1) {
-        killTimer(m_colorAnimTimerId);
-        m_colorAnimTimerId = -1;
-    }
-
     if (m_pourHandle) {
         delete m_pourHandle;
         m_pourHandle = nullptr;
     }
-}
-
-void BeakerItem::setReactionTemplates(const QList<ReactionTemplate>& templates)
-{
-    s_reactionTemplates = templates;
 }
 
 BeakerItem* BeakerItem::createInstance(bool enableLiquid,
@@ -418,94 +406,5 @@ void BeakerItem::timerEvent(QTimerEvent* event)
         return;
     }
 
-    if (event->timerId() == m_colorAnimTimerId) {
-        constexpr int kMaxSteps = 12;
-        ++m_colorAnimStep;
-
-        const qreal t = qBound(0.0, static_cast<qreal>(m_colorAnimStep) / kMaxSteps, 1.0);
-
-        const auto lerp = [t](int a, int b) {
-            return static_cast<int>(a + (b - a) * t);
-            };
-
-        const QColor mixed(
-            lerp(m_animStartLiquidColor.red(), m_animTargetLiquidColor.red()),
-            lerp(m_animStartLiquidColor.green(), m_animTargetLiquidColor.green()),
-            lerp(m_animStartLiquidColor.blue(), m_animTargetLiquidColor.blue()),
-            lerp(m_animStartLiquidColor.alpha(), m_animTargetLiquidColor.alpha())
-        );
-
-        if (!liquidRenderingEnabled()) {
-            setLiquidRenderingEnabled(true);
-        }
-        setLiquidColor(mixed);
-
-        if (m_colorAnimStep >= kMaxSteps) {
-            killTimer(m_colorAnimTimerId);
-            m_colorAnimTimerId = -1;
-            setLiquidColor(m_animTargetLiquidColor);
-        }
-
-        update();
-        return;
-    }
-
     AbstractLiquidContainerItem::timerEvent(event);
-}
-
-void BeakerItem::tryApplyReactions()
-{
-    if (s_reactionTemplates.isEmpty()) {
-        return;
-    }
-
-    const QStringList ids = containedChemicalIds();
-
-    for (const ReactionTemplate& reaction : s_reactionTemplates) {
-        bool matched = true;
-        for (const QString& reactantId : reaction.reactantIds) {
-            if (!ids.contains(reactantId)) {
-                matched = false;
-                break;
-            }
-        }
-
-        if (!matched) {
-            continue;
-        }
-
-        if (!reaction.productLiquidId.isEmpty()) {
-            addContainedChemicalId(reaction.productLiquidId);
-
-            if (reaction.productLiquidColor.isValid()) {
-                startLiquidColorTransition(reaction.productLiquidColor);
-            }
-        }
-
-        return;
-    }
-}
-void BeakerItem::startLiquidColorTransition(const QColor& targetColor)
-{
-    if (!targetColor.isValid()) {
-        return;
-    }
-
-    if (m_colorAnimTimerId != -1) {
-        killTimer(m_colorAnimTimerId);
-        m_colorAnimTimerId = -1;
-    }
-
-    m_animStartLiquidColor = liquidColor().isValid()
-        ? liquidColor()
-        : defaultLiquidColor();
-
-    m_animTargetLiquidColor = targetColor;
-    m_colorAnimStep = 0;
-
-    if (!liquidRenderingEnabled()) {
-        setLiquidRenderingEnabled(true);
-    }
-
-    m_colorAnimTimerId = startTimer(35);
 }

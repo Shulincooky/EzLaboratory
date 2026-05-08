@@ -5,7 +5,6 @@
 #include <QEvent>
 #include <QColor>
 #include "ui_EzLaboratory.h"
-#include "ExperimentSidebarConfigLoader.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class EzLaboratoryClass; };
@@ -36,47 +35,4 @@ private:
     void initLabScene();
     void updateViewAfterResize();
     void decreaseRemainingCount(const QString& templateId);
-    bool loadSidebarFromConfig(const QString& filePath);
-
-    void appendNarrowBottleInstanceItem(const QString& displayName,
-        const QString& centerText,
-        bool enableLiquid = false,
-        const QColor& liquidColor = QColor(),
-        const QStringList& chemicalIds = {},
-        int limit = 3);
-
-    void appendNarrowBottleInstanceItem(const QString& displayName,
-        const QString& topText,
-        const QString& bottomText,
-        bool enableLiquid = false,
-        const QColor& liquidColor = QColor(),
-        const QStringList& chemicalIds = {},
-        int limit = 3);
-
-    void appendWideBottleInstanceItem(
-        const QString& displayName,
-        const QString& centerText,
-        bool enableLiquid = false,
-        const QColor& liquidColor = QColor(),
-        const QStringList& chemicalIds = {},
-        int limit = 3
-    );
-
-    void appendWideBottleInstanceItem(
-        const QString& displayName,
-        const QString& topText,
-        const QString& bottomText,
-        bool enableLiquid = false,
-        const QColor& liquidColor = QColor(),
-        const QStringList& chemicalIds = {},
-        int limit = 3
-    );
-
-    void appendCommonContainerItem(const QString& type,
-        const QString& displayName,
-        const QString& iconPath,
-        bool enableLiquid = false,
-        const QColor& liquidColor = QColor(),
-        const QStringList& chemicalIds = {},
-        int limit = 3);
 };

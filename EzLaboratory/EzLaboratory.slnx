@@ -1,9 +1,0 @@
-<Solution Description="EzLaboratory Visual Studio solution" Version="1.4">
-  <Configurations>
-    <BuildType Name="Debug" />
-    <BuildType Name="Release" />
-    <Platform Name="x64" />
-  </Configurations>
-  <Project Path="EzLaboratory.vcxproj" Id="83F16F51-6F54-FFF5-18DA-37AC041CCB78" DefaultStartup="true">
-  </Project>
-</Solution>

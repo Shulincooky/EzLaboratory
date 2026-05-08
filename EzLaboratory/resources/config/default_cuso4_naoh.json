@@ -1,0 +1,109 @@
+{
+  "schema": "ezlab.experiment.v1",
+  "id": "demo.cuso4_naoh",
+  "title": "Copper Sulfate and Sodium Hydroxide",
+  "summary": "Mix two liquid reagents and observe the color change in a beaker.",
+  "cover": "",
+  "tags": [
+    "reaction",
+    "solution"
+  ],
+  "labwares": [
+    {
+      "id": "beaker.main",
+      "type": {
+        "body": "beaker",
+        "plug": ""
+      },
+      "name": "Beaker",
+      "limit": 2,
+      "data": {
+        "label": {
+          "layout": "none",
+          "centerText": "",
+          "topText": "",
+          "bottomText": ""
+        },
+        "chemicals": [],
+        "style": "clear-glass"
+      }
+    },
+    {
+      "id": "bottle.cuso4",
+      "type": {
+        "body": "narrow_bottle",
+        "plug": "narrow_plug"
+      },
+      "name": "Copper Sulfate Solution",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "double",
+          "centerText": "",
+          "topText": "CuSO4",
+          "bottomText": "Copper Sulfate"
+        },
+        "chemicals": [
+          "chem.cuso4"
+        ],
+        "style": "blue-liquid"
+      }
+    },
+    {
+      "id": "bottle.naoh",
+      "type": {
+        "body": "narrow_bottle",
+        "plug": "narrow_plug"
+      },
+      "name": "Sodium Hydroxide Solution",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "double",
+          "centerText": "",
+          "topText": "NaOH",
+          "bottomText": "Sodium Hydroxide"
+        },
+        "chemicals": [
+          "chem.naoh"
+        ],
+        "style": "cyan-liquid"
+      }
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "chem.cuso4",
+      "name": "Copper Sulfate Solution",
+      "state": "liquid",
+      "appearance": {
+        "kind": "color",
+        "value": "#5070B8FF"
+      },
+      "density": 1.12
+    },
+    {
+      "id": "chem.naoh",
+      "name": "Sodium Hydroxide Solution",
+      "state": "liquid",
+      "appearance": {
+        "kind": "color",
+        "value": "#28D8E8A0"
+      },
+      "density": 1.10
+    },
+    {
+      "id": "chem.result",
+      "name": "Reaction Mixture",
+      "state": "liquid",
+      "appearance": {
+        "kind": "color",
+        "value": "#DCD0FF"
+      },
+      "density": 1.08
+    }
+  ],
+  "expressions": [
+    "contains(beaker.main, chem.cuso4) && contains(beaker.main, chem.naoh) -> setAppearance(beaker.main, chem.result)"
+  ]
+}

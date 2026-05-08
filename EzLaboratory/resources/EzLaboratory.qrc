@@ -6,7 +6,7 @@
         <file>image/labcontainer/wide-mouth_bottle/bottle.png</file>
         <file>image/labcontainer/wide-mouth_bottle/plug.png</file>
         <file>label.svg</file>
-        <file>config/demo_experiment_sidebar.json</file>
+        <file>config/default_cuso4_naoh.json</file>
         <file>icon/setting.svg</file>
     </qresource>
 </RCC>

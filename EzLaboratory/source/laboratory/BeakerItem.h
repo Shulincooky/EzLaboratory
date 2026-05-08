@@ -1,6 +1,5 @@
 #pragma once
 #include "AbstractLiquidContainerItem.h"
-#include "ExperimentSidebarConfigLoader.h"
 #include <QColor>
 
 class NarrowBottleItem;
@@ -20,7 +19,6 @@ public:
         QGraphicsItem* parent = nullptr);
 
 
-    static void setReactionTemplates(const QList<ReactionTemplate>& templates);
 protected:
     QRectF liquidRectLocal() const override;
     QColor defaultLiquidColor() const override;
@@ -45,8 +43,6 @@ private:
     qreal maxPourRotationDeg() const;
     qreal previewPourRatio() const;
 
-    void tryApplyReactions();
-    void startLiquidColorTransition(const QColor& targetColor);
 private:
     NarrowBottleItem* m_attachedBottle = nullptr;
     BeakerPourHandleItem* m_pourHandle = nullptr;
@@ -58,10 +54,4 @@ private:
 
     int m_scanTimerId = -1;
 
-    QColor m_animStartLiquidColor;
-    QColor m_animTargetLiquidColor;
-    int m_colorAnimTimerId = -1;
-    int m_colorAnimStep = 0;
-
-    static QList<ReactionTemplate> s_reactionTemplates;
 };

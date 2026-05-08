@@ -20,7 +20,10 @@
    <string>EzLaboratory</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {
+   <string notr="true">* {
+border:0px;
+}
+QMainWindow {
     background: #F5F7FA;
 }
 
@@ -53,14 +56,15 @@ QLabel#connectionStatusLabel {
 
 QPushButton {
     background: #FFFFFF;
-    border: 1px solid #D7DCE5;
     border-radius: 8px;
     color: #243047;
-    padding: 8px 14px;
 }
 
 QPushButton:hover {
     background: #F1F4F8;
+}
+QPushButton:pressed {
+    background: #D4D8E0;
 }
 
 QPushButton#refreshButton {
@@ -87,7 +91,6 @@ QWidget#cardGridWidget {
 }
 
 QFrame#emptyHintFrame {
-    background: #FFFFFF;
     border: 1px dashed #CAD1DC;
     border-radius: 8px;
 }
@@ -102,6 +105,12 @@ QLabel#emptyHintBodyLabel {
     color: #6B7280;
     font-size: 13px;
 }</string>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>20</width>
+    <height>20</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="mainLayout">
@@ -151,6 +160,19 @@ QLabel#emptyHintBodyLabel {
         <number>16</number>
        </property>
        <item>
+        <widget class="QLabel" name="label">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../../resources/Main.qrc">:/Main/icon/icon.svg</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QVBoxLayout" name="titleLayout">
          <property name="spacing">
           <number>4</number>
@@ -158,14 +180,14 @@ QLabel#emptyHintBodyLabel {
          <item>
           <widget class="QLabel" name="titleLabel">
            <property name="text">
-            <string>Experiments</string>
+            <string>Ez化学实验室</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="subtitleLabel">
            <property name="text">
-            <string>Remote packs and local defaults will appear here.</string>
+            <string>这里将会向您推荐一些有趣的化学实验</string>
            </property>
           </widget>
          </item>
@@ -185,26 +207,19 @@ QLabel#emptyHintBodyLabel {
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="connectionStatusLabel">
+        <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>Offline</string>
+          <string/>
          </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
+         <property name="icon">
+          <iconset resource="../../resources/Main.qrc">
+           <normaloff>:/Main/icon/setting.svg</normaloff>:/Main/icon/setting.svg</iconset>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="loadLocalButton">
-         <property name="text">
-          <string>Local</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="refreshButton">
-         <property name="text">
-          <string>Refresh</string>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -228,10 +243,7 @@ QLabel#emptyHintBodyLabel {
          <height>668</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="scrollContentLayout">
-        <property name="spacing">
-         <number>24</number>
-        </property>
+       <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
          <number>32</number>
         </property>
@@ -244,7 +256,7 @@ QLabel#emptyHintBodyLabel {
         <property name="bottomMargin">
          <number>32</number>
         </property>
-        <item>
+        <item row="0" column="0">
          <widget class="QWidget" name="cardGridWidget" native="true">
           <layout class="QGridLayout" name="cardGridLayout">
            <property name="leftMargin">
@@ -268,7 +280,7 @@ QLabel#emptyHintBodyLabel {
           </layout>
          </widget>
         </item>
-        <item>
+        <item row="1" column="0">
          <widget class="QFrame" name="emptyHintFrame">
           <property name="minimumSize">
            <size>
@@ -314,7 +326,7 @@ QLabel#emptyHintBodyLabel {
            <item>
             <widget class="QLabel" name="emptyHintTitleLabel">
              <property name="text">
-              <string>No experiments loaded</string>
+              <string>暂无实验加载</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -324,7 +336,7 @@ QLabel#emptyHintBodyLabel {
            <item>
             <widget class="QLabel" name="emptyHintBodyLabel">
              <property name="text">
-              <string>Experiment cards will be added to the grid above after the reader and parser are connected.</string>
+              <string>请检查你的网络连接或网络代理,实验将在正常链接服务器后加载</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -358,6 +370,8 @@ QLabel#emptyHintBodyLabel {
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../resources/Main.qrc"/>
+ </resources>
  <connections/>
 </ui>

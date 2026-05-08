@@ -9,7 +9,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -34,9 +33,26 @@ bld/
 [Ll]ogs/
 
 vsxmake2026/
+.xmake/
 build/
 deploy/
 installer/
+EzLaboratory_autogen/
+EzLaboratory/build/
+
+# Generated Visual Studio project files and local IDE caches.
+EzLaboratory/.vs/
+EzLaboratory/.qt/
+EzLaboratory/CMakeUserPresets.json
+EzLaboratory/CMakeCache.txt
+EzLaboratory/CMakeFiles/
+EzLaboratory/EzLaboratory/
+EzLaboratory/*.sln
+EzLaboratory/*.vcxproj.filters
+EzLaboratory/*.vcxproj.user
+EzLaboratory/*.cmake
+EzLaboratory/*.dir/
+EzLaboratory/x64/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

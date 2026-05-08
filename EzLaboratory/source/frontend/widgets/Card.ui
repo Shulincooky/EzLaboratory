@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Card</class>
+ <widget class="QWidget" name="Card">
+  <property name="minimumSize">
+   <size>
+    <width>260</width>
+    <height>248</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>360</width>
+    <height>280</height>
+   </size>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#Card {
+    background: #FFFFFF;
+    border: 1px solid #E3E7EE;
+    border-radius: 10px;
+}
+
+QWidget#Card:hover {
+    border: 1px solid #BFC7D5;
+    background: #FBFCFE;
+}
+
+QFrame#coverFrame {
+    background: #E9EEF6;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+QLabel#coverLabel {
+    color: #798499;
+    font-size: 13px;
+}
+
+QLabel#titleLabel {
+    color: #172033;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+QLabel#summaryLabel {
+    color: #5E687A;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+QLabel#tagLabel {
+    color: #536173;
+    background: #EEF2F7;
+    border-radius: 10px;
+    padding: 4px 8px;
+}
+
+QLabel#localBadgeLabel {
+    color: #FFFFFF;
+    background: #2F7D62;
+    border-radius: 10px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="coverFrame">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>132</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>132</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::NoFrame</enum>
+     </property>
+     <layout class="QVBoxLayout" name="coverLayout">
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="topMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>12</number>
+      </property>
+      <property name="bottomMargin">
+       <number>12</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="coverLabel">
+        <property name="text">
+         <string>Experiment</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="bodyWidget" native="true">
+     <layout class="QVBoxLayout" name="bodyLayout">
+      <property name="spacing">
+       <number>8</number>
+      </property>
+      <property name="leftMargin">
+       <number>14</number>
+      </property>
+      <property name="topMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>14</number>
+      </property>
+      <property name="bottomMargin">
+       <number>12</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="titleLabel">
+        <property name="text">
+         <string>Untitled experiment</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="summaryLabel">
+        <property name="text">
+         <string>Experiment details will be shown here.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="bodySpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>8</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="footerLayout">
+        <property name="spacing">
+         <number>8</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="tagLabel">
+          <property name="text">
+           <string>Remote</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="footerSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="localBadgeLabel">
+          <property name="text">
+           <string>LOCAL</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

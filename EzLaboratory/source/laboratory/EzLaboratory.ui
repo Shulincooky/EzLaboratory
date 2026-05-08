@@ -20,24 +20,77 @@
    <string>EzLaboratory</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">* {
-border: none;
+   <string notr="true">QMainWindow#EzLaboratoryClass {
+    background: #EEF3F5;
 }
-QWidget#centralWidget{
-background-color:#F1F1F1
+
+QWidget#centralWidget {
+    background: #EEF3F5;
 }
-QGraphicsView#graphicsViewLab{
-background-color:#F1F1F1;
+
+QWidget#sidebarWidght {
+    background: #FFFFFF;
+    border-right: 1px solid #D9E2E7;
 }
-QListView#labwareList{
-    background-color:#FFFFFF;
-    border: 1px solid #E6E6E6;
-    border-radius:10px;
-    padding:6px;
-    outline:none;
+
+QLabel#sidebarTitle {
+    color: #1E2A36;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 1px solid #E3E9EE;
 }
-QListView#labwareList::item{
-    border:none;
+
+QGraphicsView#graphicsViewLab {
+    background: #F6F9FA;
+    border: 1px solid #D9E2E7;
+    border-radius: 8px;
+}
+
+QListView#labwareList {
+    color: #1F2A37;
+    background: #F8FBFC;
+    border: 1px solid #DCE5EA;
+    border-radius: 8px;
+    padding: 6px;
+    outline: none;
+}
+
+QListView#labwareList::item {
+    border: none;
+    background: transparent;
+}
+
+QListView#labwareList::item:hover {
+    background: transparent;
+}
+
+QListView#labwareList::item:selected {
+    background: transparent;
+}
+
+QScrollBar:vertical {
+    background: transparent;
+    width: 9px;
+    margin: 4px 1px 4px 1px;
+}
+
+QScrollBar::handle:vertical {
+    background: #C5D0D8;
+    border-radius: 4px;
+    min-height: 28px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #9DAEBA;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical,
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: transparent;
+    border: none;
+    height: 0px;
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">

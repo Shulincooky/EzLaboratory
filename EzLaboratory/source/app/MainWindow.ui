@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1180</width>
-    <height>760</height>
+    <width>960</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>920</width>
-    <height>620</height>
+    <width>960</width>
+    <height>720</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -21,73 +21,95 @@
   </property>
   <property name="styleSheet">
    <string notr="true">* {
-border:0px;
-}
-QMainWindow {
-    background: #F5F7FA;
+    border: 0;
+    font-family: &quot;Microsoft YaHei UI&quot;, &quot;Segoe UI&quot;;
 }
 
+QMainWindow,
 QWidget#centralWidget {
-    background: #F5F7FA;
+    background: #FFFFFF;
 }
 
 QWidget#topBar {
     background: #FFFFFF;
-    border-bottom: 1px solid #E5E8EF;
+    border-bottom: 1px solid #D6D6D6;
 }
 
-QLabel#titleLabel {
-    color: #172033;
-    font-size: 24px;
-    font-weight: 700;
+QLabel#brandLabel {
+    color: #3D3D3D;
+    font-weight: 600;
 }
 
-QLabel#subtitleLabel {
-    color: #6B7280;
-    font-size: 13px;
-}
-
-QLabel#connectionStatusLabel {
-    color: #4B5563;
-    background: #EEF2F7;
-    border-radius: 12px;
-    padding: 6px 12px;
-}
-
-QPushButton {
-    background: #FFFFFF;
+QWidget#searchFrame {
+    background: #EEEEEE;
     border-radius: 8px;
-    color: #243047;
 }
 
-QPushButton:hover {
-    background: #F1F4F8;
-}
-QPushButton:pressed {
-    background: #D4D8E0;
+QLabel#searchIconLabel {
+    background: transparent;
 }
 
-QPushButton#refreshButton {
-    background: #6D5DF2;
-    border: 1px solid #6D5DF2;
-    color: #FFFFFF;
+QLineEdit#searchLineEdit {
+    background: transparent;
+    color: #3D3D3D;
+    font-size: 14px;
+    padding: 0px 2px;
 }
 
-QPushButton#refreshButton:hover {
-    background: #5A4BDD;
+QWidget#sideBar {
+    background: #F1F1F1;
+    border-right: 1px solid #D6D6D6;
+}
+
+QToolButton {
+    background: transparent;
+    border-radius: 4px;
+    color: #8C8C8C;
+}
+
+QToolButton:hover {
+    background: #E7E7E7;
+}
+
+QToolButton:pressed {
+    background: #DADADA;
+}
+
+QToolButton#closeButton:hover {
+    background: #E81123;
+}
+
+QToolButton#navExperimentsButton {
+    color: #8C8C8C;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QToolButton#navExperimentsButton:hover,
+QToolButton#historyButton:hover,
+QToolButton#themeButton:hover,
+QToolButton#settingsButton:hover {
+    background: #E6E6E6;
+}
+
+QToolButton#avatarButton {
+    background: #D8D8D8;
+    border-radius: 24px;
+}
+
+QToolButton#avatarButton:hover {
+    background: #CCCCCC;
 }
 
 QScrollArea#experimentScrollArea {
-    background: transparent;
+    background: #FFFFFF;
     border: none;
 }
 
-QWidget#scrollContentWidget {
-    background: transparent;
-}
-
+QWidget#scrollContentWidget,
 QWidget#cardGridWidget {
-    background: transparent;
+    background: #FFFFFF;
 }
 
 QFrame#emptyHintFrame {
@@ -106,17 +128,8 @@ QLabel#emptyHintBodyLabel {
     font-size: 13px;
 }</string>
   </property>
-  <property name="iconSize">
-   <size>
-    <width>20</width>
-    <height>20</height>
-   </size>
-  </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="mainLayout">
-    <property name="spacing">
-     <number>0</number>
-    </property>
+   <layout class="QGridLayout" name="gridLayout">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -129,72 +142,72 @@ QLabel#emptyHintBodyLabel {
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0" colspan="2">
      <widget class="QWidget" name="topBar" native="true">
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>92</height>
+        <height>70</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>92</height>
+        <height>70</height>
        </size>
       </property>
-      <layout class="QHBoxLayout" name="topBarLayout">
-       <property name="spacing">
-        <number>16</number>
-       </property>
-       <property name="leftMargin">
-        <number>32</number>
-       </property>
-       <property name="topMargin">
-        <number>16</number>
-       </property>
-       <property name="rightMargin">
-        <number>32</number>
-       </property>
-       <property name="bottomMargin">
-        <number>16</number>
-       </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLabel" name="label">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="../../resources/Main.qrc">:/Main/icon/icon.svg</pixmap>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="titleLayout">
-         <property name="spacing">
-          <number>4</number>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="titleLabel">
+          <widget class="QLabel" name="logoLabel">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Ez化学实验室</string>
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../../resources/Main.qrc">:/Main/icons/brand/icon.svg</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="subtitleLabel">
+          <widget class="QLabel" name="brandLabel">
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei UI</family>
+             <pointsize>12</pointsize>
+             <fontweight>DemiBold</fontweight>
+            </font>
+           </property>
            <property name="text">
-            <string>这里将会向您推荐一些有趣的化学实验</string>
+            <string>EzLaboratory</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <spacer name="topBarSpacer">
+        <spacer name="topBarLogoSpacer">
          <property name="orientation">
           <enum>Qt::Orientation::Horizontal</enum>
          </property>
@@ -207,13 +220,451 @@ QLabel#emptyHintBodyLabel {
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QWidget" name="searchFrame" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>274</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>274</width>
+           <height>40</height>
+          </size>
+         </property>
+         <layout class="QHBoxLayout" name="searchLayout">
+          <property name="spacing">
+           <number>8</number>
+          </property>
+          <property name="leftMargin">
+           <number>8</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>12</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="searchIconLabel">
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="../../resources/Main.qrc">:/Main/icons/topbar/search.svg</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="searchLineEdit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="placeholderText">
+             <string>搜索实验</string>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="windowButtonsWidget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>154</width>
+           <height>52</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>154</width>
+           <height>52</height>
+          </size>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QToolButton" name="minimizeButton">
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Minimize</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../../resources/Main.qrc">
+              <normaloff>:/Main/icons/window/subtract-fill.svg</normaloff>:/Main/icons/window/subtract-fill.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="windowButtonSpacer1">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Policy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>11</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="maximizeButton">
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Maximize</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../../resources/Main.qrc">
+              <normaloff>:/Main/icons/window/maximize-fill.svg</normaloff>:/Main/icons/window/maximize-fill.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="windowButtonSpacer2">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Policy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>5</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="closeButton">
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Close</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../../resources/Main.qrc">
+              <normaloff>:/Main/icons/window/close-fill.svg</normaloff>:/Main/icons/window/close-fill.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QWidget" name="sideBar" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <layout class="QVBoxLayout" name="sideBarLayout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>24</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>40</number>
+       </property>
+       <item>
+        <widget class="QToolButton" name="navExperimentsButton">
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Experiments</string>
+         </property>
+         <property name="text">
+          <string>全部实验</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../resources/Main.qrc">
+           <normaloff>:/Main/icons/sidebar/all_experiments.svg</normaloff>:/Main/icons/sidebar/all_experiments.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="sideBarSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QWidget" name="avatarWidget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>56</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>56</height>
+          </size>
+         </property>
+         <layout class="QGridLayout" name="avatarLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>8</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop">
+           <widget class="QToolButton" name="avatarButton">
+            <property name="minimumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Profile</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="historyButton">
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>History</string>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset resource="../../resources/Main.qrc">
-           <normaloff>:/Main/icon/setting.svg</normaloff>:/Main/icon/setting.svg</iconset>
+           <normaloff>:/Main/icons/sidebar/history.svg</normaloff>:/Main/icons/sidebar/history.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>34</width>
+           <height>34</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="themeButton">
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Theme</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../resources/Main.qrc">
+           <normaloff>:/Main/icons/sidebar/moon.svg</normaloff>:/Main/icons/sidebar/moon.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="settingsButton">
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Settings</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../resources/Main.qrc">
+           <normaloff>:/Main/icons/sidebar/setting.svg</normaloff>:/Main/icons/sidebar/setting.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -226,7 +677,7 @@ QLabel#emptyHintBodyLabel {
       </layout>
      </widget>
     </item>
-    <item>
+    <item row="1" column="1">
      <widget class="QScrollArea" name="experimentScrollArea">
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
@@ -239,22 +690,28 @@ QLabel#emptyHintBodyLabel {
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1180</width>
-         <height>668</height>
+         <width>880</width>
+         <height>650</height>
         </rect>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
+       <layout class="QGridLayout" name="gridLayout_2">
         <property name="leftMargin">
          <number>32</number>
         </property>
         <property name="topMargin">
-         <number>28</number>
+         <number>32</number>
         </property>
         <property name="rightMargin">
          <number>32</number>
         </property>
         <property name="bottomMargin">
          <number>32</number>
+        </property>
+        <property name="horizontalSpacing">
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>24</number>
         </property>
         <item row="0" column="0">
          <widget class="QWidget" name="cardGridWidget" native="true">
@@ -336,7 +793,7 @@ QLabel#emptyHintBodyLabel {
            <item>
             <widget class="QLabel" name="emptyHintBodyLabel">
              <property name="text">
-              <string>请检查你的网络连接或网络代理,实验将在正常链接服务器后加载</string>
+              <string>请检查网络连接或网络代理，实验将在正常连接服务器后加载</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignmentFlag::AlignCenter</set>

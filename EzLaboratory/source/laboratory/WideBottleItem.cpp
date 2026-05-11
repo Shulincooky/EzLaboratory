@@ -10,7 +10,7 @@
 namespace
 {
     constexpr const char* kBottleBodyImagePath =
-        ":/EzLaboratory/resources/image/glassware/generic/wide-mouth_bottle/bottle.png";
+        ":/EzLaboratory/images/labcontainer/wide-mouth_bottle/bottle.png";
 }
 
 WideBottleItem::WideBottleItem(QGraphicsItem* parent)

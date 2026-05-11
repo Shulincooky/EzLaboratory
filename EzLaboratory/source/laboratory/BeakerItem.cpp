@@ -20,7 +20,7 @@ BeakerItem::BeakerItem(QGraphicsItem* parent)
     : AbstractLiquidContainerItem(
         "beaker",
         "Beaker",
-        ":/EzLaboratory/resources/image/glassware/beaker.png",
+        ":/EzLaboratory/images/labcontainer/beaker.png",
         QSizeF(100 * 1.5, 140 * 1.5),
         parent)
 {

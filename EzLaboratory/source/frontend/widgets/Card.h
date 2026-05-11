@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QString>
 #include <QWidget>
+#include "ui_Card.h"
 
 class QMouseEvent;
 
@@ -22,7 +23,6 @@ public:
     void setId(const QString& id);
     void setTitle(const QString& title);
     void setSummary(const QString& summary);
-    void setTag(const QString& tag);
     void setLocal(bool local);
 
 signals:

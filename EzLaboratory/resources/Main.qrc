@@ -1,7 +1,15 @@
 <RCC>
     <qresource prefix="/Main">
         <file>icon.ico</file>
-        <file>icon/icon.svg</file>
-        <file>icon/setting.svg</file>
+        <file>icons/brand/icon.svg</file>
+        <file>icons/topbar/search.svg</file>
+        <file>icons/sidebar/all_experiments.svg</file>
+        <file>icons/sidebar/history.svg</file>
+        <file>icons/sidebar/moon.svg</file>
+        <file>icons/sidebar/setting.svg</file>
+        <file>icons/sidebar/start_experiment.svg</file>
+        <file>icons/window/close-fill.svg</file>
+        <file>icons/window/maximize-fill.svg</file>
+        <file>icons/window/subtract-fill.svg</file>
     </qresource>
 </RCC>

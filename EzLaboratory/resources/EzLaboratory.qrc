@@ -1,12 +1,15 @@
 <RCC>
     <qresource prefix="/EzLaboratory">
-        <file>image/labcontainer/beaker.png</file>
-        <file>image/labcontainer/narrow-neck_bottle/bottle.png</file>
-        <file>image/labcontainer/narrow-neck_bottle/plug.png</file>
-        <file>image/labcontainer/wide-mouth_bottle/bottle.png</file>
-        <file>image/labcontainer/wide-mouth_bottle/plug.png</file>
+        <file>images/labcontainer/beaker.png</file>
+        <file>images/labcontainer/narrow-neck_bottle/bottle.png</file>
+        <file>images/labcontainer/narrow-neck_bottle/dropper.png</file>
+        <file>images/labcontainer/narrow-neck_bottle/plug.png</file>
+        <file>images/labcontainer/wide-mouth_bottle/bottle.png</file>
+        <file>images/labcontainer/wide-mouth_bottle/plug.png</file>
+        <file>images/labtool/tweezers.png</file>
+        <file>images/solid/naoh_chunk.png</file>
         <file>label.svg</file>
         <file>config/default_cuso4_naoh.json</file>
-        <file>icon/setting.svg</file>
+        <file>icons/sidebar/setting.svg</file>
     </qresource>
 </RCC>

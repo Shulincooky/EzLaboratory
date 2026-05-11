@@ -1,7 +1,6 @@
 #include "Card.h"
 
-#include "ui_Card.h"
-
+#include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 
 Card::Card(QWidget* parent)
@@ -11,6 +10,12 @@ Card::Card(QWidget* parent)
     ui->setupUi(this);
     setCursor(Qt::PointingHandCursor);
     setLocal(false);
+
+    auto* shadow = new QGraphicsDropShadowEffect(this);
+    shadow->setBlurRadius(22.0);
+    shadow->setOffset(0.0, 6.0);
+    shadow->setColor(QColor(31, 41, 55, 38));
+    ui->panelFrame->setGraphicsEffect(shadow);
 }
 
 Card::~Card()
@@ -38,15 +43,8 @@ void Card::setSummary(const QString& summary)
     ui->summaryLabel->setText(summary);
 }
 
-void Card::setTag(const QString& tag)
-{
-    ui->tagLabel->setText(tag);
-    ui->tagLabel->setVisible(!tag.trimmed().isEmpty());
-}
-
 void Card::setLocal(bool local)
 {
-    ui->localBadgeLabel->setVisible(local);
 }
 
 void Card::mouseReleaseEvent(QMouseEvent* event)

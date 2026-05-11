@@ -3,7 +3,7 @@
 namespace
 {
     constexpr const char* kPlugImagePath =
-        ":/EzLaboratory/resources/image/glassware/generic/narrow-mouth_bottle/plug.png";
+        ":/EzLaboratory/images/labcontainer/narrow-neck_bottle/plug.png";
 }
 
 NarrowBottlePlugItem::NarrowBottlePlugItem(QGraphicsItem* parent)

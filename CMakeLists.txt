@@ -78,7 +78,6 @@ target_link_libraries(EzLaboratory PRIVATE
 set_target_properties(EzLaboratory PROPERTIES
     AUTOUIC_SEARCH_PATHS "${APP_INCLUDE_DIRS}"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:EzLaboratory>"
 )
 
 if(WIN32 AND TARGET Qt6::windeployqt)

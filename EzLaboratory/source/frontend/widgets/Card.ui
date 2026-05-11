@@ -2,26 +2,38 @@
 <ui version="4.0">
  <class>Card</class>
  <widget class="QWidget" name="Card">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>242</width>
+    <height>231</height>
+   </rect>
+  </property>
   <property name="minimumSize">
    <size>
-    <width>260</width>
-    <height>248</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>360</width>
-    <height>280</height>
+    <width>384</width>
+    <height>304</height>
    </size>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget#Card {
+    background: transparent;
+}
+
+QFrame#panelFrame {
     background: #FFFFFF;
     border: 1px solid #E3E7EE;
     border-radius: 10px;
 }
 
-QWidget#Card:hover {
+QFrame#panelFrame:hover {
     border: 1px solid #BFC7D5;
     background: #FBFCFE;
 }
@@ -70,144 +82,130 @@ QLabel#localBadgeLabel {
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>0</number>
+    <number>12</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>10</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>12</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>14</number>
    </property>
    <item>
-    <widget class="QFrame" name="coverFrame">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>132</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>132</height>
-      </size>
-     </property>
+    <widget class="QFrame" name="panelFrame">
      <property name="frameShape">
       <enum>QFrame::Shape::NoFrame</enum>
      </property>
-     <layout class="QVBoxLayout" name="coverLayout">
-      <property name="leftMargin">
-       <number>12</number>
-      </property>
-      <property name="topMargin">
-       <number>12</number>
-      </property>
-      <property name="rightMargin">
-       <number>12</number>
-      </property>
-      <property name="bottomMargin">
-       <number>12</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="coverLabel">
-        <property name="text">
-         <string>Experiment</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="bodyWidget" native="true">
-     <layout class="QVBoxLayout" name="bodyLayout">
+     <layout class="QVBoxLayout" name="panelLayout">
       <property name="spacing">
-       <number>8</number>
+       <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>14</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>12</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>14</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>12</number>
+       <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="titleLabel">
-        <property name="text">
-         <string>Untitled experiment</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="summaryLabel">
-        <property name="text">
-         <string>Experiment details will be shown here.</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="bodySpacer">
-        <property name="orientation">
-         <enum>Qt::Orientation::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+       <widget class="QFrame" name="coverFrame">
+        <property name="minimumSize">
          <size>
-          <width>20</width>
-          <height>8</height>
+          <width>0</width>
+          <height>132</height>
          </size>
         </property>
-       </spacer>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>132</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::NoFrame</enum>
+        </property>
+        <layout class="QVBoxLayout" name="coverLayout">
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <property name="topMargin">
+          <number>12</number>
+         </property>
+         <property name="rightMargin">
+          <number>12</number>
+         </property>
+         <property name="bottomMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="coverLabel">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>192</width>
+             <height>108</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>实验封面</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="footerLayout">
-        <property name="spacing">
-         <number>8</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="tagLabel">
-          <property name="text">
-           <string>Remote</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="footerSpacer">
-          <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="localBadgeLabel">
-          <property name="text">
-           <string>LOCAL</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QWidget" name="bodyWidget" native="true">
+        <layout class="QVBoxLayout" name="bodyLayout">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <property name="leftMargin">
+          <number>14</number>
+         </property>
+         <property name="topMargin">
+          <number>12</number>
+         </property>
+         <property name="rightMargin">
+          <number>14</number>
+         </property>
+         <property name="bottomMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="titleLabel">
+           <property name="text">
+            <string>未命名实验</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="summaryLabel">
+           <property name="text">
+            <string>实验详情将在此处显示...</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>

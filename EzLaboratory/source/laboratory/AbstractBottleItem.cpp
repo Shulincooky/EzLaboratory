@@ -120,7 +120,7 @@ qreal AbstractBottleItem::plugOffsetX() const
 
 QString AbstractBottleItem::labelTemplatePath() const
 {
-    return QStringLiteral(":/EzLaboratory/resources/label.svg");
+    return QStringLiteral(":/EzLaboratory/label.svg");
 }
 
 void AbstractBottleItem::finalizeInstance(const BottleLabelData& data)

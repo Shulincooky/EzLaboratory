@@ -5,7 +5,7 @@
 namespace
 {
     constexpr const char* kBottleBodyImagePath =
-        ":/EzLaboratory/resources/image/glassware/generic/narrow-mouth_bottle/bottle.png";
+        ":/EzLaboratory/images/labcontainer/narrow-neck_bottle/bottle.png";
 }
 
 NarrowBottleItem::NarrowBottleItem(QGraphicsItem* parent)

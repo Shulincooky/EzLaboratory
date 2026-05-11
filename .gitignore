@@ -17,6 +17,7 @@ CMakeUserPresets.json
 *.rsuser
 *.suo
 *.sln.docstates
+out/
 
 # Visual Studio generated files
 *.sln

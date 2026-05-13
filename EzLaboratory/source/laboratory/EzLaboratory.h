@@ -1,23 +1,26 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
+#include <QWidget>
 #include <QGraphicsScene>
 #include <QEvent>
 #include <QColor>
-#include "ui_EzLaboratory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class EzLaboratoryClass; };
 QT_END_NAMESPACE
+struct ExperimentDefinition;
+struct ExperimentLabwareInfo;
 class QStandardItemModel;
 
-class EzLaboratory : public QMainWindow
+class EzLaboratory : public QWidget
 {
     Q_OBJECT
 
 public:
     EzLaboratory(QWidget* parent = nullptr);
     ~EzLaboratory();
+
+    void initializeExperiment(const ExperimentDefinition& experiment);
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -33,6 +36,8 @@ private:
 
     void initLabwareList();
     void initLabScene();
+    void addLabwareTemplate(const ExperimentLabwareInfo& labware,
+        const ExperimentDefinition& experiment);
     void updateViewAfterResize();
     void decreaseRemainingCount(const QString& templateId);
 };

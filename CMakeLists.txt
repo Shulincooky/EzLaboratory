@@ -7,14 +7,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
-if(DEFINED ENV{QT_DIR})
-    list(PREPEND CMAKE_PREFIX_PATH "$ENV{QT_DIR}")
+foreach(qt_env_var IN ITEMS QT_DIR QTDIR)
+    if(DEFINED ENV{${qt_env_var}} AND NOT "$ENV{${qt_env_var}}" STREQUAL "")
+        list(PREPEND CMAKE_PREFIX_PATH "$ENV{${qt_env_var}}")
+    endif()
+endforeach()
+
+find_package(Qt6 QUIET COMPONENTS Widgets Svg Network)
+if(NOT Qt6_FOUND)
+    message(FATAL_ERROR
+        "Qt6 was not found. Set QT_DIR or QTDIR to your Qt kit root "
+        "(for example E:/Programme/Qt/6.8.3/msvc2022_64), or pass "
+        "-DCMAKE_PREFIX_PATH=<Qt kit root>."
+    )
 endif()
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Svg Network)
-
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 set(APP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/EzLaboratory")
@@ -25,9 +33,12 @@ file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS
     "${SOURCE_DIR}/*.cpp"
     "${SOURCE_DIR}/*.h"
     "${SOURCE_DIR}/*.hpp"
-    "${SOURCE_DIR}/*.ui"
     "${RESOURCE_DIR}/*.qrc"
     "${RESOURCE_DIR}/*.rc"
+)
+
+file(GLOB_RECURSE APP_UI_FILES CONFIGURE_DEPENDS
+    "${SOURCE_DIR}/*.ui"
 )
 
 file(GLOB_RECURSE APP_ASSETS CONFIGURE_DEPENDS
@@ -40,8 +51,31 @@ file(GLOB_RECURSE APP_ASSETS CONFIGURE_DEPENDS
 qt_add_executable(EzLaboratory
     WIN32
     ${APP_SOURCES}
+    ${APP_UI_FILES}
     ${APP_ASSETS}
 )
+
+set(APP_GENERATED_UI_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/ui")
+file(MAKE_DIRECTORY "${APP_GENERATED_UI_DIR}")
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${APP_UI_FILES})
+
+get_target_property(QT_UIC_EXECUTABLE Qt6::uic IMPORTED_LOCATION)
+if(NOT QT_UIC_EXECUTABLE)
+    message(FATAL_ERROR "Qt uic executable was not found.")
+endif()
+
+foreach(ui_file IN LISTS APP_UI_FILES)
+    get_filename_component(ui_base_name "${ui_file}" NAME_WE)
+    if(DEFINED APP_UI_HEADER_${ui_base_name})
+        message(FATAL_ERROR "Duplicate Qt Designer form name: ${ui_base_name}.ui")
+    endif()
+    set(APP_UI_HEADER_${ui_base_name} TRUE)
+    set(ui_header "${APP_GENERATED_UI_DIR}/ui_${ui_base_name}.h")
+    execute_process(
+        COMMAND "${QT_UIC_EXECUTABLE}" -o "${ui_header}" "${ui_file}"
+        COMMAND_ERROR_IS_FATAL ANY
+    )
+endforeach()
 
 set_source_files_properties(${APP_ASSETS} PROPERTIES HEADER_FILE_ONLY ON)
 
@@ -56,6 +90,7 @@ endforeach()
 list(REMOVE_DUPLICATES APP_INCLUDE_DIRS)
 
 target_include_directories(EzLaboratory PRIVATE ${APP_INCLUDE_DIRS})
+target_include_directories(EzLaboratory PRIVATE "${APP_GENERATED_UI_DIR}")
 
 target_compile_definitions(EzLaboratory PRIVATE
     NOMINMAX
@@ -76,7 +111,6 @@ target_link_libraries(EzLaboratory PRIVATE
 )
 
 set_target_properties(EzLaboratory PROPERTIES
-    AUTOUIC_SEARCH_PATHS "${APP_INCLUDE_DIRS}"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 

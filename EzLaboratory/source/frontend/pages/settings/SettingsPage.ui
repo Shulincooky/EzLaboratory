@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsPage</class>
+ <widget class="QWidget" name="SettingsPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>880</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#SettingsPage {
+    background: #FFFFFF;
+}
+
+QLabel#titleLabel {
+    color: #172033;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+QLabel#subtitleLabel {
+    color: #667085;
+    font-size: 13px;
+}
+
+QGroupBox {
+    background: #FFFFFF;
+    border: 1px solid #E3E7EE;
+    border-radius: 8px;
+    color: #172033;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 18px;
+    padding-top: 18px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 16px;
+    padding: 0 6px;
+}
+
+QLabel {
+    color: #344054;
+    font-size: 13px;
+}
+
+QLabel[description=&quot;true&quot;] {
+    color: #667085;
+    font-size: 12px;
+}
+
+QComboBox,
+QSpinBox {
+    background: #F8FAFC;
+    border: 1px solid #D7DEE8;
+    border-radius: 6px;
+    color: #172033;
+    min-height: 30px;
+    padding: 2px 8px;
+}
+
+QCheckBox {
+    color: #344054;
+    font-size: 13px;
+    spacing: 8px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QScrollArea" name="settingsScrollArea">
+     <property name="frameShape">
+      <enum>QFrame::Shape::NoFrame</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="settingsScrollContent">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>863</width>
+        <height>744</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="contentLayout">
+       <property name="spacing">
+        <number>18</number>
+       </property>
+       <property name="leftMargin">
+        <number>32</number>
+       </property>
+       <property name="topMargin">
+        <number>30</number>
+       </property>
+       <property name="rightMargin">
+        <number>32</number>
+       </property>
+       <property name="bottomMargin">
+        <number>32</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="titleLabel">
+         <property name="text">
+           <string>设置</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="subtitleLabel">
+         <property name="text">
+           <string>调整 EzLaboratory 在当前工作区中的行为。</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="generalGroupBox">
+         <property name="title">
+           <string>常规</string>
+         </property>
+         <layout class="QGridLayout" name="generalLayout">
+          <property name="horizontalSpacing">
+           <number>24</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="startupLabel">
+            <property name="text">
+             <string>Startup page</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="startupPageComboBox">
+            <item>
+             <property name="text">
+              <string>All experiments</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last opened experiment</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QCheckBox" name="restoreWindowCheckBox">
+            <property name="text">
+             <string>Restore the previous window size on startup</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="appearanceGroupBox">
+         <property name="title">
+           <string>外观</string>
+         </property>
+         <layout class="QGridLayout" name="appearanceLayout">
+          <property name="horizontalSpacing">
+           <number>24</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="themeLabel">
+            <property name="text">
+             <string>主题</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="themeComboBox">
+            <item>
+             <property name="text">
+              <string>Follow system</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Light</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Dark</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="densityLabel">
+            <property name="text">
+             <string>Interface density</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="densityComboBox">
+            <item>
+             <property name="text">
+              <string>Comfortable</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Compact</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="experimentGroupBox">
+         <property name="title">
+           <string>实验</string>
+         </property>
+         <layout class="QGridLayout" name="experimentLayout">
+          <property name="horizontalSpacing">
+           <number>24</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="defaultZoomLabel">
+            <property name="text">
+             <string>Default canvas zoom</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="defaultZoomSpinBox">
+            <property name="suffix">
+             <string>%</string>
+            </property>
+            <property name="minimum">
+             <number>50</number>
+            </property>
+            <property name="maximum">
+             <number>200</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QCheckBox" name="confirmResetCheckBox">
+            <property name="text">
+             <string>Ask before resetting an experiment scene</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QCheckBox" name="showLocalBadgeCheckBox">
+            <property name="text">
+             <string>Show badges for locally loaded experiments</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="networkGroupBox">
+         <property name="title">
+           <string>网络</string>
+         </property>
+         <layout class="QGridLayout" name="networkLayout">
+          <property name="horizontalSpacing">
+           <number>24</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="proxyModeLabel">
+            <property name="text">
+             <string>Proxy mode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="proxyModeComboBox">
+            <item>
+             <property name="text">
+              <string>Use system proxy</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>No proxy</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Manual proxy</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QCheckBox" name="offlineCacheCheckBox">
+            <property name="text">
+             <string>Keep remote experiment metadata available offline</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="bottomSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

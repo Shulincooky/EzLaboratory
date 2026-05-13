@@ -168,22 +168,27 @@ void LabGraphicsView::dropEvent(QDropEvent* event)
             liquidEnabled,
             liquidColor
         );
-
-        if (!newItem) {
-            event->ignore();
-            return;
-        }
-        if (auto* container = dynamic_cast<AbstractLiquidContainerItem*>(newItem)) {
-            container->setContainedChemicalIds(chemicalIds);
-        }
-
-        const QPointF scenePos = mapToScene(event->position().toPoint());
-        newItem->setPos(scenePos);
-        scene()->addItem(newItem);
-        viewport()->update();
-
-        emit labwareDropped(templateId);
-
-        event->acceptProposedAction();
     }
+    else {
+        event->ignore();
+        return;
+    }
+
+    if (!newItem) {
+        event->ignore();
+        return;
+    }
+
+    if (auto* container = dynamic_cast<AbstractLiquidContainerItem*>(newItem)) {
+        container->setContainedChemicalIds(chemicalIds);
+    }
+
+    const QPointF scenePos = mapToScene(event->position().toPoint());
+    newItem->setPos(scenePos);
+    scene()->addItem(newItem);
+    viewport()->update();
+
+    emit labwareDropped(templateId);
+
+    event->acceptProposedAction();
 }

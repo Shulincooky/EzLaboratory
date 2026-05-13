@@ -1,0 +1,122 @@
+{
+  "schema": "ezlab.experiment.v1",
+  "id": "demo.indicator_acid_base",
+  "title": "Acid Base Indicator",
+  "summary": "Use indicator solution to compare acidic and alkaline mixtures.",
+  "cover": "",
+  "tags": [
+    "indicator",
+    "acid-base"
+  ],
+  "labwares": [
+    {
+      "id": "beaker.acid",
+      "type": {
+        "body": "beaker",
+        "plug": ""
+      },
+      "name": "Acid Beaker",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "single",
+          "centerText": "Acid",
+          "topText": "",
+          "bottomText": ""
+        },
+        "chemicals": [],
+        "style": "clear-glass"
+      }
+    },
+    {
+      "id": "beaker.base",
+      "type": {
+        "body": "beaker",
+        "plug": ""
+      },
+      "name": "Base Beaker",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "single",
+          "centerText": "Base",
+          "topText": "",
+          "bottomText": ""
+        },
+        "chemicals": [],
+        "style": "clear-glass"
+      }
+    },
+    {
+      "id": "bottle.indicator",
+      "type": {
+        "body": "narrow_bottle",
+        "plug": "narrow_plug"
+      },
+      "name": "Universal Indicator",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "double",
+          "centerText": "",
+          "topText": "Indicator",
+          "bottomText": "Universal"
+        },
+        "chemicals": [
+          "chem.indicator"
+        ],
+        "style": "green-liquid"
+      }
+    },
+    {
+      "id": "bottle.naoh",
+      "type": {
+        "body": "narrow_bottle",
+        "plug": "narrow_plug"
+      },
+      "name": "Sodium Hydroxide",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "double",
+          "centerText": "",
+          "topText": "NaOH",
+          "bottomText": "Base"
+        },
+        "chemicals": [
+          "chem.naoh"
+        ],
+        "style": "blue-liquid"
+      }
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "chem.indicator",
+      "name": "Universal Indicator",
+      "state": "liquid",
+      "appearance": "green",
+      "density": 1.0
+    },
+    {
+      "id": "chem.naoh",
+      "name": "Sodium Hydroxide",
+      "state": "liquid",
+      "appearance": {
+        "kind": "color",
+        "value": "#55DDE0A0"
+      },
+      "density": 1.1
+    },
+    {
+      "id": "chem.basic_mix",
+      "name": "Basic Indicator Mixture",
+      "state": "liquid",
+      "appearance": "#6A8DFFFF",
+      "density": 1.05
+    }
+  ],
+  "expressions": [
+    "contains(beaker.base, chem.indicator) && contains(beaker.base, chem.naoh) -> setAppearance(beaker.base, chem.basic_mix)"
+  ]
+}

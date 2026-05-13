@@ -1,0 +1,103 @@
+{
+  "schema": "ezlab.experiment.v1",
+  "id": "demo.agno3_nacl",
+  "title": "Silver Nitrate and Sodium Chloride",
+  "summary": "Combine two clear solutions and observe a pale precipitate.",
+  "cover": "",
+  "tags": [
+    "precipitation",
+    "solution"
+  ],
+  "labwares": [
+    {
+      "id": "beaker.main",
+      "type": {
+        "body": "beaker",
+        "plug": ""
+      },
+      "name": "Reaction Beaker",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "none",
+          "centerText": "",
+          "topText": "",
+          "bottomText": ""
+        },
+        "chemicals": [],
+        "style": "clear-glass"
+      }
+    },
+    {
+      "id": "bottle.agno3",
+      "type": {
+        "body": "narrow_bottle",
+        "plug": "narrow_plug"
+      },
+      "name": "Silver Nitrate Solution",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "double",
+          "centerText": "",
+          "topText": "AgNO3",
+          "bottomText": "Silver Nitrate"
+        },
+        "chemicals": [
+          "chem.agno3"
+        ],
+        "style": "clear-liquid"
+      }
+    },
+    {
+      "id": "bottle.nacl",
+      "type": {
+        "body": "narrow_bottle",
+        "plug": "narrow_plug"
+      },
+      "name": "Sodium Chloride Solution",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "double",
+          "centerText": "",
+          "topText": "NaCl",
+          "bottomText": "Sodium Chloride"
+        },
+        "chemicals": [
+          "chem.nacl"
+        ],
+        "style": "clear-liquid"
+      }
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "chem.agno3",
+      "name": "Silver Nitrate Solution",
+      "state": "liquid",
+      "appearance": "#DDEBFFFF",
+      "density": 1.05
+    },
+    {
+      "id": "chem.nacl",
+      "name": "Sodium Chloride Solution",
+      "state": "liquid",
+      "appearance": "#F2F7FFFF",
+      "density": 1.03
+    },
+    {
+      "id": "chem.agcl",
+      "name": "Silver Chloride Suspension",
+      "state": "liquid",
+      "appearance": {
+        "kind": "color",
+        "value": "#F4F1D8FF"
+      },
+      "density": 1.08
+    }
+  ],
+  "expressions": [
+    "contains(beaker.main, chem.agno3) && contains(beaker.main, chem.nacl) -> setAppearance(beaker.main, chem.agcl)"
+  ]
+}

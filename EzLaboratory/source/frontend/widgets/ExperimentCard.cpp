@@ -1,11 +1,13 @@
-#include "Card.h"
+#include "ExperimentCard.h"
+
+#include "ui_ExperimentCard.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 
-Card::Card(QWidget* parent)
+ExperimentCard::ExperimentCard(QWidget* parent)
     : QWidget(parent)
-    , ui(new Ui::Card())
+    , ui(new Ui::ExperimentCard())
 {
     ui->setupUi(this);
     setCursor(Qt::PointingHandCursor);
@@ -18,36 +20,36 @@ Card::Card(QWidget* parent)
     ui->panelFrame->setGraphicsEffect(shadow);
 }
 
-Card::~Card()
+ExperimentCard::~ExperimentCard()
 {
     delete ui;
 }
 
-QString Card::id() const
+QString ExperimentCard::id() const
 {
     return m_id;
 }
 
-void Card::setId(const QString& id)
+void ExperimentCard::setId(const QString& id)
 {
     m_id = id;
 }
 
-void Card::setTitle(const QString& title)
+void ExperimentCard::setTitle(const QString& title)
 {
     ui->titleLabel->setText(title);
 }
 
-void Card::setSummary(const QString& summary)
+void ExperimentCard::setSummary(const QString& summary)
 {
     ui->summaryLabel->setText(summary);
 }
 
-void Card::setLocal(bool local)
+void ExperimentCard::setLocal(bool local)
 {
 }
 
-void Card::mouseReleaseEvent(QMouseEvent* event)
+void ExperimentCard::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton && rect().contains(event->position().toPoint())) {
         emit clicked(m_id);

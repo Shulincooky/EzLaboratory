@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/LocalExperiments">
+        <file>config/default_agno3_nacl.json</file>
+        <file>config/default_cuso4_naoh.json</file>
+        <file>config/default_indicator_acid_base.json</file>
+        <file>config/default_salt_crystallization.json</file>
+    </qresource>
+</RCC>

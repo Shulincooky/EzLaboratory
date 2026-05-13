@@ -1,0 +1,75 @@
+{
+  "schema": "ezlab.experiment.v1",
+  "id": "demo.salt_crystallization",
+  "title": "Salt Crystallization Setup",
+  "summary": "Prepare a saturated salt solution and transfer it for crystallization.",
+  "cover": "",
+  "tags": [
+    "crystallization",
+    "solution"
+  ],
+  "labwares": [
+    {
+      "id": "wide.salt",
+      "type": {
+        "body": "wide_bottle",
+        "plug": "wide_plug"
+      },
+      "name": "Saturated Salt Solution",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "double",
+          "centerText": "",
+          "topText": "NaCl",
+          "bottomText": "Saturated"
+        },
+        "chemicals": [
+          "chem.salt_solution"
+        ],
+        "style": "clear-liquid"
+      }
+    },
+    {
+      "id": "beaker.crystal",
+      "type": {
+        "body": "beaker",
+        "plug": ""
+      },
+      "name": "Crystallization Dish",
+      "limit": 1,
+      "data": {
+        "label": {
+          "layout": "single",
+          "centerText": "Crystals",
+          "topText": "",
+          "bottomText": ""
+        },
+        "chemicals": [],
+        "style": "clear-glass"
+      }
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "chem.salt_solution",
+      "name": "Saturated Salt Solution",
+      "state": "liquid",
+      "appearance": {
+        "kind": "color",
+        "value": "#E8F7FFFF"
+      },
+      "density": 1.16
+    },
+    {
+      "id": "chem.crystals",
+      "name": "Salt Crystals",
+      "state": "solid",
+      "appearance": "#FFFFFFFF",
+      "density": 2.16
+    }
+  ],
+  "expressions": [
+    "contains(beaker.crystal, chem.salt_solution) -> setAppearance(beaker.crystal, chem.crystals)"
+  ]
+}

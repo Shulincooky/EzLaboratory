@@ -35,6 +35,7 @@ Qt is found in this order:
 
 1. `CMAKE_PREFIX_PATH`
 2. `QT_DIR`
+3. `QTDIR`
 
 Example:
 

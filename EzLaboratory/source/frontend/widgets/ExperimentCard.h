@@ -3,21 +3,20 @@
 #include <QObject>
 #include <QString>
 #include <QWidget>
-#include "ui_Card.h"
 
 class QMouseEvent;
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class Card; }
+namespace Ui { class ExperimentCard; }
 QT_END_NAMESPACE
 
-class Card : public QWidget
+class ExperimentCard : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Card(QWidget* parent = nullptr);
-    ~Card() override;
+    explicit ExperimentCard(QWidget* parent = nullptr);
+    ~ExperimentCard() override;
 
     QString id() const;
     void setId(const QString& id);
@@ -32,6 +31,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
-    Ui::Card* ui;
+    Ui::ExperimentCard* ui;
     QString m_id;
 };

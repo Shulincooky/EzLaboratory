@@ -4,9 +4,12 @@
         <file>icons/brand/icon.svg</file>
         <file>icons/topbar/search.svg</file>
         <file>icons/sidebar/all_experiments.svg</file>
+        <file>icons/sidebar/all_experiments_active.svg</file>
         <file>icons/sidebar/history.svg</file>
+        <file>icons/sidebar/history_active.svg</file>
         <file>icons/sidebar/moon.svg</file>
         <file>icons/sidebar/setting.svg</file>
+        <file>icons/sidebar/setting_active.svg</file>
         <file>icons/sidebar/start_experiment.svg</file>
         <file>icons/window/close-fill.svg</file>
         <file>icons/window/maximize-fill.svg</file>

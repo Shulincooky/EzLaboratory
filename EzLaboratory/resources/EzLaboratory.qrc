@@ -9,7 +9,6 @@
         <file>images/labtool/tweezers.png</file>
         <file>images/solid/naoh_chunk.png</file>
         <file>label.svg</file>
-        <file>config/default_cuso4_naoh.json</file>
         <file>icons/sidebar/setting.svg</file>
     </qresource>
 </RCC>

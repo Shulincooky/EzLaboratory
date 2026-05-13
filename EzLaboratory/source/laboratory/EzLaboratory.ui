@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>EzLaboratoryClass</class>
- <widget class="QMainWindow" name="EzLaboratoryClass">
+ <widget class="QWidget" name="EzLaboratoryClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -20,11 +20,7 @@
    <string>EzLaboratory</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow#EzLaboratoryClass {
-    background: #EEF3F5;
-}
-
-QWidget#centralWidget {
+   <string notr="true">QWidget#EzLaboratoryClass {
     background: #EEF3F5;
 }
 
@@ -93,8 +89,7 @@ QScrollBar::sub-page:vertical {
     height: 0px;
 }</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QWidget" name="sidebarWidght" native="true">
       <property name="minimumSize">
@@ -150,7 +145,6 @@ QScrollBar::sub-page:vertical {
      </widget>
     </item>
    </layout>
-  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

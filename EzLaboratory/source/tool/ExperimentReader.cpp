@@ -1,11 +1,14 @@
 #include "ExperimentReader.h"
 
 #include <QDir>
+#include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+
+#include <algorithm>
 
 ExperimentReader::ExperimentReader(QObject* parent)
     : QObject(parent)
@@ -48,17 +51,27 @@ QList<ExperimentReadResult> ExperimentReader::readLocalDirectory(
         return {};
     }
 
-    const QFileInfoList files = directory.entryInfoList(
+    QStringList filePaths;
+    QDirIterator iterator(
+        directoryPath,
         QStringList{ QStringLiteral("*.json") },
         QDir::Files | QDir::Readable,
-        QDir::Name | QDir::IgnoreCase);
+        QDirIterator::Subdirectories);
+
+    while (iterator.hasNext()) {
+        filePaths.push_back(iterator.next());
+    }
+
+    std::sort(filePaths.begin(), filePaths.end(), [](const QString& left, const QString& right) {
+        return left.compare(right, Qt::CaseInsensitive) < 0;
+    });
 
     QList<ExperimentReadResult> results;
-    results.reserve(files.size());
+    results.reserve(filePaths.size());
 
-    for (const QFileInfo& fileInfo : files) {
+    for (const QString& filePath : filePaths) {
         QString fileError;
-        const QByteArray data = readLocalFile(fileInfo.absoluteFilePath(), &fileError);
+        const QByteArray data = readLocalFile(filePath, &fileError);
         if (data.isEmpty() && !fileError.isEmpty()) {
             if (errorString && errorString->isEmpty()) {
                 *errorString = fileError;
@@ -68,7 +81,7 @@ QList<ExperimentReadResult> ExperimentReader::readLocalDirectory(
 
         ExperimentReadResult result;
         result.data = data;
-        result.origin = fileInfo.absoluteFilePath();
+        result.origin = filePath;
         result.local = true;
         results.push_back(result);
     }

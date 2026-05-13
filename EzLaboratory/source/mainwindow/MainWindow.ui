@@ -26,7 +26,8 @@
 }
 
 QMainWindow,
-QWidget#centralWidget {
+QWidget#centralWidget,
+QWidget#mainContentWidget {
     background: #FFFFFF;
 }
 
@@ -102,30 +103,25 @@ QToolButton#avatarButton:hover {
     background: #CCCCCC;
 }
 
+QWidget#avatarWidget[selected="true"] {
+    background: #E6E6E6;
+}
+
+QToolButton#navExperimentsButton:checked,
+QToolButton#historyButton:checked,
+QToolButton#settingsButton:checked {
+    background: #E6E6E6;
+    color: #F97316;
+}
+
 QScrollArea#experimentScrollArea {
     background: #FFFFFF;
     border: none;
 }
 
 QWidget#scrollContentWidget,
-QWidget#cardGridWidget {
+QWidget#experimentCardGridWidget {
     background: #FFFFFF;
-}
-
-QFrame#emptyHintFrame {
-    border: 1px dashed #CAD1DC;
-    border-radius: 8px;
-}
-
-QLabel#emptyHintTitleLabel {
-    color: #1F2937;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-QLabel#emptyHintBodyLabel {
-    color: #6B7280;
-    font-size: 13px;
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -145,7 +141,7 @@ QLabel#emptyHintBodyLabel {
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="0" column="0" colspan="2">
+    <item row="0" column="0">
      <widget class="QWidget" name="topBar" native="true">
       <property name="minimumSize">
        <size>
@@ -159,7 +155,7 @@ QLabel#emptyHintBodyLabel {
         <height>70</height>
        </size>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
@@ -207,50 +203,43 @@ QLabel#emptyHintBodyLabel {
         </layout>
        </item>
        <item>
-        <spacer name="topBarLogoSpacer">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QWidget" name="searchFrame" native="true">
-         <property name="minimumSize">
-          <size>
-           <width>274</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>274</width>
-           <height>40</height>
-          </size>
-         </property>
-         <layout class="QHBoxLayout" name="searchLayout">
-          <property name="spacing">
-           <number>8</number>
-          </property>
-          <property name="leftMargin">
-           <number>8</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>12</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <spacer name="topBarLogoSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QWidget" name="searchFrame" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>274</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>274</width>
+             <height>40</height>
+            </size>
+           </property>
            <widget class="QLabel" name="searchIconLabel">
+            <property name="geometry">
+             <rect>
+              <x>8</x>
+              <y>8</y>
+              <width>24</width>
+              <height>24</height>
+             </rect>
+            </property>
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -273,9 +262,15 @@ QLabel#emptyHintBodyLabel {
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-          <item>
            <widget class="QLineEdit" name="searchLineEdit">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>4</y>
+              <width>127</width>
+              <height>32</height>
+             </rect>
+            </property>
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -292,9 +287,9 @@ QLabel#emptyHintBodyLabel {
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-         </layout>
-        </widget>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QWidget" name="windowButtonsWidget" native="true">
@@ -446,7 +441,47 @@ QLabel#emptyHintBodyLabel {
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QWidget" name="sideBar" native="true">
+     <widget class="QWidget" name="mainContentWidget" native="true">
+      <layout class="QGridLayout" name="mainContentLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QStackedWidget" name="mainContentStack">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="workspacePage" native="true">
+          <layout class="QGridLayout" name="workspacePageLayout">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+        <widget class="QWidget" name="sideBar" native="true">
       <property name="minimumSize">
        <size>
         <width>80</width>
@@ -497,7 +532,8 @@ QLabel#emptyHintBodyLabel {
          </property>
          <property name="icon">
           <iconset resource="../../resources/Main.qrc">
-           <normaloff>:/Main/icons/sidebar/all_experiments.svg</normaloff>:/Main/icons/sidebar/all_experiments.svg</iconset>
+           <normaloff>:/Main/icons/sidebar/all_experiments.svg</normaloff>
+           <normalon>:/Main/icons/sidebar/all_experiments_active.svg</normalon>:/Main/icons/sidebar/all_experiments.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -505,9 +541,18 @@ QLabel#emptyHintBodyLabel {
            <height>32</height>
           </size>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">sideBarButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -573,6 +618,12 @@ QLabel#emptyHintBodyLabel {
             <property name="text">
              <string/>
             </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">sideBarButtonGroup</string>
+            </attribute>
            </widget>
           </item>
          </layout>
@@ -600,7 +651,8 @@ QLabel#emptyHintBodyLabel {
          </property>
          <property name="icon">
           <iconset resource="../../resources/Main.qrc">
-           <normaloff>:/Main/icons/sidebar/history.svg</normaloff>:/Main/icons/sidebar/history.svg</iconset>
+           <normaloff>:/Main/icons/sidebar/history.svg</normaloff>
+           <normalon>:/Main/icons/sidebar/history_active.svg</normalon>:/Main/icons/sidebar/history.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -608,6 +660,12 @@ QLabel#emptyHintBodyLabel {
            <height>34</height>
           </size>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">sideBarButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -664,7 +722,8 @@ QLabel#emptyHintBodyLabel {
          </property>
          <property name="icon">
           <iconset resource="../../resources/Main.qrc">
-           <normaloff>:/Main/icons/sidebar/setting.svg</normaloff>:/Main/icons/sidebar/setting.svg</iconset>
+           <normaloff>:/Main/icons/sidebar/setting.svg</normaloff>
+           <normalon>:/Main/icons/sidebar/setting_active.svg</normalon>:/Main/icons/sidebar/setting.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -672,13 +731,23 @@ QLabel#emptyHintBodyLabel {
            <height>32</height>
           </size>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">sideBarButtonGroup</string>
+         </attribute>
         </widget>
        </item>
       </layout>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QScrollArea" name="experimentScrollArea">
+        </widget>
+       </item>
+           <item row="0" column="1">
+            <widget class="QStackedWidget" name="workspaceContentStack">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QScrollArea" name="experimentScrollArea">
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
@@ -714,8 +783,8 @@ QLabel#emptyHintBodyLabel {
          <number>24</number>
         </property>
         <item row="0" column="0">
-         <widget class="QWidget" name="cardGridWidget" native="true">
-          <layout class="QGridLayout" name="cardGridLayout">
+         <widget class="QWidget" name="experimentCardGridWidget" native="true">
+          <layout class="QGridLayout" name="experimentCardGridLayout">
            <property name="leftMargin">
             <number>0</number>
            </property>
@@ -738,97 +807,47 @@ QLabel#emptyHintBodyLabel {
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QFrame" name="emptyHintFrame">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>180</height>
-           </size>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::Shape::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Shadow::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="emptyHintLayout">
+         <widget class="QWidget" name="homeStateHostWidget" native="true">
+          <layout class="QVBoxLayout" name="homeStateLayout">
            <property name="spacing">
-            <number>8</number>
+            <number>0</number>
            </property>
            <property name="leftMargin">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="topMargin">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="bottomMargin">
-            <number>24</number>
+            <number>0</number>
            </property>
-           <item>
-            <spacer name="emptyHintTopSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>24</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="emptyHintTitleLabel">
-             <property name="text">
-              <string>暂无实验加载</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="emptyHintBodyLabel">
-             <property name="text">
-              <string>请检查网络连接或网络代理，实验将在正常连接服务器后加载</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="emptyHintBottomSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>24</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </widget>
         </item>
        </layout>
+         </widget>
+         </widget>
+            </widget>
+        </item>
+       </layout>
       </widget>
-     </widget>
+        </widget>
+     </item>
+    </layout>
+   </widget>
     </item>
    </layout>
-  </widget>
+ </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="../../resources/Main.qrc"/>
  </resources>
  <connections/>
+ <buttongroups>
+  <buttongroup name="sideBarButtonGroup"/>
+ </buttongroups>
 </ui>

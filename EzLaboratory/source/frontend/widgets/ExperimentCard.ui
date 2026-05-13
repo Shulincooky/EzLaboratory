@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Card</class>
- <widget class="QWidget" name="Card">
+ <class>ExperimentCard</class>
+ <widget class="QWidget" name="ExperimentCard">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#Card {
+   <string notr="true">QWidget#ExperimentCard {
     background: transparent;
 }
 

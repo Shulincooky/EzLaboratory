@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/Login">
+        <file>images/login/portrait.png</file>
+        <file>images/login/close.png</file>
+        <file>images/login/minus.png</file>
+        <file>images/login/email_required.png</file>
+        <file>images/login/password_required.png</file>
+        <file>images/login/user_missing.png</file>
+        <file>images/login/password_error.png</file>
+    </qresource>
+</RCC>

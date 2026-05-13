@@ -1,23 +1,22 @@
 #include "MainWindow.h"
 
 #include "EzLaboratory.h"
-#include "ExperimentCard.h"
 #include "ExperimentReader.h"
 #include "HistoryPage.h"
-#include "HomeNetworkDisconnected.h"
-#include "HomeNoExperiment.h"
-#include "HomePageStateMachine.h"
+#include "HomePage.h"
 #include "LoginDialog.h"
 #include "ProfilePage.h"
 #include "SettingsPage.h"
+#include "TopBarBackButton.h"
 #include "ui_MainWindow.h"
 
 #include <QAbstractButton>
+#include <QButtonGroup>
 #include <QDebug>
 #include <QDialog>
-#include <QEvent>
+#include <QFile>
+#include <QIODevice>
 #include <QLineEdit>
-#include <QMargins>
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QStyle>
@@ -25,13 +24,22 @@
 #include <QTimer>
 #include <QToolButton>
 
-#include <algorithm>
-#include <utility>
-
 namespace
 {
-    constexpr int kExperimentCardFallbackWidth = 242;
     constexpr const char* kBuiltInExperimentConfigPath = ":/LocalExperiments/config";
+    constexpr const char* kMainWindowBaseStylePath = ":/Main/styles/mainwindow/base.qss";
+    constexpr const char* kMainWindowLightStylePath = ":/Main/styles/mainwindow/light.qss";
+
+    QString readStyleSheetResource(const char* resourcePath)
+    {
+        QFile file(QString::fromLatin1(resourcePath));
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qWarning() << "[MainWindow] failed to load stylesheet:" << resourcePath << file.errorString();
+            return {};
+        }
+
+        return QString::fromUtf8(file.readAll());
+    }
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -41,30 +49,28 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setWindowFlag(Qt::FramelessWindowHint);
     ui->setupUi(this);
+    applyMainWindowStyle();
     ui->gridLayout->setColumnStretch(0, 1);
     ui->gridLayout->setRowStretch(1, 1);
-    ui->mainContentLayout->setColumnStretch(0, 1);
-    ui->mainContentLayout->setRowStretch(0, 1);
-    ui->workspacePageLayout->setColumnStretch(1, 1);
-    ui->workspacePageLayout->setRowStretch(0, 1);
-    ui->experimentCardGridLayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    ui->experimentScrollArea->viewport()->installEventFilter(this);
-    setupHomeStates();
+    ui->workspaceLayout->setColumnStretch(1, 1);
+    ui->workspaceLayout->setRowStretch(0, 1);
+    setupSidebarNavigation();
+    setupHomePage();
     setupUserPages();
     setupSettingsPage();
     setupLaboratoryPage();
     setupLaboratoryBackButton();
     setMainContentPage(MainContentPage::Experiments);
 
-    connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &MainWindow::applyExperimentFilter);
+    connect(ui->searchLineEdit, &QLineEdit::textChanged, m_homePage, &HomePage::applyExperimentFilter);
     connect(ui->navExperimentsButton, &QToolButton::clicked, this, [this]() {
         setMainContentPage(MainContentPage::Experiments);
         resetExperimentFilter();
     });
     connect(m_reader, &ExperimentReader::remotePackFailed, this, [this](const QUrl&, const QString&) {
-        clearExperimentCards();
+        m_homePage->clearExperimentCards();
         m_experimentCache.clear();
-        m_homePageStateMachine->setState(HomePageState::NetworkDisconnected);
+        m_homePage->setNetworkDisconnected();
     });
     connect(ui->avatarButton, &QToolButton::clicked, this, [this]() {
         openUserPage(MainContentPage::Profile);
@@ -109,15 +115,6 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
 
     QMainWindow::closeEvent(event);
-}
-
-bool MainWindow::eventFilter(QObject* watched, QEvent* event)
-{
-    if (watched == ui->experimentScrollArea->viewport() && event->type() == QEvent::Resize) {
-        relayoutExperimentCards();
-    }
-
-    return QMainWindow::eventFilter(watched, event);
 }
 
 void MainWindow::toggleWindowMaximizeState()
@@ -192,9 +189,28 @@ bool MainWindow::isWindowTitleBarDragArea(const QPoint& position) const
     return true;
 }
 
+void MainWindow::applyMainWindowStyle()
+{
+    const QString baseStyle = readStyleSheetResource(kMainWindowBaseStylePath);
+    const QString paletteStyle = readStyleSheetResource(kMainWindowLightStylePath);
+
+    setStyleSheet(baseStyle + QLatin1Char('\n') + paletteStyle);
+}
+
+void MainWindow::setupSidebarNavigation()
+{
+    auto* sideBarButtonGroup = new QButtonGroup(this);
+    sideBarButtonGroup->setObjectName(QStringLiteral("sideBarButtonGroup"));
+    sideBarButtonGroup->setExclusive(true);
+    sideBarButtonGroup->addButton(ui->navExperimentsButton, static_cast<int>(MainContentPage::Experiments));
+    sideBarButtonGroup->addButton(ui->avatarButton, static_cast<int>(MainContentPage::Profile));
+    sideBarButtonGroup->addButton(ui->historyButton, static_cast<int>(MainContentPage::History));
+    sideBarButtonGroup->addButton(ui->settingsButton, static_cast<int>(MainContentPage::Settings));
+}
+
 void MainWindow::loadBuiltInExperiments()
 {
-    clearExperimentCards();
+    m_homePage->clearExperimentCards();
     m_experimentCache.clear();
 
     QString errorString;
@@ -204,7 +220,6 @@ void MainWindow::loadBuiltInExperiments()
 
     if (experiments.isEmpty()) {
         qWarning() << "[MainWindow] failed to load built-in experiments:" << errorString;
-        updateHomePageState();
         return;
     }
 
@@ -214,7 +229,7 @@ void MainWindow::loadBuiltInExperiments()
         }
     }
 
-    applyExperimentFilter(ui->searchLineEdit->text());
+    m_homePage->applyExperimentFilter(ui->searchLineEdit->text());
 }
 
 bool MainWindow::cacheExperiment(const QByteArray& data, bool local)
@@ -232,94 +247,14 @@ bool MainWindow::cacheExperiment(const QByteArray& data, bool local)
     }
 
     m_experimentCache.insert(id, result.experiment);
-    addExperimentCard(m_experimentParser.cardInfo(result.experiment), local);
+    m_homePage->addExperimentCard(m_experimentParser.cardInfo(result.experiment), local);
     return true;
-}
-
-void MainWindow::addExperimentCard(const ExperimentCardInfo& cardInfo, bool local)
-{
-    auto* experimentCard = new ExperimentCard(ui->experimentCardGridWidget);
-    experimentCard->setId(cardInfo.id);
-    experimentCard->setTitle(cardInfo.title);
-    experimentCard->setSummary(cardInfo.summary);
-    experimentCard->setLocal(local);
-    experimentCard->setProperty("searchText", cardInfo.searchText());
-
-    connect(experimentCard, &ExperimentCard::clicked, this, [this](const QString& id) {
-        openExperiment(id);
-        });
-
-    m_experimentCards.push_back(experimentCard);
-    relayoutExperimentCards();
-}
-
-void MainWindow::clearExperimentCards()
-{
-    for (ExperimentCard* experimentCard : std::as_const(m_experimentCards)) {
-        ui->experimentCardGridLayout->removeWidget(experimentCard);
-        experimentCard->deleteLater();
-    }
-    m_experimentCards.clear();
-}
-
-void MainWindow::relayoutExperimentCards()
-{
-    const int columnCount = experimentCardColumnCount();
-
-    for (ExperimentCard* experimentCard : std::as_const(m_experimentCards)) {
-        ui->experimentCardGridLayout->removeWidget(experimentCard);
-    }
-
-    int visibleIndex = 0;
-    for (ExperimentCard* experimentCard : std::as_const(m_experimentCards)) {
-        if (experimentCard->isHidden()) {
-            continue;
-        }
-
-        const int row = visibleIndex / columnCount;
-        const int column = visibleIndex % columnCount;
-        ui->experimentCardGridLayout->addWidget(experimentCard, row, column, Qt::AlignLeft | Qt::AlignTop);
-        ++visibleIndex;
-    }
-}
-
-int MainWindow::experimentCardColumnCount() const
-{
-    const int cardWidth = m_experimentCards.isEmpty()
-        ? kExperimentCardFallbackWidth
-        : std::max(m_experimentCards.constFirst()->sizeHint().width(), kExperimentCardFallbackWidth);
-    int horizontalSpacing = ui->experimentCardGridLayout->horizontalSpacing();
-    if (horizontalSpacing < 0) {
-        horizontalSpacing = std::max(ui->experimentCardGridLayout->spacing(), 0);
-    }
-
-    const QMargins outerMargins = ui->gridLayout_2->contentsMargins();
-    const int availableWidth = std::max(
-        1,
-        ui->experimentScrollArea->viewport()->width() - outerMargins.left() - outerMargins.right());
-
-    return std::max(1, (availableWidth + horizontalSpacing) / (cardWidth + horizontalSpacing));
-}
-
-void MainWindow::applyExperimentFilter(const QString& filterText)
-{
-    const QString needle = filterText.trimmed();
-
-    for (ExperimentCard* experimentCard : std::as_const(m_experimentCards)) {
-        const QString searchableText = experimentCard->property("searchText").toString();
-        const bool matches = needle.isEmpty()
-            || searchableText.contains(needle, Qt::CaseInsensitive);
-        experimentCard->setVisible(matches);
-    }
-
-    relayoutExperimentCards();
-    updateHomePageState();
 }
 
 void MainWindow::resetExperimentFilter()
 {
     if (ui->searchLineEdit->text().isEmpty()) {
-        applyExperimentFilter(QString());
+        m_homePage->applyExperimentFilter(QString());
         return;
     }
 
@@ -349,18 +284,12 @@ void MainWindow::returnFromLaboratory()
     setMainContentPage(m_pageBeforeLaboratory);
 }
 
-void MainWindow::setupHomeStates()
+void MainWindow::setupHomePage()
 {
-    m_noExperimentState = new HomeNoExperiment(ui->homeStateHostWidget);
-    m_networkDisconnectedState = new HomeNetworkDisconnected(ui->homeStateHostWidget);
+    m_homePage = new HomePage(ui->workspaceContentStack);
+    ui->workspaceContentStack->addWidget(m_homePage);
 
-    ui->homeStateLayout->addWidget(m_noExperimentState);
-    ui->homeStateLayout->addWidget(m_networkDisconnectedState);
-    m_homePageStateMachine = std::make_unique<HomePageStateMachine>(
-        ui->experimentCardGridWidget,
-        ui->homeStateHostWidget,
-        m_noExperimentState,
-        m_networkDisconnectedState);
+    connect(m_homePage, &HomePage::experimentSelected, this, &MainWindow::openExperiment);
 }
 
 void MainWindow::setupUserPages()
@@ -386,30 +315,11 @@ void MainWindow::setupLaboratoryPage()
 
 void MainWindow::setupLaboratoryBackButton()
 {
-    m_backButton = new QToolButton(ui->topBar);
-    m_backButton->setText(QStringLiteral("< 返回"));
-    m_backButton->setToolTip(QStringLiteral("返回实验列表"));
-    m_backButton->setCursor(Qt::PointingHandCursor);
-    m_backButton->setFixedSize(76, 36);
-    m_backButton->setStyleSheet(QStringLiteral(
-        "QToolButton {"
-        "background: #F3F4F6;"
-        "border: 1px solid #D6D6D6;"
-        "border-radius: 8px;"
-        "color: #3D3D3D;"
-        "font-size: 13px;"
-        "font-weight: 600;"
-        "}"
-        "QToolButton:hover {"
-        "background: #E6E6E6;"
-        "}"
-        "QToolButton:pressed {"
-        "background: #DADADA;"
-        "}"));
+    m_backButton = new TopBarBackButton(ui->topBar);
     positionLaboratoryBackButton();
     m_backButton->hide();
 
-    connect(m_backButton, &QToolButton::clicked, this, &MainWindow::returnFromLaboratory);
+    connect(m_backButton, &TopBarBackButton::clicked, this, &MainWindow::returnFromLaboratory);
 }
 
 void MainWindow::positionLaboratoryBackButton()
@@ -420,20 +330,6 @@ void MainWindow::positionLaboratoryBackButton()
 
     m_backButton->move(176, 17);
     m_backButton->raise();
-}
-
-void MainWindow::updateHomePageState()
-{
-    const bool hasVisibleExperimentCard = std::any_of(
-        m_experimentCards.cbegin(),
-        m_experimentCards.cend(),
-        [](const ExperimentCard* experimentCard) {
-            return !experimentCard->isHidden();
-        });
-
-    m_homePageStateMachine->refresh(
-        !m_experimentCards.isEmpty(),
-        hasVisibleExperimentCard);
 }
 
 void MainWindow::openUserPage(MainContentPage page)
@@ -483,10 +379,10 @@ void MainWindow::setMainContentPage(MainContentPage page)
     if (laboratoryVisible) {
         ui->mainContentStack->setCurrentWidget(m_laboratoryPage);
     } else {
-        ui->mainContentStack->setCurrentWidget(ui->workspacePage);
+        ui->mainContentStack->setCurrentWidget(ui->workspace);
         if (page == MainContentPage::Experiments) {
-            ui->workspaceContentStack->setCurrentWidget(ui->experimentScrollArea);
-            relayoutExperimentCards();
+            ui->workspaceContentStack->setCurrentWidget(m_homePage);
+            m_homePage->relayoutExperimentCards();
         } else if (page == MainContentPage::Profile && m_profilePage) {
             ui->workspaceContentStack->setCurrentWidget(m_profilePage);
         } else if (page == MainContentPage::History && m_historyPage) {

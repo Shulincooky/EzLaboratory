@@ -1,0 +1,59 @@
+/*
+    MainWindow structural styles.
+
+    Keep this file free of theme colors. It should describe typography,
+    radii, padding, transparent chrome, and other rules that stay the same
+    when switching between light and dark palettes.
+*/
+
+QMainWindow#MainWindowClass QWidget#topBar *,
+QMainWindow#MainWindowClass QWidget#workspace * {
+    font-family: "Microsoft YaHei UI", "Segoe UI";
+}
+
+QMainWindow#MainWindowClass QLabel#brandLabel {
+    font-weight: 600;
+}
+
+QMainWindow#MainWindowClass QWidget#searchFrame {
+    border-radius: 8px;
+}
+
+QMainWindow#MainWindowClass QLabel#searchIconLabel {
+    background: transparent;
+}
+
+QMainWindow#MainWindowClass QLineEdit#searchLineEdit {
+    background: transparent;
+    border: 0;
+    font-size: 14px;
+    padding: 0 2px;
+}
+
+QMainWindow#MainWindowClass QToolButton#minimizeButton,
+QMainWindow#MainWindowClass QToolButton#maximizeButton,
+QMainWindow#MainWindowClass QToolButton#closeButton,
+QMainWindow#MainWindowClass QToolButton#historyButton,
+QMainWindow#MainWindowClass QToolButton#themeButton,
+QMainWindow#MainWindowClass QToolButton#settingsButton {
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+}
+
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton {
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QMainWindow#MainWindowClass QToolButton#avatarButton {
+    border: 0;
+    border-radius: 24px;
+}
+
+QMainWindow#MainWindowClass QScrollArea#homeScrollArea {
+    border: none;
+}

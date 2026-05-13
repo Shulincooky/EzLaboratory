@@ -1,0 +1,101 @@
+/*
+    MainWindow light palette.
+
+    Keep theme-dependent colors here so the dark palette can mirror the same
+    selectors without touching layout or typography rules.
+*/
+
+QMainWindow#MainWindowClass,
+QMainWindow#MainWindowClass QWidget#centralWidget,
+QMainWindow#MainWindowClass QWidget#workspace,
+QMainWindow#MainWindowClass QStackedWidget#mainContentStack,
+QMainWindow#MainWindowClass QStackedWidget#workspaceContentStack {
+    background: #FFFFFF;
+}
+
+QMainWindow#MainWindowClass QWidget#topBar {
+    background: #FFFFFF;
+    border-bottom: 1px solid #D6D6D6;
+}
+
+QMainWindow#MainWindowClass QLabel#brandLabel,
+QMainWindow#MainWindowClass QLineEdit#searchLineEdit {
+    color: #3D3D3D;
+}
+
+QMainWindow#MainWindowClass QWidget#searchFrame {
+    background: #EEEEEE;
+}
+
+QMainWindow#MainWindowClass QWidget#sideBar {
+    background: #F1F1F1;
+    border-right: 1px solid #D6D6D6;
+}
+
+QMainWindow#MainWindowClass QToolButton#minimizeButton,
+QMainWindow#MainWindowClass QToolButton#maximizeButton,
+QMainWindow#MainWindowClass QToolButton#closeButton,
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton,
+QMainWindow#MainWindowClass QToolButton#historyButton,
+QMainWindow#MainWindowClass QToolButton#themeButton,
+QMainWindow#MainWindowClass QToolButton#settingsButton {
+    color: #8C8C8C;
+}
+
+QMainWindow#MainWindowClass QToolButton#minimizeButton:hover,
+QMainWindow#MainWindowClass QToolButton#maximizeButton:hover,
+QMainWindow#MainWindowClass QToolButton#closeButton:hover,
+QMainWindow#MainWindowClass QToolButton#historyButton:hover,
+QMainWindow#MainWindowClass QToolButton#themeButton:hover,
+QMainWindow#MainWindowClass QToolButton#settingsButton:hover {
+    background: #E7E7E7;
+}
+
+QMainWindow#MainWindowClass QToolButton#minimizeButton:pressed,
+QMainWindow#MainWindowClass QToolButton#maximizeButton:pressed,
+QMainWindow#MainWindowClass QToolButton#closeButton:pressed,
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton:pressed,
+QMainWindow#MainWindowClass QToolButton#historyButton:pressed,
+QMainWindow#MainWindowClass QToolButton#themeButton:pressed,
+QMainWindow#MainWindowClass QToolButton#settingsButton:pressed {
+    background: #DADADA;
+}
+
+QMainWindow#MainWindowClass QToolButton#closeButton:hover {
+    background: #E81123;
+}
+
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton:hover,
+QMainWindow#MainWindowClass QToolButton#historyButton:hover,
+QMainWindow#MainWindowClass QToolButton#themeButton:hover,
+QMainWindow#MainWindowClass QToolButton#settingsButton:hover,
+QMainWindow#MainWindowClass QWidget#avatarWidget[selected="true"],
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton:checked,
+QMainWindow#MainWindowClass QToolButton#historyButton:checked,
+QMainWindow#MainWindowClass QToolButton#settingsButton:checked {
+    background: #E6E6E6;
+}
+
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton:checked,
+QMainWindow#MainWindowClass QToolButton#historyButton:checked,
+QMainWindow#MainWindowClass QToolButton#settingsButton:checked {
+    color: #F97316;
+}
+
+QMainWindow#MainWindowClass QToolButton#avatarButton {
+    background: #D8D8D8;
+}
+
+QMainWindow#MainWindowClass QToolButton#avatarButton:hover {
+    background: #CCCCCC;
+}
+
+QMainWindow#MainWindowClass QWidget#HomePage,
+QMainWindow#MainWindowClass QStackedWidget#homeContentStack,
+QMainWindow#MainWindowClass QScrollArea#homeScrollArea,
+QMainWindow#MainWindowClass QWidget#homeScrollContent,
+QMainWindow#MainWindowClass QWidget#experimentCardsPage,
+QMainWindow#MainWindowClass QWidget#homeStatePage,
+QMainWindow#MainWindowClass QWidget#homeStateHostWidget {
+    background: #FFFFFF;
+}

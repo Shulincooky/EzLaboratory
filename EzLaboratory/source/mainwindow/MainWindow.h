@@ -4,29 +4,23 @@
 
 #include <QHash>
 #include <QMainWindow>
-#include <QList>
 #include <QPoint>
 #include <QString>
-#include <memory>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowClass; };
 QT_END_NAMESPACE
 
-class ExperimentCard;
 class ExperimentReader;
 class EzLaboratory;
 class HistoryPage;
-class HomeNetworkDisconnected;
-class HomePageStateMachine;
-class HomeNoExperiment;
+class HomePage;
 class ProfilePage;
 class QCloseEvent;
-class QEvent;
 class QMouseEvent;
 class QObject;
-class QToolButton;
 class SettingsPage;
+class TopBarBackButton;
 class QWidget;
 
 class MainWindow : public QMainWindow
@@ -39,7 +33,6 @@ public:
 
 protected:
     void closeEvent(QCloseEvent* event) override;
-    bool eventFilter(QObject* watched, QEvent* event) override;
     void mouseDoubleClickEvent(QMouseEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
@@ -63,23 +56,19 @@ private:
     // Experiment cards.
     void loadBuiltInExperiments();
     bool cacheExperiment(const QByteArray& data, bool local);
-    void addExperimentCard(const ExperimentCardInfo& cardInfo, bool local);
-    void clearExperimentCards();
-    void relayoutExperimentCards();
-    int experimentCardColumnCount() const;
-    void applyExperimentFilter(const QString& filterText);
     void resetExperimentFilter();
     void openExperiment(const QString& id);
     void returnFromLaboratory();
 
-    // Home state pages and general UI helpers.
-    void setupHomeStates();
+    // Page setup and general UI helpers.
+    void applyMainWindowStyle();
+    void setupSidebarNavigation();
+    void setupHomePage();
     void setupUserPages();
     void setupSettingsPage();
     void setupLaboratoryPage();
     void setupLaboratoryBackButton();
     void positionLaboratoryBackButton();
-    void updateHomePageState();
     void openUserPage(MainContentPage page);
     bool ensureUserLoggedIn();
     void setMainContentPage(MainContentPage page);
@@ -88,15 +77,12 @@ private:
     Ui::MainWindowClass *ui;
     ExperimentReader* m_reader = nullptr;
     ExperimentParser m_experimentParser;
-    HomeNoExperiment* m_noExperimentState = nullptr;
-    HomeNetworkDisconnected* m_networkDisconnectedState = nullptr;
-    std::unique_ptr<HomePageStateMachine> m_homePageStateMachine;
+    HomePage* m_homePage = nullptr;
     ProfilePage* m_profilePage = nullptr;
     HistoryPage* m_historyPage = nullptr;
     SettingsPage* m_settingsPage = nullptr;
     EzLaboratory* m_laboratoryPage = nullptr;
-    QToolButton* m_backButton = nullptr;
-    QList<ExperimentCard*> m_experimentCards;
+    TopBarBackButton* m_backButton = nullptr;
     QHash<QString, ExperimentDefinition> m_experimentCache;
     MainContentPage m_pageBeforeLaboratory = MainContentPage::Experiments;
     MainContentPage m_mainContentPage = MainContentPage::Experiments;

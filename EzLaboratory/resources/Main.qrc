@@ -14,5 +14,7 @@
         <file>icons/window/close-fill.svg</file>
         <file>icons/window/maximize-fill.svg</file>
         <file>icons/window/subtract-fill.svg</file>
+        <file>styles/mainwindow/base.qss</file>
+        <file>styles/mainwindow/light.qss</file>
     </qresource>
 </RCC>

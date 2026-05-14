@@ -29,10 +29,6 @@ set(APP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/EzLaboratory")
 set(SOURCE_DIR "${APP_DIR}/source")
 set(RESOURCE_DIR "${APP_DIR}/resources")
 
-set(APP_PROJECT_FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/.editorconfig"
-)
-
 file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS
     "${SOURCE_DIR}/*.cpp"
     "${SOURCE_DIR}/*.h"
@@ -54,7 +50,6 @@ file(GLOB_RECURSE APP_ASSETS CONFIGURE_DEPENDS
 
 qt_add_executable(EzLaboratory
     WIN32
-    ${APP_PROJECT_FILES}
     ${APP_SOURCES}
     ${APP_UI_FILES}
     ${APP_ASSETS}
@@ -83,8 +78,6 @@ foreach(ui_file IN LISTS APP_UI_FILES)
 endforeach()
 
 set_source_files_properties(${APP_ASSETS} PROPERTIES HEADER_FILE_ONLY ON)
-set_source_files_properties(${APP_PROJECT_FILES} PROPERTIES HEADER_FILE_ONLY ON)
-source_group("Project Files" FILES ${APP_PROJECT_FILES})
 
 set(APP_INCLUDE_DIRS "${SOURCE_DIR}")
 foreach(source_file IN LISTS APP_SOURCES)

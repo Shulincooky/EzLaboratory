@@ -1,24 +1,57 @@
+# Normalize text in the Git index, then force the project-facing line endings
+# below so clones do not depend on each developer's core.autocrlf setting.
 * text=auto
 
+# Repository metadata.
+.gitattributes text eol=crlf
+.gitignore text eol=crlf
+
+# CMake and build configuration.
+CMakeLists.txt text eol=crlf
+CMakePresets.json text eol=crlf
+CMakeUserPresets.json text eol=crlf
+*.cmake text eol=crlf
+
+# C++ and Qt source files.
 *.c text eol=crlf
 *.cc text eol=crlf
 *.cpp text eol=crlf
 *.cxx text eol=crlf
 *.h text eol=crlf
+*.hh text eol=crlf
 *.hpp text eol=crlf
 *.hxx text eol=crlf
 *.ixx text eol=crlf
 *.inl text eol=crlf
 *.ipp text eol=crlf
-
-*.cmake text eol=crlf
-CMakeLists.txt text eol=crlf
-CMakePresets.json text eol=crlf
-CMakeUserPresets.json text eol=crlf
-
 *.ui text eol=crlf
 *.qrc text eol=crlf
+*.qss text eol=crlf
 *.rc text eol=crlf
-*.json text eol=crlf
 
+# Structured text assets and docs.
+*.json text eol=crlf
+*.xml text eol=crlf
+*.svg text eol=crlf
+*.md text eol=crlf
+*.txt text eol=crlf
+
+# Shell scripts must stay LF.
 *.sh text eol=lf
+
+# Binary assets must never be normalized or diffed as text.
+*.bmp binary
+*.gif binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.dll binary
+*.exe binary
+*.lib binary
+*.pdb binary

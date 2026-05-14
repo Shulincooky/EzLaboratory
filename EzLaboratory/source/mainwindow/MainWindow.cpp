@@ -4,7 +4,6 @@
 #include "ExperimentReader.h"
 #include "HistoryPage.h"
 #include "HomePage.h"
-#include "LoginDialog.h"
 #include "ProfilePage.h"
 #include "SettingsPage.h"
 #include "TopBarBackButton.h"
@@ -13,22 +12,29 @@
 #include <QAbstractButton>
 #include <QButtonGroup>
 #include <QDebug>
-#include <QDialog>
+#include <QEvent>
 #include <QFile>
+#include <QIcon>
 #include <QIODevice>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QResizeEvent>
 #include <QStyle>
 #include <QStackedWidget>
 #include <QTimer>
 #include <QToolButton>
+#include <QWindow>
 
 namespace
 {
     constexpr const char* kBuiltInExperimentConfigPath = ":/LocalExperiments/config";
     constexpr const char* kMainWindowBaseStylePath = ":/Main/styles/mainwindow/base.qss";
     constexpr const char* kMainWindowLightStylePath = ":/Main/styles/mainwindow/light.qss";
+    constexpr const char* kMaximizeIconPath = ":/Main/icons/window/maximize.svg";
+    constexpr const char* kRestoreDownIconPath = ":/Main/icons/window/restore-down.svg";
+    constexpr int kResizeHandleThickness = 8;
+    constexpr const char* kResizeEdgesProperty = "resizeEdges";
 
     QString readStyleSheetResource(const char* resourcePath)
     {
@@ -60,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupSettingsPage();
     setupLaboratoryPage();
     setupLaboratoryBackButton();
+    setupResizeHandles();
     setMainContentPage(MainContentPage::Experiments);
 
     connect(ui->searchLineEdit, &QLineEdit::textChanged, m_homePage, &HomePage::applyExperimentFilter);
@@ -74,12 +81,6 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(ui->avatarButton, &QToolButton::clicked, this, [this]() {
         openUserPage(MainContentPage::Profile);
-    });
-    connect(ui->avatarButton, &QToolButton::toggled, this, [this](bool checked) {
-        ui->avatarWidget->setProperty("selected", checked);
-        ui->avatarWidget->style()->unpolish(ui->avatarWidget);
-        ui->avatarWidget->style()->polish(ui->avatarWidget);
-        ui->avatarWidget->update();
     });
     connect(ui->historyButton, &QToolButton::clicked, this, [this]() {
         openUserPage(MainContentPage::History);
@@ -97,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->closeButton->setEnabled(false);
         QTimer::singleShot(0, this, &QWidget::close);
     });
+    updateMaximizeButtonIcon();
 
     loadBuiltInExperiments();
 }
@@ -104,6 +106,16 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 	delete ui;
+}
+
+void MainWindow::changeEvent(QEvent* event)
+{
+    QMainWindow::changeEvent(event);
+
+    if (event->type() == QEvent::WindowStateChange) {
+        updateMaximizeButtonIcon();
+        updateResizeHandles();
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -117,14 +129,58 @@ void MainWindow::closeEvent(QCloseEvent* event)
     QMainWindow::closeEvent(event);
 }
 
+bool MainWindow::eventFilter(QObject* watched, QEvent* event)
+{
+    auto* handle = qobject_cast<QWidget*>(watched);
+    if (!handle || !m_resizeHandles.contains(handle)) {
+        return QMainWindow::eventFilter(watched, event);
+    }
+
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        event->accept();
+        return true;
+    }
+
+    if (event->type() != QEvent::MouseButtonPress || isMaximized() || isFullScreen()) {
+        return QMainWindow::eventFilter(watched, event);
+    }
+
+    auto* mouseEvent = static_cast<QMouseEvent*>(event);
+    if (mouseEvent->button() != Qt::LeftButton) {
+        return QMainWindow::eventFilter(watched, event);
+    }
+
+    const auto edges = static_cast<Qt::Edges::Int>(handle->property(kResizeEdgesProperty).toInt());
+    if (windowHandle() && windowHandle()->startSystemResize(Qt::Edges(edges))) {
+        m_draggingWindow = false;
+        mouseEvent->accept();
+        return true;
+    }
+
+    return QMainWindow::eventFilter(watched, event);
+}
+
+void MainWindow::updateMaximizeButtonIcon()
+{
+    if (!ui || !ui->maximizeButton) {
+        return;
+    }
+
+    const bool maximized = isMaximized();
+    ui->maximizeButton->setIcon(QIcon(QString::fromLatin1(maximized ? kRestoreDownIconPath : kMaximizeIconPath)));
+    ui->maximizeButton->setToolTip(maximized ? tr("Restore") : tr("Maximize"));
+}
+
 void MainWindow::toggleWindowMaximizeState()
 {
     if (isMaximized()) {
         showNormal();
+        updateMaximizeButtonIcon();
         return;
     }
 
     showMaximized();
+    updateMaximizeButtonIcon();
 }
 
 void MainWindow::mouseDoubleClickEvent(QMouseEvent* event)
@@ -167,6 +223,65 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
     }
 
     QMainWindow::mouseMoveEvent(event);
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+    QMainWindow::resizeEvent(event);
+    updateResizeHandles();
+}
+
+QWidget* MainWindow::createResizeHandle(Qt::Edges edges, Qt::CursorShape cursorShape)
+{
+    auto* handle = new QWidget(this);
+    handle->setCursor(cursorShape);
+    handle->setObjectName(QStringLiteral("resizeHandle"));
+    handle->setProperty(kResizeEdgesProperty, static_cast<int>(edges));
+    handle->setStyleSheet(QStringLiteral("background: transparent;"));
+    handle->installEventFilter(this);
+    m_resizeHandles.push_back(handle);
+    return handle;
+}
+
+void MainWindow::setupResizeHandles()
+{
+    createResizeHandle(Qt::LeftEdge, Qt::SizeHorCursor);
+    createResizeHandle(Qt::RightEdge, Qt::SizeHorCursor);
+    createResizeHandle(Qt::TopEdge, Qt::SizeVerCursor);
+    createResizeHandle(Qt::BottomEdge, Qt::SizeVerCursor);
+    createResizeHandle(Qt::TopEdge | Qt::LeftEdge, Qt::SizeFDiagCursor);
+    createResizeHandle(Qt::TopEdge | Qt::RightEdge, Qt::SizeBDiagCursor);
+    createResizeHandle(Qt::BottomEdge | Qt::LeftEdge, Qt::SizeBDiagCursor);
+    createResizeHandle(Qt::BottomEdge | Qt::RightEdge, Qt::SizeFDiagCursor);
+    updateResizeHandles();
+}
+
+void MainWindow::updateResizeHandles()
+{
+    const bool handlesEnabled = !isMaximized() && !isFullScreen();
+    const int w = width();
+    const int h = height();
+    const int t = kResizeHandleThickness;
+
+    for (QWidget* handle : std::as_const(m_resizeHandles)) {
+        handle->setVisible(handlesEnabled);
+        if (handlesEnabled) {
+            handle->raise();
+        }
+    }
+
+    if (!handlesEnabled || m_resizeHandles.size() != 8) {
+        return;
+    }
+
+    m_resizeHandles.at(0)->setGeometry(0, t, t, h - 2 * t);
+    m_resizeHandles.at(1)->setGeometry(w - t, t, t, h - 2 * t);
+    m_resizeHandles.at(2)->setGeometry(t, 0, w - 2 * t, t);
+    m_resizeHandles.at(3)->setGeometry(t, h - t, w - 2 * t, t);
+    m_resizeHandles.at(4)->setGeometry(0, 0, t, t);
+    m_resizeHandles.at(5)->setGeometry(w - t, 0, t, t);
+    m_resizeHandles.at(6)->setGeometry(0, h - t, t, t);
+    m_resizeHandles.at(7)->setGeometry(w - t, h - t, t, t);
 }
 
 bool MainWindow::isWindowTitleBarDragArea(const QPoint& position) const
@@ -305,6 +420,10 @@ void MainWindow::setupSettingsPage()
 {
     m_settingsPage = new SettingsPage(ui->workspaceContentStack);
     ui->workspaceContentStack->addWidget(m_settingsPage);
+
+    connect(m_settingsPage, &SettingsPage::editProfileRequested, this, [this]() {
+        setMainContentPage(MainContentPage::Profile);
+    });
 }
 
 void MainWindow::setupLaboratoryPage()
@@ -334,35 +453,7 @@ void MainWindow::positionLaboratoryBackButton()
 
 void MainWindow::openUserPage(MainContentPage page)
 {
-    const MainContentPage previousPage = m_mainContentPage;
-    if (!ensureUserLoggedIn()) {
-        setMainContentPage(previousPage);
-        return;
-    }
-
     setMainContentPage(page);
-}
-
-bool MainWindow::ensureUserLoggedIn()
-{
-    if (m_userLoggedIn) {
-        return true;
-    }
-
-    LoginDialog loginDialog(this);
-    if (loginDialog.exec() != QDialog::Accepted) {
-        return false;
-    }
-
-    m_userLoggedIn = true;
-    m_userEmail = loginDialog.email();
-    m_userNickname = loginDialog.nickname();
-
-    if (m_profilePage) {
-        m_profilePage->setUserIdentity(m_userEmail, m_userNickname);
-    }
-
-    return true;
 }
 
 void MainWindow::setMainContentPage(MainContentPage page)

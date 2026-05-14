@@ -34,8 +34,12 @@ QMainWindow#MainWindowClass QWidget#sideBar {
 
 QMainWindow#MainWindowClass QToolButton#minimizeButton,
 QMainWindow#MainWindowClass QToolButton#maximizeButton,
-QMainWindow#MainWindowClass QToolButton#closeButton,
+QMainWindow#MainWindowClass QToolButton#closeButton {
+    color: #8C8C8C;
+}
+
 QMainWindow#MainWindowClass QToolButton#navExperimentsButton,
+QMainWindow#MainWindowClass QToolButton#avatarButton,
 QMainWindow#MainWindowClass QToolButton#historyButton,
 QMainWindow#MainWindowClass QToolButton#themeButton,
 QMainWindow#MainWindowClass QToolButton#settingsButton {
@@ -43,11 +47,7 @@ QMainWindow#MainWindowClass QToolButton#settingsButton {
 }
 
 QMainWindow#MainWindowClass QToolButton#minimizeButton:hover,
-QMainWindow#MainWindowClass QToolButton#maximizeButton:hover,
-QMainWindow#MainWindowClass QToolButton#closeButton:hover,
-QMainWindow#MainWindowClass QToolButton#historyButton:hover,
-QMainWindow#MainWindowClass QToolButton#themeButton:hover,
-QMainWindow#MainWindowClass QToolButton#settingsButton:hover {
+QMainWindow#MainWindowClass QToolButton#maximizeButton:hover {
     background: #E7E7E7;
 }
 
@@ -55,6 +55,7 @@ QMainWindow#MainWindowClass QToolButton#minimizeButton:pressed,
 QMainWindow#MainWindowClass QToolButton#maximizeButton:pressed,
 QMainWindow#MainWindowClass QToolButton#closeButton:pressed,
 QMainWindow#MainWindowClass QToolButton#navExperimentsButton:pressed,
+QMainWindow#MainWindowClass QToolButton#avatarButton:pressed,
 QMainWindow#MainWindowClass QToolButton#historyButton:pressed,
 QMainWindow#MainWindowClass QToolButton#themeButton:pressed,
 QMainWindow#MainWindowClass QToolButton#settingsButton:pressed {
@@ -66,28 +67,22 @@ QMainWindow#MainWindowClass QToolButton#closeButton:hover {
 }
 
 QMainWindow#MainWindowClass QToolButton#navExperimentsButton:hover,
+QMainWindow#MainWindowClass QToolButton#avatarButton:hover,
 QMainWindow#MainWindowClass QToolButton#historyButton:hover,
 QMainWindow#MainWindowClass QToolButton#themeButton:hover,
 QMainWindow#MainWindowClass QToolButton#settingsButton:hover,
-QMainWindow#MainWindowClass QWidget#avatarWidget[selected="true"],
 QMainWindow#MainWindowClass QToolButton#navExperimentsButton:checked,
+QMainWindow#MainWindowClass QToolButton#avatarButton:checked,
 QMainWindow#MainWindowClass QToolButton#historyButton:checked,
 QMainWindow#MainWindowClass QToolButton#settingsButton:checked {
     background: #E6E6E6;
 }
 
 QMainWindow#MainWindowClass QToolButton#navExperimentsButton:checked,
+QMainWindow#MainWindowClass QToolButton#avatarButton:checked,
 QMainWindow#MainWindowClass QToolButton#historyButton:checked,
 QMainWindow#MainWindowClass QToolButton#settingsButton:checked {
     color: #F97316;
-}
-
-QMainWindow#MainWindowClass QToolButton#avatarButton {
-    background: #D8D8D8;
-}
-
-QMainWindow#MainWindowClass QToolButton#avatarButton:hover {
-    background: #CCCCCC;
 }
 
 QMainWindow#MainWindowClass QWidget#HomePage,

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ExperimentParser.h"
-#include "HomePageStateMachine.h"
 
 #include <QList>
 #include <QString>
@@ -12,8 +11,7 @@ namespace Ui { class HomePage; }
 QT_END_NAMESPACE
 
 class ExperimentCard;
-class HomeNetworkDisconnected;
-class HomeNoExperiment;
+class HomeEmptyState;
 class QEvent;
 class QObject;
 
@@ -38,14 +36,22 @@ protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
 
 private:
+    enum class State
+    {
+        Experiments,
+        NoExperiment,
+        NoSearchResult,
+        NetworkDisconnected,
+    };
+
     int experimentCardColumnCount() const;
     bool hasVisibleExperimentCards() const;
     void refreshState();
-    void setState(HomePageState state);
+    void setState(State state);
+    void showStateText(const QString& title, const QString& message);
 
     Ui::HomePage* ui;
-    HomeNoExperiment* m_noExperimentState = nullptr;
-    HomeNetworkDisconnected* m_networkDisconnectedState = nullptr;
+    HomeEmptyState* m_stateView = nullptr;
     QList<ExperimentCard*> m_experimentCards;
-    HomePageState m_state = HomePageState::NoExperiment;
+    State m_state = State::NoExperiment;
 };

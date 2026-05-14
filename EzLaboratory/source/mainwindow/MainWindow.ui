@@ -21,6 +21,283 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="1" column="0">
+     <widget class="QStackedWidget" name="mainContentStack">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="workspace">
+       <layout class="QGridLayout" name="workspaceLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QWidget" name="sideBar" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>30</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>40</number>
+           </property>
+           <item>
+            <widget class="QToolButton" name="navExperimentsButton">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>70</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>70</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Experiments</string>
+             </property>
+             <property name="text">
+              <string>全部实验</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../resources/Main.qrc">
+               <normaloff>:/Main/icons/sidebar/all_experiments.svg</normaloff>
+               <normalon>:/Main/icons/sidebar/all_experiments_active.svg</normalon>:/Main/icons/sidebar/all_experiments.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="sideBarSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QToolButton" name="avatarButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>55</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>55</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Profile</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../resources/Main.qrc">
+               <normaloff>:/Main/icons/sidebar/avatar_default.svg</normaloff>:/Main/icons/sidebar/avatar_default.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="historyButton">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>History</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../resources/Main.qrc">
+               <normaloff>:/Main/icons/sidebar/history.svg</normaloff>
+               <normalon>:/Main/icons/sidebar/history_active.svg</normalon>:/Main/icons/sidebar/history.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>34</width>
+               <height>34</height>
+              </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="themeButton">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Theme</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../resources/Main.qrc">
+               <normaloff>:/Main/icons/sidebar/moon.svg</normaloff>:/Main/icons/sidebar/moon.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="settingsButton">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>44</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Settings</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../resources/Main.qrc">
+               <normaloff>:/Main/icons/sidebar/setting.svg</normaloff>
+               <normalon>:/Main/icons/sidebar/setting_active.svg</normalon>:/Main/icons/sidebar/setting.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QStackedWidget" name="workspaceContentStack"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QWidget" name="topBar" native="true">
       <property name="minimumSize">
@@ -36,8 +313,38 @@
        </size>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>4</number>
+         </property>
+         <property name="leftMargin">
+          <number>28</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>32</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QLabel" name="logoLabel">
            <property name="minimumSize">
@@ -84,6 +391,21 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>24</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <spacer name="topBarLogoSpacer">
            <property name="orientation">
@@ -91,14 +413,20 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
-             <height>20</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
           </spacer>
          </item>
          <item>
           <widget class="QWidget" name="searchFrame" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
              <width>274</width>
@@ -111,62 +439,73 @@
              <height>40</height>
             </size>
            </property>
-           <widget class="QLabel" name="searchIconLabel">
-            <property name="geometry">
-             <rect>
-              <x>8</x>
-              <y>8</y>
-              <width>24</width>
-              <height>24</height>
-             </rect>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="spacing">
+             <number>8</number>
             </property>
-            <property name="minimumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
+            <property name="leftMargin">
+             <number>8</number>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string/>
+            <property name="rightMargin">
+             <number>8</number>
             </property>
-            <property name="pixmap">
-             <pixmap resource="../../resources/Main.qrc">:/Main/icons/topbar/search.svg</pixmap>
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="searchLineEdit">
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>4</y>
-              <width>127</width>
-              <height>32</height>
-             </rect>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <property name="placeholderText">
-             <string>搜索实验</string>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
+            <item>
+             <widget class="QLabel" name="searchIconLabel">
+              <property name="minimumSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../../resources/Main.qrc">:/Main/icons/topbar/search.svg</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="searchLineEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="frame">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string>搜索实验</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -186,6 +525,21 @@
           </size>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>16</number>
+          </property>
+          <property name="topMargin">
+           <number>10</number>
+          </property>
+          <property name="rightMargin">
+           <number>26</number>
+          </property>
+          <property name="bottomMargin">
+           <number>10</number>
+          </property>
           <item>
            <widget class="QToolButton" name="minimizeButton">
             <property name="minimumSize">
@@ -208,7 +562,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resources/Main.qrc">
-              <normaloff>:/Main/icons/window/subtract-fill.svg</normaloff>:/Main/icons/window/subtract-fill.svg</iconset>
+              <normaloff>:/Main/icons/window/subtract.svg</normaloff>:/Main/icons/window/subtract.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -229,7 +583,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>11</width>
-              <height>20</height>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -256,7 +610,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resources/Main.qrc">
-              <normaloff>:/Main/icons/window/maximize-fill.svg</normaloff>:/Main/icons/window/maximize-fill.svg</iconset>
+              <normaloff>:/Main/icons/window/maximize.svg</normaloff>:/Main/icons/window/maximize.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -277,7 +631,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>5</width>
-              <height>20</height>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -304,7 +658,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../resources/Main.qrc">
-              <normaloff>:/Main/icons/window/close-fill.svg</normaloff>:/Main/icons/window/close-fill.svg</iconset>
+              <normaloff>:/Main/icons/window/close.svg</normaloff>:/Main/icons/window/close.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -320,289 +674,10 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QStackedWidget" name="mainContentStack">
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <widget class="QWidget" name="workspace">
-          <layout class="QGridLayout" name="workspaceLayout">
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QWidget" name="sideBar" native="true">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <layout class="QVBoxLayout" name="sideBarLayout">
-              <property name="spacing">
-               <number>8</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>24</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>40</number>
-              </property>
-              <item>
-               <widget class="QToolButton" name="navExperimentsButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>72</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>72</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Experiments</string>
-                </property>
-                <property name="text">
-                 <string>全部实验</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../resources/Main.qrc">
-                  <normaloff>:/Main/icons/sidebar/all_experiments.svg</normaloff>
-                  <normalon>:/Main/icons/sidebar/all_experiments_active.svg</normalon>:/Main/icons/sidebar/all_experiments.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>32</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="sideBarSpacer">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QWidget" name="avatarWidget" native="true">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>56</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>56</height>
-                 </size>
-                </property>
-                <layout class="QGridLayout" name="avatarLayout">
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>8</number>
-                 </property>
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop">
-                  <widget class="QToolButton" name="avatarButton">
-                   <property name="minimumSize">
-                    <size>
-                     <width>48</width>
-                     <height>48</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>48</width>
-                     <height>48</height>
-                    </size>
-                   </property>
-                   <property name="toolTip">
-                    <string>Profile</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkable">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="historyButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>History</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../resources/Main.qrc">
-                  <normaloff>:/Main/icons/sidebar/history.svg</normaloff>
-                  <normalon>:/Main/icons/sidebar/history_active.svg</normalon>:/Main/icons/sidebar/history.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>34</width>
-                  <height>34</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="themeButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Theme</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../resources/Main.qrc">
-                  <normaloff>:/Main/icons/sidebar/moon.svg</normaloff>:/Main/icons/sidebar/moon.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>32</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="settingsButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Settings</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../resources/Main.qrc">
-                  <normaloff>:/Main/icons/sidebar/setting.svg</normaloff>
-                  <normalon>:/Main/icons/sidebar/setting_active.svg</normalon>:/Main/icons/sidebar/setting.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>32</width>
-                  <height>32</height>
-                 </size>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QStackedWidget" name="workspaceContentStack"/>
-           </item>
-          </layout>
-         </widget>
-     </widget>
-    </item>
    </layout>
   </widget>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
+ <layoutdefault spacing="0" margin="0"/>
  <resources>
   <include location="../../resources/Main.qrc"/>
  </resources>

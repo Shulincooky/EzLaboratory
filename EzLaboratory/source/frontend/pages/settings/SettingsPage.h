@@ -14,6 +14,9 @@ public:
     explicit SettingsPage(QWidget* parent = nullptr);
     ~SettingsPage() override;
 
+signals:
+    void editProfileRequested();
+
 private:
     Ui::SettingsPage* ui;
 };

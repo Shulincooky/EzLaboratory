@@ -1,15 +1,13 @@
 #include "HomePage.h"
 
 #include "ExperimentCard.h"
-#include "HomeNetworkDisconnected.h"
-#include "HomeNoExperiment.h"
+#include "HomeEmptyState.h"
 #include "ui_HomePage.h"
 
 #include <QEvent>
 #include <QMargins>
 
 #include <algorithm>
-#include <utility>
 
 namespace
 {
@@ -24,12 +22,10 @@ HomePage::HomePage(QWidget* parent)
     ui->experimentCardGridLayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     ui->homeScrollArea->viewport()->installEventFilter(this);
 
-    m_noExperimentState = new HomeNoExperiment(ui->homeStateHostWidget);
-    m_networkDisconnectedState = new HomeNetworkDisconnected(ui->homeStateHostWidget);
+    m_stateView = new HomeEmptyState(ui->homeStateHostWidget);
 
-    ui->homeStateLayout->addWidget(m_noExperimentState);
-    ui->homeStateLayout->addWidget(m_networkDisconnectedState);
-    setState(HomePageState::NoExperiment);
+    ui->homeStateLayout->addWidget(m_stateView);
+    setState(State::NoExperiment);
 }
 
 HomePage::~HomePage()
@@ -81,7 +77,7 @@ void HomePage::applyExperimentFilter(const QString& filterText)
 
 void HomePage::setNetworkDisconnected()
 {
-    setState(HomePageState::NetworkDisconnected);
+    setState(State::NetworkDisconnected);
 }
 
 void HomePage::relayoutExperimentCards()
@@ -144,43 +140,53 @@ bool HomePage::hasVisibleExperimentCards() const
 
 void HomePage::refreshState()
 {
-    if (m_state == HomePageState::NetworkDisconnected && m_experimentCards.isEmpty()) {
-        setState(HomePageState::NetworkDisconnected);
+    if (m_state == State::NetworkDisconnected && m_experimentCards.isEmpty()) {
+        setState(State::NetworkDisconnected);
         return;
     }
 
     if (m_experimentCards.isEmpty()) {
-        setState(HomePageState::NoExperiment);
+        setState(State::NoExperiment);
         return;
     }
 
     setState(hasVisibleExperimentCards()
-        ? HomePageState::Experiments
-        : HomePageState::NoSearchResult);
+        ? State::Experiments
+        : State::NoSearchResult);
 }
 
-void HomePage::setState(HomePageState state)
+void HomePage::setState(State state)
 {
     m_state = state;
 
     switch (state) {
-    case HomePageState::Experiments:
+    case State::Experiments:
         ui->homeContentStack->setCurrentWidget(ui->homeScrollArea);
         break;
-    case HomePageState::NoExperiment:
-        m_noExperimentState->showNoExperimentLoaded();
+    case State::NoExperiment:
+        showStateText(
+            QStringLiteral("暂无实验加载"),
+            QStringLiteral("实验配置暂未加载，请确认资源文件存在后重新进入。"));
         ui->homeContentStack->setCurrentWidget(ui->homeStatePage);
         break;
-    case HomePageState::NoSearchResult:
-        m_noExperimentState->showNoSearchResult();
+    case State::NoSearchResult:
+        showStateText(
+            QStringLiteral("没有匹配的实验"),
+            QStringLiteral("换个关键词试试，或点击全部实验清除搜索。"));
         ui->homeContentStack->setCurrentWidget(ui->homeStatePage);
         break;
-    case HomePageState::NetworkDisconnected:
+    case State::NetworkDisconnected:
+        showStateText(
+            QStringLiteral("网络未连接"),
+            QStringLiteral("请检查网络连接或网络代理，实验将在正常连接服务器后加载。"));
         ui->homeContentStack->setCurrentWidget(ui->homeStatePage);
         break;
     }
 
-    m_noExperimentState->setVisible(
-        state == HomePageState::NoExperiment || state == HomePageState::NoSearchResult);
-    m_networkDisconnectedState->setVisible(state == HomePageState::NetworkDisconnected);
+    m_stateView->setVisible(state != State::Experiments);
+}
+
+void HomePage::showStateText(const QString& title, const QString& message)
+{
+    m_stateView->setContent(title, message);
 }

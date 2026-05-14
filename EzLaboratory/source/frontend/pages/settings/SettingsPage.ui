@@ -18,16 +18,21 @@
 QScrollArea#settingsScrollArea,
 QWidget#settingsCanvas,
 QWidget[role=&quot;section&quot;],
-QWidget#profileContainer,
 QWidget#profileInfoContainer,
 QWidget#aboutActionsContainer {
     background: #FFFFFF;
     border: none;
 }
 
+QWidget#profileContainer {
+    background: #FFFFFF;
+    border: 1px solid #E3E7EE;
+    border-radius: 8px;
+}
+
 QLabel#avatarLabel {
-    background: #D8D8D8;
-    border-radius: 37px;
+    background: transparent;
+    border: none;
 }
 
 QLabel#adminNameLabel {
@@ -35,6 +40,15 @@ QLabel#adminNameLabel {
     font-size: 18px;
     font-weight: 700;
     min-height: 18px;
+}
+
+QLabel#accountStatusLabel {
+    color: #2F7D62;
+    background: #EAF7F1;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 9px;
 }
 
 QLabel[role=&quot;sectionTitle&quot;] {
@@ -167,16 +181,16 @@ QPushButton#testConnectionButton {
            <number>20</number>
           </property>
           <property name="leftMargin">
-           <number>0</number>
+           <number>20</number>
           </property>
           <property name="topMargin">
-           <number>0</number>
+           <number>18</number>
           </property>
           <property name="rightMargin">
-           <number>0</number>
+           <number>20</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>18</number>
           </property>
           <item>
            <widget class="QLabel" name="avatarLabel">
@@ -219,6 +233,13 @@ QPushButton#testConnectionButton {
               <widget class="QLabel" name="adminNameLabel">
                <property name="text">
                 <string>Admin</string>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignmentFlag::AlignLeft">
+              <widget class="QLabel" name="accountStatusLabel">
+               <property name="text">
+                <string>已登录</string>
                </property>
               </widget>
              </item>

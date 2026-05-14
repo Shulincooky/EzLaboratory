@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QString>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -14,6 +15,7 @@ public:
     explicit HomeEmptyState(QWidget* parent = nullptr);
     ~HomeEmptyState() override;
 
+    void setContent(const QString& title, const QString& message);
     void setTitle(const QString& title);
     void setMessage(const QString& message);
 

@@ -32,27 +32,29 @@ QMainWindow#MainWindowClass QLineEdit#searchLineEdit {
 
 QMainWindow#MainWindowClass QToolButton#minimizeButton,
 QMainWindow#MainWindowClass QToolButton#maximizeButton,
-QMainWindow#MainWindowClass QToolButton#closeButton,
-QMainWindow#MainWindowClass QToolButton#historyButton,
-QMainWindow#MainWindowClass QToolButton#themeButton,
-QMainWindow#MainWindowClass QToolButton#settingsButton {
+QMainWindow#MainWindowClass QToolButton#closeButton {
     background: transparent;
     border: 0;
     border-radius: 4px;
 }
 
-QMainWindow#MainWindowClass QToolButton#navExperimentsButton {
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton,
+QMainWindow#MainWindowClass QToolButton#avatarButton,
+QMainWindow#MainWindowClass QToolButton#historyButton,
+QMainWindow#MainWindowClass QToolButton#themeButton,
+QMainWindow#MainWindowClass QToolButton#settingsButton {
     background: transparent;
     border: 0;
-    border-radius: 8px;
+}
+
+QMainWindow#MainWindowClass QToolButton#navExperimentsButton {
     font-size: 12px;
     font-weight: 600;
 }
+QToolButton#avatarButton {
 
-QMainWindow#MainWindowClass QToolButton#avatarButton {
-    border: 0;
-    border-radius: 24px;
 }
+
 
 QMainWindow#MainWindowClass QScrollArea#homeScrollArea {
     border: none;

@@ -20,8 +20,8 @@ QLabel#hintLabel {
 }
 
 QLabel#avatarPreview {
-    background: #F97316;
-    border-radius: 28px;
+    background: transparent;
+    border: none;
     color: #FFFFFF;
     font-size: 22px;
     font-weight: 700;

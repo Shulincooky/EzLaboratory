@@ -14,6 +14,12 @@ HomeEmptyState::~HomeEmptyState()
     delete ui;
 }
 
+void HomeEmptyState::setContent(const QString& title, const QString& message)
+{
+    setTitle(title);
+    setMessage(message);
+}
+
 void HomeEmptyState::setTitle(const QString& title)
 {
     ui->titleLabel->setText(title);
